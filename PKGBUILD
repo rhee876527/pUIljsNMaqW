@@ -43,7 +43,7 @@ _switchstock=
 #
 
 _major=6.9
-_minor=3
+_minor=2
 _srcname=linux-${_major}
 _clr=${_major}.2-1437
 _gcc_more_v='20240221.2'
@@ -112,7 +112,6 @@ export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EP
 
 prepare() {
     cd ${_srcname}
-
 
     ### Add upstream patches
     if [ $_minor -eq 0 ]; then
@@ -254,15 +253,8 @@ prepare() {
 
 
     if [ -n "$_use_llvm_lto" ]; then
-        scripts/config --disable LTO_NONE \
-                       --enable LTO \
-                       --enable LTO_CLANG \
-                       --enable ARCH_SUPPORTS_LTO_CLANG \
-                       --enable ARCH_SUPPORTS_LTO_CLANG_THIN \
-                       --enable HAS_LTO_CLANG \
-                       --enable LTO_CLANG_THIN
+        scripts/config --enable LTO_CLANG_THIN
     fi
-
 
     if [ "$_debug" == "y" ]; then
         scripts/config --enable DEBUG_INFO \
@@ -300,21 +292,6 @@ prepare() {
         make ${BUILD_FLAGS[*]} oldconfig
     fi
 
-    ### Optionally use running kernel's config
-    # code originally by nous; http://aur.archlinux.org/packages.php?ID=40191
-    if [ -n "$_use_current" ]; then
-        if [[ -s /proc/config.gz ]]; then
-            echo "Extracting config from /proc/config.gz..."
-            # modprobe configs
-            zcat /proc/config.gz > ./.config
-        else
-            warning "Your kernel was not compiled with IKCONFIG_PROC!"
-            warning "You cannot read the current config!"
-            warning "Aborting!"
-            exit
-        fi
-    fi
-
     make -s kernelrelease > version
     echo "Prepared $pkgbase version $(<version)"
 
@@ -326,9 +303,8 @@ prepare() {
 
 build() {
     cd ${_srcname}
-  	__nthreads=$(($(nproc) + 1))
-	make ${BUILD_FLAGS[*]} -j${__nthreads} all
-	make ${BUILD_FLAGS[*]} -j${__nthreads} -C tools/bpf/bpftool vmlinux.h feature-clang-bpf-co-re=1 
+	make -j$(nproc) ${BUILD_FLAGS[*]} all
+	make -j$(nproc) ${BUILD_FLAGS[*]} -C tools/bpf/bpftool vmlinux.h feature-clang-bpf-co-re=1 
 }
 
 package_linux-clear-llvm() {
