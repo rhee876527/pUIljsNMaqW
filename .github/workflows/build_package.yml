@@ -1,16 +1,16 @@
-name: PKGBUILD CI
+name: BUILD PKGBUILD
 on: 
   workflow_dispatch:
 
-#  workflow_run:
-#    workflows: ['Update checksums']
-#    types:
-#      - completed
+  workflow_run:
+    workflows: ['Update checksums']
+    types:
+      - completed
 
 jobs:
   build_with_llvm_lto:
     runs-on: ubuntu-latest
-#    if: ${{ github.event.workflow_run.conclusion == 'success' }}  
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}  
     steps:
     - name: Checkout
       uses: actions/checkout@v4.1.1
