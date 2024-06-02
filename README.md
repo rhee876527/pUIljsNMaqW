@@ -1,3 +1,3 @@
-# pUIljsNMaqW
+# BUILD CUSTOM KERNEL
 
-test
+Personal repo for automating build and publish of PKBGUILD packages 
