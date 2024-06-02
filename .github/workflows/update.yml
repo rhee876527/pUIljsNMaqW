@@ -18,3 +18,17 @@ jobs:
           namcap: false
           updpkgsums: true
 
+      - name: Move PKGBUILD to /workflow
+        run: |
+          mkdir -p $GITHUB_WORKSPACE/workflow
+          cp $GITHUB_WORKSPACE/PKGBUILD $GITHUB_WORKSPACE/workflow/
+          
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add $GITHUB_WORKSPACE/workflow/PKGBUILD
+          git commit -m "Update PKGBUILD"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
