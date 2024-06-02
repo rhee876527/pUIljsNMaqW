@@ -9,10 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
 
       - name: Validate package
-        uses: MotorTruck1221/arch-linux-pkgbuild-package@v2.2.1
+        uses: MotorTruck1221/arch-linux-pkgbuild-package@4fd2b58122e6f05808cdd3d9b8356823d85706c9 # v2.2.1
         with:
           flags: ''
           namcap: false
