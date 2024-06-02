@@ -12,4 +12,4 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Validate package
-        uses: ghcr.io/heyhusen/archlinux-package-action:2.2.1@v2
+        uses: ghcr.io/heyhusen/archlinux-package-action@v2.2.1
