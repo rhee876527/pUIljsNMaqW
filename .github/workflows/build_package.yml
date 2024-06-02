@@ -1,11 +1,11 @@
 name: BUILD PKGBUILD
 on: 
-  workflow_dispatch:
-
   workflow_run:
     workflows: ['Update checksums']
     types:
       - completed
+
+#  workflow_dispatch: # uncomment & comment out if condition below for manual trigger
 
 jobs:
   build_with_llvm_lto:
