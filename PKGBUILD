@@ -423,7 +423,7 @@ package_linux-clear-llvm() {
                 'linux-firmware: firmware images needed for some devices'
                 'modprobed-db: Keeps track of EVERY kernel module that has ever been probed - useful for those of us who make localmodconfig')
     provides=(VIRTUALBOX-GUEST-MODULES WIREGUARD-MODULE KSMBD-MODULE)
-    install=linux.install
+    #install=linux.install
 
     cd $_srcname
 
