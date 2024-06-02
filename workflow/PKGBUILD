@@ -117,7 +117,7 @@ _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b221693855
 _archlinuxpatch=aur.archlinux.org/cgit/aur.git/plain
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
-pkgver=${_major}.${_minor}
+pkgver=${_major}.${_minor} # renovate: datasource=github-tags depName=git/git
 pkgrel=1
 pkgdesc='Clear Linux'
 arch=('x86_64' 'x86_64_v2')
