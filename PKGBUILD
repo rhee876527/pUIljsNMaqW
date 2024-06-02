@@ -43,7 +43,7 @@ _switchstock=
 #
 
 _major=6.9
-_minor=2
+_minor=3
 _srcname=linux-${_major}
 _clr=${_major}.2-1437
 _gcc_more_v='20240221.2'
