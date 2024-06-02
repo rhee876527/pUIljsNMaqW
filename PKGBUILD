@@ -4,10 +4,12 @@
 # Maintainer: Anon ---> :-) 
 #
 # Inspired from works by: Josip Ponjavic
-#
 # (Source project) >>>
 # https://aur.archlinux.org/packages/linux-clear
 # https://build.opensuse.org/package/show/home:metakcahura:kernel/linux-clear-llvm
+#
+# Plus patches from other various sources
+# Clear Linux, CachyOS et. al (check sources for full list)
 #
 #######################################################################
 #
@@ -15,76 +17,12 @@
 ### BUILD OPTIONS
 # Set the next two variables to ANYTHING that is not null to enable them
 
-# Tweak kernel options prior to a build via nconfig
-_makenconfig=
-
-# Only compile active modules to VASTLY reduce the number of modules built and
-# the build time.
-#
-# To keep track of which modules are needed for your specific system/hardware,
-# give module_db a try: https://aur.archlinux.org/packages/modprobed-db
-# This PKGBUILD reads the database kept if it exists
-#
-# More at this wiki page ---> https://wiki.archlinux.org/index.php/Modprobed-db
-_localmodcfg=
-
 # Optionally select a sub architecture by number or leave blank which will
 # require user interaction during the build. Note that the generic (default)
 # option is 40.
 #
-#  1. AMD Opteron/Athlon64/Hammer/K8 (MK8)
-#  2. AMD Opteron/Athlon64/Hammer/K8 with SSE3 (MK8SSE3)
-#  3. AMD 61xx/7x50/PhenomX3/X4/II/K10 (MK10)
-#  4. AMD Barcelona (MBARCELONA)
-#  5. AMD Bobcat (MBOBCAT)
-#  6. AMD Jaguar (MJAGUAR)
-#  7. AMD Bulldozer (MBULLDOZER)
-#  8. AMD Piledriver (MPILEDRIVER)
-#  9. AMD Steamroller (MSTEAMROLLER)
-#  10. AMD Excavator (MEXCAVATOR)
-#  11. AMD Zen (MZEN)
-#  12. AMD Zen 2 (MZEN2)
-#  13. AMD Zen 3 (MZEN3)
-#  14. AMD Zen 4 (MZEN4)
-#  15. Intel P4 / older Netburst based Xeon (MPSC)
-#  16. Intel Core 2 (MCORE2)
-#  17. Intel Atom (MATOM)
-#  18. Intel Nehalem (MNEHALEM)
-#  19. Intel Westmere (MWESTMERE)
-#  20. Intel Silvermont (MSILVERMONT)
-#  21. Intel Goldmont (MGOLDMONT)
-#  22. Intel Goldmont Plus (MGOLDMONTPLUS)
-#  23. Intel Sandy Bridge (MSANDYBRIDGE)
-#  24. Intel Ivy Bridge (MIVYBRIDGE)
-#  25. Intel Haswell (MHASWELL)
-#  26. Intel Broadwell (MBROADWELL)
-#  27. Intel Skylake (MSKYLAKE)
-#  28. Intel Skylake X (MSKYLAKEX)
-#  29. Intel Cannon Lake (MCANNONLAKE)
-#  30. Intel Ice Lake (MICELAKE)
-#  31. Intel Cascade Lake (MCASCADELAKE)
-#  32. Intel Cooper Lake (MCOOPERLAKE)
-#  33. Intel Tiger Lake (MTIGERLAKE)
-#  34. Intel Sapphire Rapids (MSAPPHIRERAPIDS)
-#  35. Intel Rocket Lake (MROCKETLAKE)
-#  36. Intel Alder Lake (MALDERLAKE)
-#  37. Intel Raptor Lake (MRAPTORLAKE)
-#  38. Intel Meteor Lake (MMETEORLAKE)
-#  39. Intel Emerald Rapids (MEMERALDRAPIDS)
-#  40. Generic-x86-64 (GENERIC_CPU)
-#  41. Generic-x86-64-v2 (GENERIC_CPU2)
-#  42. Generic-x86-64-v3 (GENERIC_CPU3)
-#  43. Generic-x86-64-v4 (GENERIC_CPU4)
-#  44. Intel-Native optimizations autodetected by the compiler (MNATIVE_INTEL)
-#  45. AMD-Native optimizations autodetected by the compiler (MNATIVE_AMD)
+# 21 = GOLDMONT
 _subarch=21
-
-# Use the current kernel's .config file
-# Enabling this option will use the .config of the RUNNING kernel rather than
-# the ARCH defaults. Useful when the package gets updated and you already went
-# through the trouble of customizing your config options.  NOT recommended when
-# a new kernel is released, but again, convenient for package bumps.
-_use_current=
 
 # Enable compiling with LLVM
 _use_llvm_lto=y
@@ -100,25 +38,22 @@ _debug=n
 # Sources must be updated to reflect new build status
 _switchstock=
 
-
-#
 #
 ##### below is where the magic happens
 #
 
-
 _major=6.9
-_minor=2
-_srcname=linux-6.9
-_clr=6.9.1-1436 # renovate: datasource=github-tags depName=clearlinux-pkgs/linux
+_minor=3
+_srcname=linux-${_major}
+_clr=${_major}.2-1437
 _gcc_more_v='20240221.2'
 _cachy=CachyOS/kernel-patches/master
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
 _archlinuxpatch=aur.archlinux.org/cgit/aur.git/plain
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
-pkgver=6.9.2 # renovate: datasource=github-tags depName=archlinux/linux
-pkgrel=1
+pkgver=${_major}.${_minor}
+pkgrel=2
 pkgdesc='Clear Linux'
 arch=('x86_64' 'x86_64_v2')
 url="https://github.com/clearlinux-pkgs/linux"
@@ -137,13 +72,12 @@ fi
 source=(
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${_major}.tar.xz"
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
-  "https://github.com/clearlinux-pkgs/linux/archive/${_clr}.tar.gz"  
+  "https://github.com/clearlinux-pkgs/linux/archive/${_clr}.tar.gz"
   "https://github.com/graysky2/kernel_compiler_patch/archive/$_gcc_more_v.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0003-bbr3.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-block.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/misc/0001-le9uo.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0010-zstd.patch"  
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0010-zstd.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0008-ksm.patch"
   "0003-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch::https://${_archlinuxpatch}/0003-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
 #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
@@ -156,7 +90,6 @@ sha256sums=(
             '1d3ac3e581cbc5108f882fcdc75d74f7f069654c71bad65febe5ba15a7a3a14f' #cpu-arch-optimization
             '7d6037eb6fdbad042c63f157c095f737e8b58d2ce2f870700c95c876b7dc21c3' #lockdown 
             '240659c5571ac58bf91262db4a91a3839eed0091145cf54c1f297c3ec53775d8' #bbr3 
-            '96844e0ec02a95b09ed4b94c5aa53a8e1e25e09fb51169c3cc95956c399e3b9f' #block
             '100619682d3502dc6b5702cd1f0012486eeb1741bc41f1663c8099b5cd1e9536' #le9uo
             'd3c0c7f61fa86c6900e32433032f9dfda22be59c231897423aaa9c17a6534301' #zstd
             'f7f7f3da4d06627e888a37e56b52bb5c78abcb1d305f5e94a7b1118efb0347a6' #ksm
@@ -170,11 +103,6 @@ if [ -n "$_use_llvm_lto" ]; then
   BUILD_FLAGS=(
     LLVM=1
     LLVM_IAS=1
-    CC=clang
-    LD=ld.lld
-    CXX=clang++
-    HOSTCC=clang
-    HOSTCXX=clang++
   )
 fi
 
@@ -211,7 +139,7 @@ prepare() {
             echo "Applying patch ${i}..."
             patch -Np1 -i "$srcdir/linux-${_clr}/${i}"
         done
-    fi    
+    fi
     
     ### Add all other patches
     local src
@@ -221,7 +149,7 @@ prepare() {
         [[ $src = *.patch ]] || continue
         echo "Applying patch $src..."
         patch -Np1 < "../$src"
-    done		    
+    done
 
     ### Setting config
     if [ -n "$_switchstock" ]; then
@@ -301,7 +229,7 @@ prepare() {
     # enable PSI for oomd
     scripts/config --undefine CONFIG_PSI_DEFAULT_DISABLED
                   
-    # BBRv3               
+    # BBRv3
     scripts/config --module TCP_CONG_CUBIC \
                    --enable DEFAULT_BBR \
                    --disable DEFAULT_CUBIC \
@@ -332,8 +260,7 @@ prepare() {
                        --enable ARCH_SUPPORTS_LTO_CLANG \
                        --enable ARCH_SUPPORTS_LTO_CLANG_THIN \
                        --enable HAS_LTO_CLANG \
-                       --enable LTO_CLANG_THIN \
-                       --enable HAVE_GCC_PLUGINS
+                       --enable LTO_CLANG_THIN
     fi
 
 
@@ -388,18 +315,6 @@ prepare() {
         fi
     fi
 
-    ### Optionally load needed modules for the make localmodconfig
-    # See https://aur.archlinux.org/packages/modprobed-db
-    if [ -n "$_localmodcfg" ]; then
-        if [ -e $HOME/.config/modprobed.db ]; then
-            echo "Running Steven Rostedt's make localmodconfig now"
-            make ${BUILD_FLAGS[*]} LSMOD=$HOME/.config/modprobed.db localmodconfig
-        else
-            echo "No modprobed.db data found"
-            exit
-        fi
-    fi
-    
     make -s kernelrelease > version
     echo "Prepared $pkgbase version $(<version)"
 
@@ -413,15 +328,14 @@ build() {
     cd ${_srcname}
   	__nthreads=$(($(nproc) + 1))
 	make ${BUILD_FLAGS[*]} -j${__nthreads} all
-#	make ${BUILD_FLAGS[*]} -j${__nthreads} -C tools/bpf/bpftool vmlinux.h feature-clang-bpf-co-re=1 
+	make ${BUILD_FLAGS[*]} -j${__nthreads} -C tools/bpf/bpftool vmlinux.h feature-clang-bpf-co-re=1 
 }
 
 package_linux-clear-llvm() {
     pkgdesc="The $pkgdesc kernel and modules"
     depends=('coreutils' 'kmod' 'initramfs')
     optdepends=('wireless-regdb: to set the correct wireless channels of your country'
-                'linux-firmware: firmware images needed for some devices'
-                'modprobed-db: Keeps track of EVERY kernel module that has ever been probed - useful for those of us who make localmodconfig')
+                'linux-firmware: firmware images needed for some devices')
     provides=(VIRTUALBOX-GUEST-MODULES WIREGUARD-MODULE KSMBD-MODULE)
     #install=linux.install
 
