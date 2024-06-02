@@ -1,4 +1,4 @@
-name: CI
+name: Update checksums
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
           namcap: false
           updpkgsums: true
 
-      - name: Move PKGBUILD to /workflow
+      - name: Copy processed PKGBUILD to /workflow directory in main repo
         run: |
           mkdir -p $GITHUB_WORKSPACE/workflow
           cp $GITHUB_WORKSPACE/PKGBUILD $GITHUB_WORKSPACE/workflow/
