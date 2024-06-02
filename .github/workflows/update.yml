@@ -13,4 +13,8 @@ jobs:
 
       - name: Validate package
         uses: MotorTruck1221/arch-linux-pkgbuild-package@v2.2.1
+        with:
+          flags: ''
+          namcap: false
+          updpkgsums: true
 
