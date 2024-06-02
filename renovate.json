@@ -9,7 +9,7 @@
   ],
   "regexManagers": [
     {
-      "fileMatch": ["^PKGBUILD$"],
+      "fileMatch": ["(^|/)PKGBUILD$"],
       "matchStrings": [
         "pkgver=(?<currentValue>.*) # renovate: datasource=(?<datasource>.*) depName=(?<depName>.*)"
       ],
