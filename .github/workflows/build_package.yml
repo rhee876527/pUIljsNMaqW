@@ -1,13 +1,14 @@
 name: PKGBUILD CI
 on: 
   workflow_run:
-    workflows: ['Update checksums']
-    types:
-      - completed
+#    workflows: ['Update checksums']
+#    types:
+#      - completed
+
 jobs:
   build_with_llvm_lto:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}  
+#    if: ${{ github.event.workflow_run.conclusion == 'success' }}  
     steps:
     - name: Checkout
       uses: actions/checkout@v4.1.1
@@ -15,7 +16,9 @@ jobs:
       id: extract_pkgver
       run: |
         PKGBUILD_PATH="PKGBUILD"
-        PKGVER=$(grep -Po '^pkgver=\$\{?_major\}?\.\$\{?_minor\}?(\.\d+)?' $PKGBUILD_PATH | cut -d= -f2)
+        _major=$(grep -Po '^_major=\K.*' $PKGBUILD_PATH)
+        _minor=$(grep -Po '^_minor=\K.*' $PKGBUILD_PATH)
+        PKGVER="${_major}.${_minor}"
         echo "Package version extracted from PKGBUILD: $PKGVER"
         echo "::set-output name=pkgver::$PKGVER"
     - name: Makepkg Build and Check
