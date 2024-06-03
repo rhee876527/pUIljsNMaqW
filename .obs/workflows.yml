@@ -5,3 +5,4 @@ rebuild:
         source_project: main
         project: home:Porridge:linux-clear-llvm-goldmont
         package: linux-clear-llvm-goldmont
+        target_project: home:Porridge:linux-clear-llvm-goldmont
