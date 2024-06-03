@@ -1,5 +1,0 @@
-rebuild:
-  steps:
-    - trigger_services:
-        project: home:Porridge:linux-clear-llvm-goldmont
-        package: linux-clear-llvm-goldmont
