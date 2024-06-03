@@ -1,3 +1,3 @@
-# BUILD CUSTOM KERNEL
+# UPDATE CUSTOM KERNEL
 
-Personal repo for automating build and publish of custom kernel done via PKBGUILD 
+Personal repo for automating update of PKGBUILD source to OBS (Open Build Service)
