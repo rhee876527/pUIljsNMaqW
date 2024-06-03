@@ -1,0 +1,44 @@
+name: OBS Commit
+
+on:
+#  push:
+  workflow_dispatch
+
+jobs:
+  copy-and-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y osc wget curl
+
+    - name: Configure osc
+      run: |
+        mkdir -p ~/.config/osc
+        echo "[general]" > ~/.config/osc/oscrc
+        echo "apiurl = https://api.opensuse.org" >> ~/.config/osc/oscrc
+        echo "[https://api.opensuse.org]" >> ~/.config/osc/oscrc
+        echo "user = ${{ secrets.OBS_USERNAME }}" >> ~/.config/osc/oscrc
+        echo "pass = ${{ secrets.OBS_PASSWORD }}" >> ~/.config/osc/oscrc
+
+    - name: Checkout OBS project
+      run: |
+        osc checkout home:Porridge:linux-clear-llvm-goldmont/linux-clear-llvm-goldmont
+        cd home:Porridge:linux-clear-llvm-goldmont/linux-clear-llvm-goldmont
+
+    - name: Copy PKGBUILD file to OBS project
+      run: |
+        cp workflow/PKGBUILD /home/runner/work/repository/home:Porridge:linux-clear-llvm-goldmont/linux-clear-llvm-goldmont/
+        cd /home/runner/work/repository/home:Porridge:linux-clear-llvm-goldmont/linux-clear-llvm-goldmont/
+        osc add filename
+        osc commit -m "Update PKGBUILD from GitHub repository"
+
+    - name: Commit and push to OBS
+      run: |
+        cd /home/runner/work/repository/home:Porridge:linux-clear-llvm-goldmont/linux-clear-llvm-goldmont/
+        osc commit -m "Added filename from GitHub repository"
