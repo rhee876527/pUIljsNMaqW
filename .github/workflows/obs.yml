@@ -29,17 +29,11 @@ jobs:
     - name: Checkout OBS project
       run: |
         osc checkout home:Porridge:linux-clear-llvm-goldmont/linux-clear-llvm-goldmont
-        cd home:Porridge:linux-clear-llvm-goldmont/linux-clear-llvm-goldmont
+#        cd home:Porridge:linux-clear-llvm-goldmont/linux-clear-llvm-goldmont
 
     - name: Copy PKGBUILD file to OBS project
       run: |
-        mkdir -p  /home/runner/work/repository/home:Porridge:linux-clear-llvm-goldmont/linux-clear-llvm-goldmont/
-        cp workflow/PKGBUILD /home/runner/work/repository/home:Porridge:linux-clear-llvm-goldmont/linux-clear-llvm-goldmont/
-        cd /home/runner/work/repository/home:Porridge:linux-clear-llvm-goldmont/linux-clear-llvm-goldmont/
+        cp workflow/PKGBUILD home:Porridge:linux-clear-llvm-goldmont/linux-clear-llvm-goldmont
+        cd home:Porridge:linux-clear-llvm-goldmont/linux-clear-llvm-goldmont
         osc add PKGBUILD
         osc commit -m "Update PKGBUILD from GitHub repository"
-
-    - name: Commit and push to OBS
-      run: |
-        cd /home/runner/work/repository/home:Porridge:linux-clear-llvm-goldmont/linux-clear-llvm-goldmont/
-        osc commit -m "Added PKGBUILD from GitHub repository"
