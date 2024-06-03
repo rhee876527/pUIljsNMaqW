@@ -1,8 +1,16 @@
 name: OBS Commit
+# OBS_PROJECT_PATH example:
+# home:user:project/sub-project *sub-project is optional
 
-on:
+#on:
 #  push:
-  workflow_dispatch
+on: 
+  workflow_run:
+    workflows: ['Update checksums']
+    types:
+      - completed
+
+#  workflow_dispatch
 
 jobs:
   copy-and-commit:
@@ -28,12 +36,11 @@ jobs:
 
     - name: Checkout OBS project
       run: |
-        osc checkout home:Porridge:linux-clear-llvm-goldmont/linux-clear-llvm-goldmont
-#        cd home:Porridge:linux-clear-llvm-goldmont/linux-clear-llvm-goldmont
+        osc checkout ${{ secrets.OBS_PROJECT_PATH }}
 
     - name: Copy PKGBUILD file to OBS project
       run: |
-        cp workflow/PKGBUILD home:Porridge:linux-clear-llvm-goldmont/linux-clear-llvm-goldmont
-        cd home:Porridge:linux-clear-llvm-goldmont/linux-clear-llvm-goldmont
+        cp workflow/PKGBUILD ${{ secrets.OBS_PROJECT_PATH }}
+        cd ${{ secrets.OBS_PROJECT_PATH }}
         osc add PKGBUILD
-        osc commit -m "Update PKGBUILD from GitHub repository"
+        osc commit -m "Update PKGBUILD source from GitHub"
