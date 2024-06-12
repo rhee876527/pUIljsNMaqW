@@ -18,7 +18,7 @@ jobs:
           namcap: false
           updpkgsums: true
 
-      - name: Copy processed PKGBUILD to /workflow directory in main repo
+      - name: Copy processed PKGBUILD to target directory in main repo
         run: |
           mkdir -p $GITHUB_WORKSPACE/processed
           cp $GITHUB_WORKSPACE/PKGBUILD $GITHUB_WORKSPACE/processed/
