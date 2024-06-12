@@ -108,9 +108,9 @@ _switchstock=
 
 
 _major=6.9
-_minor=3
+_minor=4
 _srcname=linux-${_major}
-_clr=${_major}.2-1437
+_clr=${_major}.3-1439
 _gcc_more_v='20240221.2'
 _cachy=CachyOS/kernel-patches/master
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
@@ -118,7 +118,7 @@ _archlinuxpatch=aur.archlinux.org/cgit/aur.git/plain
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=3
+pkgrel=1
 pkgdesc='Clear Linux'
 arch=('x86_64' 'x86_64_v2')
 url="https://github.com/clearlinux-pkgs/linux"
@@ -141,7 +141,6 @@ source=(
   "https://github.com/graysky2/kernel_compiler_patch/archive/$_gcc_more_v.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0003-bbr3.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-block.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/misc/0001-le9uo.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0010-zstd.patch"  
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0008-ksm.patch"
@@ -149,19 +148,18 @@ source=(
 #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
-sha256sums=(
-            '24fa01fb989c7a3e28453f117799168713766e119c5381dac30115f18f268149' #major
-            'f82cdfa0f94327fa9fbebdb65efc560ef4cfcf5f2269718c9be58440aebff3d3' #minor-patches
-            'SKIP'                                                             #clear-patches
-            '1d3ac3e581cbc5108f882fcdc75d74f7f069654c71bad65febe5ba15a7a3a14f' #cpu-arch-optimization
-            '7d6037eb6fdbad042c63f157c095f737e8b58d2ce2f870700c95c876b7dc21c3' #lockdown 
-            '240659c5571ac58bf91262db4a91a3839eed0091145cf54c1f297c3ec53775d8' #bbr3 
-            '96844e0ec02a95b09ed4b94c5aa53a8e1e25e09fb51169c3cc95956c399e3b9f' #block
-            '100619682d3502dc6b5702cd1f0012486eeb1741bc41f1663c8099b5cd1e9536' #le9uo
-            'd3c0c7f61fa86c6900e32433032f9dfda22be59c231897423aaa9c17a6534301' #zstd
-            'f7f7f3da4d06627e888a37e56b52bb5c78abcb1d305f5e94a7b1118efb0347a6' #ksm
-            '87470fae9a8a0080c2cb3d38be224b3ccbcb2004316207e0d148ff8a62764a9e' #max ASLR bits
-#            'SKIP'                                                            #arch config
+b2sums=(
+            '0' #major
+            '0' #minor-patches
+            '0' #clear-patches
+            '0' #cpu-arch-optimization
+            '0' #lockdown 
+            '0' #bbr3 
+            '0' #le9uo
+            '0' #zstd
+            '0' #ksm
+            '0' #max ASLR bits
+#            '0' #arch config
            )
 
 ##### BUILD SCRIPT
