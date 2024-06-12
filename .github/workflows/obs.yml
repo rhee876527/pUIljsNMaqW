@@ -41,7 +41,7 @@ jobs:
 
     - name: Copy PKGBUILD file to OBS project
       run: |
-        cp workflow/PKGBUILD ${{ secrets.OBS_PROJECT_PATH }}
+        cp processed/PKGBUILD ${{ secrets.OBS_PROJECT_PATH }}
         cd ${{ secrets.OBS_PROJECT_PATH }}
         osc add PKGBUILD
         osc commit -m "Update PKGBUILD source from GitHub"
