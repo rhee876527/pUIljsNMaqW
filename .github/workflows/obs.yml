@@ -39,9 +39,19 @@ jobs:
       run: |
         osc checkout ${{ secrets.OBS_PROJECT_PATH }}
 
+    - name: Extract PKGBUILD Version
+      id: extract_pkgver
+      run: |
+        PKGBUILD_PATH="processed/PKGBUILD"
+        _major=$(grep -Po '^_major=\K.*' $PKGBUILD_PATH)
+        _minor=$(grep -Po '^_minor=\K.*' $PKGBUILD_PATH)
+        PKGVER="${_major}.${_minor}"
+        echo "Package version extracted from PKGBUILD: $PKGVER"
+        echo "pkgver=$PKGVER" >> $GITHUB_OUTPUT
+    
     - name: Copy PKGBUILD file to OBS project
       run: |
         cp processed/PKGBUILD ${{ secrets.OBS_PROJECT_PATH }}
         cd ${{ secrets.OBS_PROJECT_PATH }}
         osc add PKGBUILD
-        osc commit -m "Update PKGBUILD source from GitHub"
+        osc commit -m "Update to: ${{ steps.extract_pkgver.outputs.pkgver }}"
