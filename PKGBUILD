@@ -1,10 +1,8 @@
 # Caution! Please read what this package does before installing it on your machine!
-# Am not responsible for any missing cats.
 #
 # Maintainer: Anon ---> :-) 
 #
-# Inspired from works by: Josip Ponjavic
-#
+# Original works by: Josip Ponjavic
 # (Source project) >>>
 # https://aur.archlinux.org/packages/linux-clear
 # https://build.opensuse.org/package/show/home:metakcahura:kernel/linux-clear-llvm
@@ -100,15 +98,11 @@ _debug=n
 # Sources must be updated to reflect new build status
 _switchstock=
 
-
-#
 #
 ##### below is where the magic happens
 #
-
-
 _major=6.9
-_minor=4
+_minor=5
 _srcname=linux-${_major}
 _clr=${_major}.3-1439
 _gcc_more_v='20240221.2'
@@ -142,8 +136,8 @@ source=(
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0003-bbr3.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/misc/0001-le9uo.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0011-zstd.patch"  
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0008-ksm.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0010-zstd.patch"  
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0007-ksm.patch"
   "0003-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch::https://${_archlinuxpatch}/0003-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
 #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
@@ -162,8 +156,7 @@ b2sums=(
 #            '0' #arch config
            )
 
-##### BUILD SCRIPT
-
+# LLVM build option
 if [ -n "$_use_llvm_lto" ]; then
   BUILD_FLAGS=(
     LLVM=1
@@ -177,8 +170,7 @@ export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EP
 
 prepare() {
     cd ${_srcname}
-
-
+    
     ### Add upstream patches
     if [ $_minor -eq 0 ]; then
         echo "Skipping minor version patch for early 0 release"
@@ -317,7 +309,6 @@ prepare() {
                    --disable CONFIG_SCHED_DEBUG \
                    --set-val CONFIG_DEFAULT_MMAP_MIN_ADDR 65536    
 
-
     if [ -n "$_use_llvm_lto" ]; then
         scripts/config --disable LTO_NONE \
                        --enable LTO \
@@ -328,7 +319,6 @@ prepare() {
                        --enable LTO_CLANG_THIN \
                        --enable HAVE_GCC_PLUGINS
     fi
-
 
     if [ "$_debug" == "y" ]; then
         scripts/config --enable DEBUG_INFO \
