@@ -112,7 +112,7 @@ _archlinuxpatch=aur.archlinux.org/cgit/aur.git/plain
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=2
+pkgrel=3
 pkgdesc='Clear Linux'
 arch=('x86_64' 'x86_64_v2')
 url="https://github.com/clearlinux-pkgs/linux"
@@ -306,7 +306,7 @@ prepare() {
                    --disable CONFIG_SCHED_DEBUG \
                    --set-val CONFIG_DEFAULT_MMAP_MIN_ADDR 65536    
     # x86-64-v2
-    scripts/config --disable GENERIC_CPU \
+    scripts/config --enable CONFIG_GENERIC_CPU2 \
                    --enable GENERIC_CPU2
 
 
