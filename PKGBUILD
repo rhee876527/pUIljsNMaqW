@@ -138,7 +138,7 @@ source=(
   "https://raw.githubusercontent.com/${_cachy}/${_major}/misc/0001-le9uo.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0010-zstd.patch"  
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0007-ksm.patch"
-  "0003-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch::https://${_archlinuxpatch}/0003-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
+  "arch-0003-ASLR-bits.patch::https://${_archlinuxpatch}/0003-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
 #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
