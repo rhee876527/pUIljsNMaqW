@@ -308,6 +308,10 @@ prepare() {
                    --disable CONFIG_KVM_WERROR \
                    --disable CONFIG_SCHED_DEBUG \
                    --set-val CONFIG_DEFAULT_MMAP_MIN_ADDR 65536    
+    # x86-64-v2
+    scripts/config --disable GENERIC_CPU \
+                   --enable GENERIC_CPU2
+
 
     if [ -n "$_use_llvm_lto" ]; then
         scripts/config --disable LTO_NONE \
