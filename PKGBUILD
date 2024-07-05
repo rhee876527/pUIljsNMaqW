@@ -102,9 +102,9 @@ _switchstock=
 ##### below is where the magic happens
 #
 _major=6.9
-_minor=7
+_minor=8
 _srcname=linux-${_major}
-_clr=${_major}.6-1444
+_clr=${_major}.7-1445
 _gcc_more_v='20240221.2'
 _cachy=CachyOS/kernel-patches/master
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
