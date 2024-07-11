@@ -102,7 +102,7 @@ _switchstock=
 ##### below is where the magic happens
 #
 _major=6.9
-_minor=8
+_minor=9
 _srcname=linux-${_major}
 _clr=${_major}.7-1445
 _gcc_more_v='20240221.2'
