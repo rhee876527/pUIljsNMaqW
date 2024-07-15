@@ -101,8 +101,8 @@ _switchstock=y
 #
 ##### below is where the magic happens
 #
-_major=6.9
-_minor=10
+_major=6.10
+_minor=0
 _srcname=linux-${_major}
 _clr=${_major}.7-1445
 _gcc_more_v='20240221.2'
@@ -112,7 +112,7 @@ _archlinuxpatch=aur.archlinux.org/cgit/aur.git/plain
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=0
+pkgrel=1
 pkgdesc='Clear Linux'
 arch=('x86_64' 'x86_64_v2')
 url="https://github.com/clearlinux-pkgs/linux"
