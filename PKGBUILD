@@ -96,13 +96,13 @@ _debug=n
 # useful for dot 0 releases or when clear is out of sync... 
 # This will invalidate all clear patches and build with stock kernel. 
 # Sources must be updated to reflect new build status
-_switchstock=
+_switchstock=y
 
 #
 ##### below is where the magic happens
 #
 _major=6.9
-_minor=9
+_minor=10
 _srcname=linux-${_major}
 _clr=${_major}.7-1445
 _gcc_more_v='20240221.2'
@@ -112,7 +112,7 @@ _archlinuxpatch=aur.archlinux.org/cgit/aur.git/plain
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=2
+pkgrel=0
 pkgdesc='Clear Linux'
 arch=('x86_64' 'x86_64_v2')
 url="https://github.com/clearlinux-pkgs/linux"
@@ -130,16 +130,16 @@ fi
 
 source=(
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${_major}.tar.xz"
-  "https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
-  "https://github.com/clearlinux-pkgs/linux/archive/${_clr}.tar.gz"  
+#"https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
+#"https://github.com/clearlinux-pkgs/linux/archive/${_clr}.tar.gz"  
   "https://github.com/graysky2/kernel_compiler_patch/archive/$_gcc_more_v.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0003-bbr3.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/misc/0001-le9uo.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0010-zstd.patch"  
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0002-bbr3.patch"
+#"https://raw.githubusercontent.com/${_cachy}/${_major}/misc/0001-le9uo.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0011-zstd.patch"  
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0007-ksm.patch"
   "arch-0003-ASLR-bits.patch::https://${_archlinuxpatch}/0003-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
-#"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
+  "https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
 b2sums=(
@@ -153,7 +153,7 @@ b2sums=(
             '0' #zstd
             '0' #ksm
             '0' #max ASLR bits
-#            '0' #arch config
+            '0' #arch config
            )
 
 # LLVM build option
