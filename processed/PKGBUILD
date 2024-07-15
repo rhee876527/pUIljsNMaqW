@@ -96,13 +96,13 @@ _debug=n
 # useful for dot 0 releases or when clear is out of sync... 
 # This will invalidate all clear patches and build with stock kernel. 
 # Sources must be updated to reflect new build status
-_switchstock=
+_switchstock=y
 
 #
 ##### below is where the magic happens
 #
-_major=6.9
-_minor=9
+_major=6.10
+_minor=0
 _srcname=linux-${_major}
 _clr=${_major}.7-1445
 _gcc_more_v='20240221.2'
@@ -112,7 +112,7 @@ _archlinuxpatch=aur.archlinux.org/cgit/aur.git/plain
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=2
+pkgrel=1
 pkgdesc='Clear Linux'
 arch=('x86_64' 'x86_64_v2')
 url="https://github.com/clearlinux-pkgs/linux"
@@ -130,28 +130,26 @@ fi
 
 source=(
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${_major}.tar.xz"
-  "https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
-  "https://github.com/clearlinux-pkgs/linux/archive/${_clr}.tar.gz"  
+#"https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
+#"https://github.com/clearlinux-pkgs/linux/archive/${_clr}.tar.gz"  
   "https://github.com/graysky2/kernel_compiler_patch/archive/$_gcc_more_v.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0003-bbr3.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/misc/0001-le9uo.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0010-zstd.patch"  
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0002-bbr3.patch"
+#"https://raw.githubusercontent.com/${_cachy}/${_major}/misc/0001-le9uo.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0011-zstd.patch"  
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0007-ksm.patch"
   "arch-0003-ASLR-bits.patch::https://${_archlinuxpatch}/0003-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
-#"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
+  "https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
-b2sums=('4cf86c3cfe6e6534745d42dfaeca59b17ea1168c4e8b615c80e6d8aac735f11283cd85fa992b440b5d4452917e94b9f08397a64af0be5894e3df23c68892377e'
-        '2a04cb87792d3a9f04ccd6ea7044ae66f4c6bb8de843061206ba52033248ca3c11b14d5fdef72349f1173a7d23866430770fd7d8e58dea926eeba9381de5cb1a'
-        'd91bc392f80a9201280e14c3b6888fffe083a5a432ea9e551b08ee32f403971abd4176bd1794ffc79afa08a0208a2538f944c9dbb9d84b57097cd890b8582ff2'
+b2sums=('bb243ea7493b9d63aa2df2050a3f1ae2b89ee84a20015239cf157e3f4f51c7ac5efedc8a51132b2d7482f9276ac418de6624831c8a3b806130d9c2d2124c539b'
         '221de3283857198a908a28b837cb542c5cf4e29868539f3f3c2c783c07c59a6868f3b1d4fe1e023e986fd3f9d17bd2e4f68b7c86fa5da76fcde25e5955b3c74d'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
-        '2780589695abbe61dc66bd188125fbb8f64f4be9292754fd722c09b74c69f93e06f897059919766db1a1ff4318239e8abd44cb4f0f844c4ef0c85b2afd95b741'
-        '5040b698ec417db99cf2b54f8f35cf4fe43091db1739f6a2ddd1e6e0b87511179d0ba8bfb42f181541141bec42ac529e6cd78310352193f3339f1e1a378500f3'
-        '905488a5c277a98ecff9d5c542837dba5bf74549284d459aa844a25e0c9dbdd4571c9ba92d42bd3e18593c1a1912ed285b5747db4ff0bfa6eaa5962a131ed8a2'
-        '60bd234cd1d1c8c15d19ce3422cd9d08be403d95b9cfbd85f85f045ea27553ee3814de297d8c6cad44441fe547d621b4e5fb71e07e5ed6128d946d2801479182'
-        'f5e383efea6da7f8e7151dfead19f8913c747ddf7df86d30781f2ca14d57839ad3a2083d179a9e8f9987d4bcfe63be303ad685e53cd18e30084ddbf050f937e2')
+        '3c7a16b9e634e0b209c739de064efd930ef0011ea3645307bd4dcac8a5025a8b672aeeb5970fd95117b3e10b53007fb086114ebecc9f9ff20276508b0740cd41'
+        '044e9c02590cde56eb4a4ed252ce55f36dd9320cdcc37e77e82f3f2425dcba89a3b0e100e60d5318b2864c3f4e21b692ded5f6c741590b48eb5e9562b57b09a8'
+        '9a3004fdd3ae93f1c92b020ee42d26561e3d9ad489000be7b56904a09917f54cf339c2a398fae52c43298967523e3368503d9c9c0d5837f439deb63df72b306f'
+        'f5e383efea6da7f8e7151dfead19f8913c747ddf7df86d30781f2ca14d57839ad3a2083d179a9e8f9987d4bcfe63be303ad685e53cd18e30084ddbf050f937e2'
+        '5a5cb43336a32ae26f1411b0f418d553a0f213db00bf6e618b2477925fa9c8468d708630988d9fd1cfda7bd183f92167d93739fc3b9cdaca5a0a19bc42446c49')
 
 # LLVM build option
 if [ -n "$_use_llvm_lto" ]; then
