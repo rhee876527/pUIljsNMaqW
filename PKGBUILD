@@ -75,7 +75,7 @@ _localmodcfg=
 #  43. Generic-x86-64-v4 (GENERIC_CPU4)
 #  44. Intel-Native optimizations autodetected by the compiler (MNATIVE_INTEL)
 #  45. AMD-Native optimizations autodetected by the compiler (MNATIVE_AMD)
-_subarch=21
+_subarch=42
 
 # Use the current kernel's .config file
 # Enabling this option will use the .config of the RUNNING kernel rather than
@@ -93,19 +93,19 @@ _use_llvm_lto=y
 _debug=n
 
 # Switch to stock build if needed
-# useful for dot 0 releases or when clear is out of sync... 
+# useful for dot 0 releases or when clearlinux is out of sync... 
 # This will invalidate all clear patches and build with stock kernel. 
-# Sources must be updated to reflect new build status
-_switchstock=y
+# Note: Sources must be updated to reflect new build status
+_switchstock=
 
 #
 ##### below is where the magic happens
 #
-_major=6.10
-_minor=0
+_major=6.11
+_minor=4
 _srcname=linux-${_major}
-_clr=${_major}.7-1445
-_gcc_more_v='20240221.2'
+_clr=${_major}.3-1472
+_gcc_more_v='20241018'
 _cachy=CachyOS/kernel-patches/master
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
 _archlinuxpatch=aur.archlinux.org/cgit/aur.git/plain
@@ -117,10 +117,10 @@ pkgdesc='Clear Linux'
 arch=('x86_64' 'x86_64_v2')
 url="https://github.com/clearlinux-pkgs/linux"
 license=(GPL-2.0-only)
-makedepends=('bc' 'cpio' 'git' 'libelf' 'pahole' 'xmlto')
+makedepends=("bc" "cpio" "gettext" "git" "libelf" "pahole" "perl" "python" "tar" "xz" "zstd")
 
 if [ -n "$_use_llvm_lto" ]; then
-  makedepends+=(clang llvm lld python)
+  makedepends+=(clang llvm lld)
 fi
 
 options=(!debug !strip)
@@ -130,16 +130,16 @@ fi
 
 source=(
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${_major}.tar.xz"
-#"https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
-#"https://github.com/clearlinux-pkgs/linux/archive/${_clr}.tar.gz"  
+  "https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
+  "https://github.com/clearlinux-pkgs/linux/archive/${_clr}.tar.gz"  
   "https://github.com/graysky2/kernel_compiler_patch/archive/$_gcc_more_v.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0002-bbr3.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0005-bbr3.patch"
 #"https://raw.githubusercontent.com/${_cachy}/${_major}/misc/0001-le9uo.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0011-zstd.patch"  
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0007-ksm.patch"
-  "arch-0003-ASLR-bits.patch::https://${_archlinuxpatch}/0003-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
-  "https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0014-zstd.patch"  
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0009-ksm.patch"
+  "arch-0003-ASLR-bits.patch::https://${_archlinuxpatch}/0002-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
+#"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
 b2sums=(
@@ -346,7 +346,7 @@ prepare() {
     # https://github.com/graysky2/kernel_compiler_patch
     # make sure to apply after olddefconfig to allow the next section
     echo "Patching to enable GCC optimization for other uarchs..."
-    patch -Np1 -i "$srcdir/kernel_compiler_patch-$_gcc_more_v/more-uarches-for-kernel-6.8-rc4+.patch"
+    patch -Np1 -i "$srcdir/kernel_compiler_patch-$_gcc_more_v/more-ISA-levels-and-uarches-for-kernel-6.8-rc4+.patch"
     
     if [ -n "$_subarch" ]; then
         # user wants a subarch so apply choice defined above interactively via 'yes'
