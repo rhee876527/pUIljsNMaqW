@@ -102,10 +102,10 @@ _switchstock=
 ##### below is where the magic happens
 #
 _major=6.11
-_minor=4
+_minor=5
 _srcname=linux-${_major}
 _clr=${_major}.3-1472
-_gcc_more_v='20241001'
+_gcc_more_v='20241018'
 _cachy=CachyOS/kernel-patches/master
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
 _archlinuxpatch=aur.archlinux.org/cgit/aur.git/plain
@@ -135,7 +135,7 @@ source=(
   "https://github.com/graysky2/kernel_compiler_patch/archive/$_gcc_more_v.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0005-bbr3.patch"
-#"https://raw.githubusercontent.com/${_cachy}/${_major}/misc/0001-le9uo.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0001-address-masking.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0014-zstd.patch"  
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0009-ksm.patch"
   "arch-0003-ASLR-bits.patch::https://${_archlinuxpatch}/0002-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
@@ -143,13 +143,14 @@ source=(
   )
 
 b2sums=('e7750c0878d71a56a0ce52d4c4c912199dad5bf5e2e8f872585a6494afbb37cbd852e612a6858936d2dc9b7776a3933818f540db408d57e90d18ea5249bba7ab'
-        '0f45a8f673036cb4817ddce3d6b7ea45fac5494216cffca0607f99ef288866481e2acdd992b27d0623d7761508def19298a91e3a1872d81a2e86ffded67909b9'
+        'b69478bddd46a471474cc6a2cbf5feb0a52b4856314e1f237cfae0fb60fccab075a38405dc9c0f230faad609637a71e0e091c5533c6afc042faa6c612a437c3c'
         'e414d736c3a6d20d8652109b7a403a5b2d87a6a0906abd1218423e86ab2683b54a8e859b60cdca937ad782aacfcc1cf36dd6c85eaba04d7e5880cf3b4bd1e409'
-        '11c6a4b815cd456e0f314b9695890fc5a1c393171d4443a673dc826fb2445359b9678850d17bbd948a294ec9c7757a582faa58a812a888c65f1467bcda63ae60'
+        'f103018e7a081709e531a3548e13d7803c83f020507bbeb9642a459c79c2edfa9579d368ac2a58f8eca0fec9ab52895506cbb9f30a2e67dc8065f08986579d21'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
-        'aa39ad7b891f033832512d23b01526e502e56178254533f174456fe570528d55686d76e52cd4d08d761ca922ef876f965a45503850d62fbcc5f55a9bdabcd11e'
-        '414ad83e0c9ab52619a94d2f69ad291cc45bd4fba23ae2b02f3b82ac023fb0ff58608f5a6df5cb2e589f5b6c7c8999b6b7f3cb369d95aff19608b19f3c053829'
-        'e017c021ee32307ceb8b05fc04d994b1b3aa735e9a78e77f42267c6d6f567851407592cb6d5d153c3d91fc94de3133d96ab64216dd48e0e7f325495edc751d9f'
+        '592d208ff26def6a400ed65d470ecf01e71b464ecfaa85e30f22ca27d53febe993454b455cd6dcb996f94bce9c8734bedf8ba5371b2b4e194a4cfe4f2a94eb3f'
+        'ca650440b94a6e0fcf8fa045349ddcbd7593a60d8f209148c326d00ee6b6dfdbc14ec290f0bac5b29bcfa4c88f01e6b276a829832b8a4ecfe9d8306c5d86e031'
+        'df12c3b26b78b0a22608c53fd9a975a33c45dd00f36c341b730fe35ded43399d3c2f0d7bc8e63d9346f25e81db473468fa2e61e61705cf16bf77545898b66a33'
+        '0767e3ac0899c6df139d05b14728c1b40f6b82ea02ca1a063c9d195f04ba94c2c8ba4e052bd2ffb4b68f1ee4645942c059bcc853373db4592808c42d0036cf55'
         'fae57caa7b3e0dbcdfa59b46d073d33ffe07bb0988fea0b75d8a2c035a33d671dc65dcb271a5179dddf473374d56e971a0654eac1556fd20ef65c50c855b3cb7')
 
 # LLVM build option
@@ -342,7 +343,7 @@ prepare() {
     # https://github.com/graysky2/kernel_compiler_patch
     # make sure to apply after olddefconfig to allow the next section
     echo "Patching to enable GCC optimization for other uarchs..."
-    patch -Np1 -i "$srcdir/kernel_compiler_patch-$_gcc_more_v/more-ISA-levels-and-uarches-for-kernel-6.8-rc4+.patch"
+    patch -Np1 -i "$srcdir/kernel_compiler_patch-$_gcc_more_v/lite-more-x86-64-ISA-levels-for-kernel-6.8-rc4+.patch"
     
     if [ -n "$_subarch" ]; then
         # user wants a subarch so apply choice defined above interactively via 'yes'
