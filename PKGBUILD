@@ -321,7 +321,7 @@ build() {
     cd ${_srcname}
   	__nthreads=$(($(nproc) + 1))
 	make ${BUILD_FLAGS[*]} -j${__nthreads} all
-	make ${BUILD_FLAGS[*]} -C tools/bpf/bpftool vmlinux.h feature-clang-bpf-co-re=1 
+#	make ${BUILD_FLAGS[*]} -C tools/bpf/bpftool vmlinux.h feature-clang-bpf-co-re=1 
 }
 
 package_linux-clear-llvm() {
