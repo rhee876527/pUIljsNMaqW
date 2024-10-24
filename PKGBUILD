@@ -16,73 +16,9 @@
 # Tweak kernel options prior to a build via nconfig
 _makenconfig=
 
-# Only compile active modules to VASTLY reduce the number of modules built and
-# the build time.
-#
-# To keep track of which modules are needed for your specific system/hardware,
-# give module_db a try: https://aur.archlinux.org/packages/modprobed-db
-# This PKGBUILD reads the database kept if it exists
-#
+# Only compile active modules to VASTLY reduce the number of modules built 
 # More at this wiki page ---> https://wiki.archlinux.org/index.php/Modprobed-db
 _localmodcfg=
-
-# Optionally select a sub architecture by number or leave blank which will
-# require user interaction during the build. Note that the generic (default)
-# option is 40.
-#
-#  1. AMD Opteron/Athlon64/Hammer/K8 (MK8)
-#  2. AMD Opteron/Athlon64/Hammer/K8 with SSE3 (MK8SSE3)
-#  3. AMD 61xx/7x50/PhenomX3/X4/II/K10 (MK10)
-#  4. AMD Barcelona (MBARCELONA)
-#  5. AMD Bobcat (MBOBCAT)
-#  6. AMD Jaguar (MJAGUAR)
-#  7. AMD Bulldozer (MBULLDOZER)
-#  8. AMD Piledriver (MPILEDRIVER)
-#  9. AMD Steamroller (MSTEAMROLLER)
-#  10. AMD Excavator (MEXCAVATOR)
-#  11. AMD Zen (MZEN)
-#  12. AMD Zen 2 (MZEN2)
-#  13. AMD Zen 3 (MZEN3)
-#  14. AMD Zen 4 (MZEN4)
-#  15. Intel P4 / older Netburst based Xeon (MPSC)
-#  16. Intel Core 2 (MCORE2)
-#  17. Intel Atom (MATOM)
-#  18. Intel Nehalem (MNEHALEM)
-#  19. Intel Westmere (MWESTMERE)
-#  20. Intel Silvermont (MSILVERMONT)
-#  21. Intel Goldmont (MGOLDMONT)
-#  22. Intel Goldmont Plus (MGOLDMONTPLUS)
-#  23. Intel Sandy Bridge (MSANDYBRIDGE)
-#  24. Intel Ivy Bridge (MIVYBRIDGE)
-#  25. Intel Haswell (MHASWELL)
-#  26. Intel Broadwell (MBROADWELL)
-#  27. Intel Skylake (MSKYLAKE)
-#  28. Intel Skylake X (MSKYLAKEX)
-#  29. Intel Cannon Lake (MCANNONLAKE)
-#  30. Intel Ice Lake (MICELAKE)
-#  31. Intel Cascade Lake (MCASCADELAKE)
-#  32. Intel Cooper Lake (MCOOPERLAKE)
-#  33. Intel Tiger Lake (MTIGERLAKE)
-#  34. Intel Sapphire Rapids (MSAPPHIRERAPIDS)
-#  35. Intel Rocket Lake (MROCKETLAKE)
-#  36. Intel Alder Lake (MALDERLAKE)
-#  37. Intel Raptor Lake (MRAPTORLAKE)
-#  38. Intel Meteor Lake (MMETEORLAKE)
-#  39. Intel Emerald Rapids (MEMERALDRAPIDS)
-#  40. Generic-x86-64 (GENERIC_CPU)
-#  41. Generic-x86-64-v2 (GENERIC_CPU2)
-#  42. Generic-x86-64-v3 (GENERIC_CPU3)
-#  43. Generic-x86-64-v4 (GENERIC_CPU4)
-#  44. Intel-Native optimizations autodetected by the compiler (MNATIVE_INTEL)
-#  45. AMD-Native optimizations autodetected by the compiler (MNATIVE_AMD)
-_subarch=42
-
-# Use the current kernel's .config file
-# Enabling this option will use the .config of the RUNNING kernel rather than
-# the ARCH defaults. Useful when the package gets updated and you already went
-# through the trouble of customizing your config options.  NOT recommended when
-# a new kernel is released, but again, convenient for package bumps.
-_use_current=
 
 # Enable compiling with LLVM
 _use_llvm_lto=y
@@ -98,6 +34,13 @@ _debug=n
 # Note: Sources must be updated to reflect new build status
 _switchstock=
 
+# Enable x86-64 compiler ISA level
+# Check using: /lib/ld-linux-x86-64.so.2 --help | grep supported
+# More information: https://gitlab.com/x86-psABIs/x86-64-ABI/-/commit/77566eb03bc6a326811cb7e9 
+# NOTE: Defaults to x86-64-v3 unless a level is provided.
+# Valid values are 1,2,3 corresponding to ascending x86-64 level
+_isa_level="${3:-1}"
+
 #
 ##### below is where the magic happens
 #
@@ -112,12 +55,12 @@ _archlinuxpatch=aur.archlinux.org/cgit/aur.git/plain
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=1
+pkgrel=2
 pkgdesc='Clear Linux'
-arch=('x86_64' 'x86_64_v2')
+arch=('x86_64')
 url="https://github.com/clearlinux-pkgs/linux"
 license=(GPL-2.0-only)
-makedepends=("bc" "cpio" "gettext" "git" "libelf" "pahole" "perl" "python" "tar" "xz" "zstd")
+makedepends=(bc cpio gettext libelf pahole perl python tar xz)
 
 if [ -n "$_use_llvm_lto" ]; then
   makedepends+=(clang llvm lld)
@@ -344,33 +287,15 @@ prepare() {
     fi
 
     # https://github.com/graysky2/kernel_compiler_patch
-    # make sure to apply after olddefconfig to allow the next section
-    echo "Patching to enable GCC optimization for other uarchs..."
-    patch -Np1 -i "$srcdir/kernel_compiler_patch-$_gcc_more_v/lite-more-x86-64-ISA-levels-for-kernel-6.8-rc4+.patch"
-    
-    if [ -n "$_subarch" ]; then
-        # user wants a subarch so apply choice defined above interactively via 'yes'
-        yes "$_subarch" | make ${BUILD_FLAGS[*]} oldconfig
+    # Apply patch and set ISA level only if _isa_level is set
+    if [ -n "$_isa_level" ]; then
+        echo "Patching to enable x86-64 compiler ISA level..."
+        patch -Np1 -i "$srcdir/kernel_compiler_patch-$_gcc_more_v/lite-more-x86-64-ISA-levels-for-kernel-6.8-rc4+.patch"
+        scripts/config --set-val X86_64_VERSION "$_isa_level"
     else
-        # no subarch defined so allow user to pick one
-        make ${BUILD_FLAGS[*]} oldconfig
+        echo "Skip ISA level patch"
     fi
-
-    ### Optionally use running kernel's config
-    # code originally by nous; http://aur.archlinux.org/packages.php?ID=40191
-    if [ -n "$_use_current" ]; then
-        if [[ -s /proc/config.gz ]]; then
-            echo "Extracting config from /proc/config.gz..."
-            # modprobe configs
-            zcat /proc/config.gz > ./.config
-        else
-            warning "Your kernel was not compiled with IKCONFIG_PROC!"
-            warning "You cannot read the current config!"
-            warning "Aborting!"
-            exit
-        fi
-    fi
-
+    
     ### Optionally load needed modules for the make localmodconfig
     # See https://aur.archlinux.org/packages/modprobed-db
     if [ -n "$_localmodcfg" ]; then
@@ -396,7 +321,7 @@ build() {
     cd ${_srcname}
   	__nthreads=$(($(nproc) + 1))
 	make ${BUILD_FLAGS[*]} -j${__nthreads} all
-#	make ${BUILD_FLAGS[*]} -j${__nthreads} -C tools/bpf/bpftool vmlinux.h feature-clang-bpf-co-re=1 
+	make ${BUILD_FLAGS[*]} -C tools/bpf/bpftool vmlinux.h feature-clang-bpf-co-re=1 
 }
 
 package_linux-clear-llvm() {
