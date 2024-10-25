@@ -39,7 +39,7 @@ _switchstock=
 # More information: https://gitlab.com/x86-psABIs/x86-64-ABI/-/commit/77566eb03bc6a326811cb7e9 
 # NOTE: Defaults to x86-64-v3 unless a level is provided.
 # Valid values are 1,2,3 corresponding to ascending x86-64 level
-_isa_level="${3:-1}"
+_isa_level="${1:-3}"
 
 #
 ##### below is where the magic happens
@@ -47,7 +47,7 @@ _isa_level="${3:-1}"
 _major=6.11
 _minor=5
 _srcname=linux-${_major}
-_clr=${_major}.3-1472
+_clr=${_major}.5-1475
 _gcc_more_v='20241018'
 _cachy=CachyOS/kernel-patches/master
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
@@ -55,7 +55,7 @@ _archlinuxpatch=aur.archlinux.org/cgit/aur.git/plain
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=2
+pkgrel=3
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/clearlinux-pkgs/linux"
