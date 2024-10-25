@@ -77,10 +77,10 @@ source=(
   "https://github.com/clearlinux-pkgs/linux/archive/${_clr}.tar.gz"  
   "https://github.com/graysky2/kernel_compiler_patch/archive/$_gcc_more_v.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0005-bbr3.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-bbr3.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0001-address-masking.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0014-zstd.patch"  
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0009-ksm.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0013-zstd.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0008-ksm.patch"
   "arch-0003-ASLR-bits.patch::https://${_archlinuxpatch}/0002-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
 #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
