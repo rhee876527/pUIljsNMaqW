@@ -39,7 +39,7 @@ _switchstock=
 # More information: https://gitlab.com/x86-psABIs/x86-64-ABI/-/commit/77566eb03bc6a326811cb7e9 
 # NOTE: Defaults to x86-64-v3 unless a level is provided.
 # Valid values are 1,2,3 corresponding to ascending x86-64 level
-_isa_level="${1:-3}"
+_isa_level="${_isa_level:-3}"
 
 #
 ##### below is where the magic happens
