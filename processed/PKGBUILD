@@ -55,7 +55,7 @@ _archlinuxpatch=aur.archlinux.org/cgit/aur.git/plain
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=4
+pkgrel=5
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/clearlinux-pkgs/linux"
@@ -274,8 +274,6 @@ prepare() {
                        --disable DEBUG_INFO_BTF_MODULES
     fi
 
-    make ${BUILD_FLAGS[*]} olddefconfig
-
     ### Checking config
     if [ -n "$_switchstock" ]; then
         diff -u ../config .config || :
@@ -292,6 +290,9 @@ prepare() {
     else
         echo "Skip ISA level patch"
     fi
+
+    # Run olddefconfig
+    make ${BUILD_FLAGS[*]} olddefconfig
     
     ### Optionally load needed modules for the make localmodconfig
     # See https://aur.archlinux.org/packages/modprobed-db
