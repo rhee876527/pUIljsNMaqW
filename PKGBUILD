@@ -291,7 +291,7 @@ prepare() {
     if [ -n "$_isa_level" ]; then
         echo "Patching to enable x86-64 compiler ISA level..."
         patch -Np1 -i "$srcdir/kernel_compiler_patch-$_gcc_more_v/lite-more-x86-64-ISA-levels-for-kernel-6.8-rc4+.patch"
-        scripts/config --set-val X86_64_VERSION "$_isa_level"
+        scripts/config --set-val CONFIG_X86_64_VERSION "$_isa_level"
     else
         echo "Skip ISA level patch"
     fi
