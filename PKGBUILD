@@ -224,7 +224,7 @@ prepare() {
     # Library routines
     scripts/config --keep-case --enable FONT_TER16x32
 
-    # other extra misc improvements
+    ### Other extra misc improvements
    
     # enable PSI for oomd
     scripts/config --undefine CONFIG_PSI_DEFAULT_DISABLED
