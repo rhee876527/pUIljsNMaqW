@@ -55,7 +55,7 @@ _archlinuxpatch=aur.archlinux.org/cgit/aur.git/plain
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=5
+pkgrel=6
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/clearlinux-pkgs/linux"
@@ -221,7 +221,7 @@ prepare() {
     # Library routines
     scripts/config --keep-case --enable FONT_TER16x32
 
-    # other extra misc improvements
+    ### Other extra misc improvements
    
     # enable PSI for oomd
     scripts/config --undefine CONFIG_PSI_DEFAULT_DISABLED
@@ -286,7 +286,9 @@ prepare() {
     if [ -n "$_isa_level" ]; then
         echo "Patching to enable x86-64 compiler ISA level..."
         patch -Np1 -i "$srcdir/kernel_compiler_patch-$_gcc_more_v/lite-more-x86-64-ISA-levels-for-kernel-6.8-rc4+.patch"
+        scripts/config --enable CONFIG_GENERIC_CPU
         scripts/config --set-val CONFIG_X86_64_VERSION "$_isa_level"
+        scripts/config --set-val X86_64_VERSION "$_isa_level"
     else
         echo "Skip ISA level patch"
     fi
