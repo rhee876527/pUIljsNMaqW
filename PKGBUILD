@@ -45,7 +45,7 @@ _isa_level="${_isa_level:-3}"
 ##### below is where the magic happens
 #
 _major=6.11
-_minor=5
+_minor=6
 _srcname=linux-${_major}
 _clr=${_major}.5-1475
 _gcc_more_v='20241018'
@@ -55,7 +55,7 @@ _archlinuxpatch=aur.archlinux.org/cgit/aur.git/plain
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=6
+pkgrel=1
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/clearlinux-pkgs/linux"
@@ -79,7 +79,7 @@ source=(
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-bbr3.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0001-address-masking.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0013-zstd.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0012-zstd.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0008-ksm.patch"
   "arch-0003-ASLR-bits.patch::https://${_archlinuxpatch}/0002-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
 #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
@@ -291,7 +291,6 @@ prepare() {
         patch -Np1 -i "$srcdir/kernel_compiler_patch-$_gcc_more_v/lite-more-x86-64-ISA-levels-for-kernel-6.8-rc4+.patch"
         scripts/config --enable CONFIG_GENERIC_CPU
         scripts/config --set-val CONFIG_X86_64_VERSION "$_isa_level"
-        scripts/config --set-val X86_64_VERSION "$_isa_level"
     else
         echo "Skip ISA level patch"
     fi
