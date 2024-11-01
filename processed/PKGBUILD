@@ -45,7 +45,7 @@ _isa_level="${_isa_level:-3}"
 ##### below is where the magic happens
 #
 _major=6.11
-_minor=5
+_minor=6
 _srcname=linux-${_major}
 _clr=${_major}.5-1475
 _gcc_more_v='20241018'
@@ -55,7 +55,7 @@ _archlinuxpatch=aur.archlinux.org/cgit/aur.git/plain
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=6
+pkgrel=1
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/clearlinux-pkgs/linux"
@@ -79,21 +79,21 @@ source=(
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-bbr3.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0001-address-masking.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0013-zstd.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0012-zstd.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0008-ksm.patch"
   "arch-0003-ASLR-bits.patch::https://${_archlinuxpatch}/0002-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
 #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
 b2sums=('e7750c0878d71a56a0ce52d4c4c912199dad5bf5e2e8f872585a6494afbb37cbd852e612a6858936d2dc9b7776a3933818f540db408d57e90d18ea5249bba7ab'
-        'b69478bddd46a471474cc6a2cbf5feb0a52b4856314e1f237cfae0fb60fccab075a38405dc9c0f230faad609637a71e0e091c5533c6afc042faa6c612a437c3c'
+        '619c30d902a11a885e67af37929e16745b18912575d74acc1a25e0a4f670fde3f6b8220257eb44fb3ea858b132dd128c8245f9fa95f04d467103293088bcfec9'
         '1a80722d399caf6344820f552ef8a8cc76af4e46f107e3ae16eb89710235ce51bf6db26233e5578a165ce5467fd172b84da0d3adbfedfcc947b3d96fccd65917'
         'f103018e7a081709e531a3548e13d7803c83f020507bbeb9642a459c79c2edfa9579d368ac2a58f8eca0fec9ab52895506cbb9f30a2e67dc8065f08986579d21'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
-        '82f953a381a51007ed56797fa4b801ff27f32d022ffd66c2320e201552c8b567e52f79aa4624a95d0f960e7358bba334b8e8abae956b90deb738b7de5b963186'
-        'b6bc581e68b1f8051d096eb0ddb6fd1626d8982e1f34a446d26663b6f7570cbcdfc0f565e0d469b4f1ef21f5b262a49b55689bfbf06382f31225678d1e28dff7'
-        'ed54dc4a0856a1d519a5ebd804f73ab3559b5d09df5ce3d6a98454cc0e06aaa16a6a0c3cf4844307caf83b1a28de2bae451af2ab374cbc5bc6ac40147646abce'
-        'f07f7df6617992d3b584aefda73100cf52beb49524a932d63e49cc4a23dd2d29712f7aaeae119f89491331424a2514e4e43be2c1c1e698499261ac3a86cf5c64'
+        'bde634b57f468859f7bddc3d457f10231f021e1fcec3b3b6556fc11826f4bee3f58d1699dc19ddc8a4eab218f7d494f31f143187453587b1361be39483e52654'
+        '2af8d5648d9e05eb1b0e8f2ad401c223220029a30fab97ee38c31f4251f9131ebb835c1931d9dc88e684925a8a9ab155c445004a6de6304ca8b4900dfd867e4d'
+        '090622b59c8788253b6039d39013f96376189190d077790a78d5cde94691ed5a837590d1f07ffddbefedb343330a45076ceb7447c2d8ec11543f14b100e3798b'
+        'db4b94376ce03f78de55cf6c586b1c34cf6bdd262fe44f82b0f78a7cc3c22dab3e435042175d60e7b5d7f1c93c05fed89287f1369cd2909b5ee315b13354bc79'
         'fae57caa7b3e0dbcdfa59b46d073d33ffe07bb0988fea0b75d8a2c035a33d671dc65dcb271a5179dddf473374d56e971a0654eac1556fd20ef65c50c855b3cb7')
 
 # LLVM build option
@@ -288,7 +288,6 @@ prepare() {
         patch -Np1 -i "$srcdir/kernel_compiler_patch-$_gcc_more_v/lite-more-x86-64-ISA-levels-for-kernel-6.8-rc4+.patch"
         scripts/config --enable CONFIG_GENERIC_CPU
         scripts/config --set-val CONFIG_X86_64_VERSION "$_isa_level"
-        scripts/config --set-val X86_64_VERSION "$_isa_level"
     else
         echo "Skip ISA level patch"
     fi
