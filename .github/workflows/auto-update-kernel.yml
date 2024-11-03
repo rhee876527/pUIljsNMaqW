@@ -23,12 +23,7 @@ jobs:
           echo "Current version: $_major.$_minor"
           echo "current_major=$_major" >> $GITHUB_ENV
           echo "current_minor=$_minor" >> $GITHUB_ENV
-          
-      - name: Install jq
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y jq
-
+        
       - name: Get latest kernel version
         id: get_latest_version
         run: |
