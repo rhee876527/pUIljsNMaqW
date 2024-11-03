@@ -48,6 +48,8 @@ jobs:
           if [[ "$latest_major" > "$current_major" || 
                 ("$latest_major" == "$current_major" && "$latest_minor_int" -gt "$current_minor") ]]; then
               echo "Updating PKGBUILD..."
+              sed -i "s/^_major=.*/_major=${latest_major}/" PKGBUILD
+              sed -i "s/^_minor=.*/_minor=${latest_minor}/" PKGBUILD
               echo "updated=true" >> $GITHUB_ENV 
           else
               echo "No update needed."
@@ -64,10 +66,10 @@ jobs:
       - name: Update clr
         if: env.updated == 'true'  
         run: |
-          # Use the injected latest major version from the previous step
-          CURRENT_CLR=$(grep '^_clr=' PKGBUILD | sed -E 's/^_clr=([0-9]+\.[0-9]+)\..*/\1/')
+          # Get current major version
+          CURRENT_CLR=$(grep '^_clr=' PKGBUILD | sed -E 's/^_clr=([0-9]+\.[0-9]+)\..*/\1/' | cut -d '.' -f 1-2)
           
-          # Compare clr major version with update target
+          # Compare current clr major version with update target
           if [ "${{ env.latest_major }}" == "$CURRENT_CLR" ]; then
               echo "Major version matches. Updating _clr to: $LATEST_TAG"
               # Update the PKGBUILD file to set _clr to the latest tag
