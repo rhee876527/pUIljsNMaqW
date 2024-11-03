@@ -44,8 +44,8 @@ _isa_level="${_isa_level:-3}"
 #
 ##### below is where the magic happens
 #
-_major=6.10
-_minor=6
+_major=6.11
+_minor=5
 _srcname=linux-${_major}
 _clr=${_major}.4-1475
 _gcc_more_v='20241018'
