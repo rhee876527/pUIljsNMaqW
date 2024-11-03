@@ -1,8 +1,14 @@
 name: Update checksums
 
-on:
-  push:
-    branches: main
+#on:
+#  push:
+#    branches: main
+on: 
+  workflow_run:
+    workflows: ['Auto update Kernel Version']
+    types:
+      - completed
+
 
 jobs:
   build:
