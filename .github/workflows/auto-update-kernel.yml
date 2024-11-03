@@ -89,3 +89,5 @@ jobs:
           git add PKGBUILD
           git commit -m "Update PKGBUILD to latest kernel version ${{ env.latest_major }}.${{ env.latest_minor }}"
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
