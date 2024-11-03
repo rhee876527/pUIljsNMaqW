@@ -8,9 +8,9 @@ api_response=$(curl -sL "$base_url")
 patches_with_versions=($(echo "$api_response" | grep -oP '"name": "\K[^"]*"' | grep -oP '^([0-9]{4})-([-\w]+)\.patch'))
 
 # Path to PKGBUILD file
-pkgbuld_file="PKGBUILD"
+pkgbuild_file="PKGBUILD"
 
-if [ -f "$pkgbuld_file" ]; then
+if [ -f "$pkgbuild_file" ]; then
   # Fetch latest patch name versions
   echo "Fetched patches and their versions:"
   for patch in "${patches_with_versions[@]}"; do
@@ -23,7 +23,7 @@ if [ -f "$pkgbuld_file" ]; then
     patch_name=$(echo "$patch" | sed 's/^[0-9]\{4\}-//; s/\.patch$//')
 
     # Check for current versions in PKGBUILD
-    current_in_pkgbuld=$(grep -oP "([0-9]{4})-([-\w]+)\.patch" "$pkgbuld_file" | grep -oP "([0-9]{4})-${patch_name}\.patch")
+    current_in_pkgbuld=$(grep -oP "([0-9]{4})-([-\w]+)\.patch" "$pkgbuild_file" | grep -oP "([0-9]{4})-${patch_name}\.patch")
 
     # Print current version found in PKGBUILD
     if [ -n "$current_in_pkgbuld" ]; then
@@ -43,7 +43,7 @@ if [ -f "$pkgbuld_file" ]; then
         new_patch_url="${current_version}-${patch_name}.patch"
 
         # Update the PKGBUILD file with the new constructed patch URL
-        sed -i "s|$old_patch_regex|$new_patch_url|g" "$pkgbuld_file"
+        sed -i "s|$old_patch_regex|$new_patch_url|g" "$pkgbuild_file"
         echo "✅ Updated $old_patch_regex to $new_patch_url"
       else
         echo "⚠️ No update needed for $patch_name, version is already $current_version."
@@ -51,7 +51,7 @@ if [ -f "$pkgbuld_file" ]; then
     fi
   done
 
-  echo "✅ Finished updating patch URLs in $pkgbuld_file"
+  echo "✅ Finished updating patch URLs in $pkgbuild_file"
 else
   echo "PKGBUILD file not found!"
   exit 1
