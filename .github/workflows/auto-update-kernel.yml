@@ -38,19 +38,41 @@ jobs:
           echo "latest_major=$latest_major" >> $GITHUB_ENV
           echo "latest_minor=$latest_minor" >> $GITHUB_ENV
 
-      - name: Update PKGBUILD if needed
+      - name: Update PKGBUILD if update is available
         id: update_pkgbuild
         run: |
-          if [[ "$latest_major" -gt "${{ env.current_major }}" || 
-                ("$latest_major" -eq "${{ env.current_major }}" && "$latest_minor" -gt "${{ env.current_minor }}") ]]; then
-              echo "Updating PKGBUILD..."
-              echo "updated=true" >> $GITHUB_ENV 
+	  if [[ "$latest_major" -gt "$current_major" || 
+	        ("$latest_major" -eq "$current_major" && "$latest_minor" -gt "$current_minor") ]]; then
+	      echo "Updating PKGBUILD..."
+	      echo "updated=true" >> $GITHUB_ENV 
+	  else
+	      echo "No update needed."
+	      echo "updated=false" >> $GITHUB_ENV 
+	  fi
+
+      - name: Fetch latest clearlinux tag
+        if: env.updated == 'true'  
+        id: get_latest_clear
+        run: |
+          # Fetch the latest tag
+          LATEST_TAG=$(curl -s https://api.github.com/repos/clearlinux-pkgs/linux/tags | grep '"name"' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')
+            
+      - name: Update clr
+        if: env.updated == 'true'  
+        run: |
+          # Use the injected latest major version from the previous step
+          CURRENT_CLR=$(grep '^_clr=' PKGBUILD | sed -E 's/^_clr=([0-9]+\.[0-9]+)\..*/\1/')
+          
+          # Compare clr major version with update target
+          if [ "${{ env.latest_major }}" == "$CURRENT_CLR" ]; then
+              echo "Major version matches. Updating _clr to: $LATEST_TAG"
+              # Update the PKGBUILD file to set _clr to the latest tag
+              sed -i "s/^_clr=.*/_clr=${LATEST_TAG}/" PKGBUILD && echo "Updated PKGBUILD successfully."
           else
-              echo "No update needed."
-              echo "updated=false" >> $GITHUB_ENV 
+              echo "Clr major version does not match. Skipping update."
           fi
 
-      - name: Run update script
+      - name: Update cachyos patch versions
         if: env.updated == 'true'
         run: |
           bash ./cachy_patches_assistant.sh ${{ env.latest_major }}
