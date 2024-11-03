@@ -34,7 +34,9 @@ jobs:
         run: |
           latest_version=$(curl -s https://www.kernel.org/releases.json | jq -r '.latest_stable.version')
           echo "Latest version: $latest_version"
-          IFS='.' read -r latest_major latest_minor <<< "$latest_version"
+           # Set latest_major and latest_minor 
+          latest_major=$(echo "$latest_version" | cut -d'.' -f1-2)  # Extract major and minor
+          latest_minor=$(echo "$latest_version" | cut -d'.' -f3)    # Extract patch
           echo "latest_major=$latest_major" >> $GITHUB_ENV
           echo "latest_minor=$latest_minor" >> $GITHUB_ENV
 
