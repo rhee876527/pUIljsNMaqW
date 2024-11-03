@@ -23,21 +23,21 @@ if [ -f "$pkgbuild_file" ]; then
     patch_name=$(echo "$patch" | sed 's/^[0-9]\{4\}-//; s/\.patch$//')
 
     # Check for current versions in PKGBUILD
-    current_in_pkgbuld=$(grep -oP "([0-9]{4})-([-\w]+)\.patch" "$pkgbuild_file" | grep -oP "([0-9]{4})-${patch_name}\.patch")
+    current_in_pkgbuild=$(grep -oP "([0-9]{4})-([-\w]+)\.patch" "$pkgbuild_file" | grep -oP "([0-9]{4})-${patch_name}\.patch")
 
     # Print current version found in PKGBUILD
-    if [ -n "$current_in_pkgbuld" ]; then
-      echo "Current version in PKGBUILD for $patch_name: $current_in_pkgbuld"
+    if [ -n "$current_in_pkgbuild" ]; then
+      echo "Current version in PKGBUILD for $patch_name: $current_in_pkgbuild"
     fi
 
     # Extract current version from PKGBUILD
-    current_version_in_pkgbuld=$(echo "$current_in_pkgbuld" | grep -oP "^[0-9]{4}")
+    current_version_in_pkgbuild=$(echo "$current_in_pkgbuild" | grep -oP "^[0-9]{4}")
 
     # Compare current version to the new version
-    if [ -n "$current_version_in_pkgbuld" ]; then
-      if [ "$current_version_in_pkgbuld" != "$current_version" ]; then
+    if [ -n "$current_version_in_pkgbuild" ]; then
+      if [ "$current_version_in_pkgbuild" != "$current_version" ]; then
         # Construct the old patch regex
-        old_patch_regex="${current_version_in_pkgbuld}-${patch_name}\.patch"
+        old_patch_regex="${current_version_in_pkgbuild}-${patch_name}\.patch"
 
         # Construct the new patch URL using the new patch number
         new_patch_url="${current_version}-${patch_name}.patch"

@@ -79,8 +79,8 @@ source=(
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-bbr3.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0001-address-masking.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0012-zstd.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0008-ksm.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0011-zstd.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0009-ksm.patch"
   "arch-0003-ASLR-bits.patch::https://${_archlinuxpatch}/0002-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
 #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
