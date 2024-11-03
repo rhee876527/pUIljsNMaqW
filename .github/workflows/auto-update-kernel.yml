@@ -1,0 +1,65 @@
+name: Auto update Kernel Version
+
+on:
+  push:
+    branches:
+      - main 
+  schedule:
+    - cron: '8 15 * * *' #run daily
+
+jobs:
+  update-kernel:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Read current version from PKGBUILD
+        id: read_version
+        run: |
+          _major=$(grep '^_major=' PKGBUILD | cut -d'=' -f2)
+          _minor=$(grep '^_minor=' PKGBUILD | cut -d'=' -f2)
+          echo "Current version: $_major.$_minor"
+          echo "current_major=$_major" >> $GITHUB_ENV
+          echo "current_minor=$_minor" >> $GITHUB_ENV
+          
+      - name: Install jq
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+
+      - name: Get latest kernel version
+        id: get_latest_version
+        run: |
+          latest_version=$(curl -s https://www.kernel.org/releases.json | jq -r '.latest_stable.version')
+          echo "Latest version: $latest_version"
+          IFS='.' read -r latest_major latest_minor <<< "$latest_version"
+          echo "latest_major=$latest_major" >> $GITHUB_ENV
+          echo "latest_minor=$latest_minor" >> $GITHUB_ENV
+
+      - name: Update PKGBUILD if needed
+        id: update_pkgbuild
+        run: |
+          if [[ "$latest_major" -gt "${{ env.current_major }}" || 
+                ("$latest_major" -eq "${{ env.current_major }}" && "$latest_minor" -gt "${{ env.current_minor }}") ]]; then
+              echo "Updating PKGBUILD..."
+              echo "updated=true" >> $GITHUB_ENV 
+          else
+              echo "No update needed."
+              echo "updated=false" >> $GITHUB_ENV 
+          fi
+
+      - name: Run update script
+        if: env.updated == 'true'
+        run: |
+          bash ./cachy_patches_assistant.sh ${{ env.latest_major }}
+
+      - name: Commit changes
+        if: env.updated == 'true'  
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add PKGBUILD
+          git commit -m "Update PKGBUILD to latest kernel version ${{ env.latest_major }}.${{ env.latest_minor }}"
+          git push
