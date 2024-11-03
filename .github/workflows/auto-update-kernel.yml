@@ -43,14 +43,15 @@ jobs:
       - name: Update PKGBUILD if update is available
         id: update_pkgbuild
         run: |        
-          latest_minor_int=${latest_minor%%.*}
-          if [[ "$latest_major" -gt "$current_major" || 
-              ("$latest_major" -eq "$current_major" && "$latest_minor_int" -gt "$current_minor") ]]; then
-            echo "Updating PKGBUILD..."
-            echo "updated=true" >> $GITHUB_ENV 
+          latest_minor_int=${latest_minor%%.*}      
+          # Compare versions using string comparison
+          if [[ "$latest_major" > "$current_major" || 
+                ("$latest_major" == "$current_major" && "$latest_minor_int" -gt "$current_minor") ]]; then
+              echo "Updating PKGBUILD..."
+              echo "updated=true" >> $GITHUB_ENV 
           else
-            echo "No update needed."
-            echo "updated=false" >> $GITHUB_ENV 
+              echo "No update needed."
+              echo "updated=false" >> $GITHUB_ENV 
           fi
 
       - name: Fetch latest clearlinux tag
