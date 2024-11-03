@@ -9,6 +9,8 @@ patches_with_versions=($(echo "$api_response" | grep -oP '"name": "\K[^"]*"' | g
 
 # Path to PKGBUILD file
 pkgbuild_file="PKGBUILD"
+# Track update status
+updates_made=false
 
 if [ -f "$pkgbuild_file" ]; then
   # Fetch latest patch name versions
@@ -37,7 +39,7 @@ if [ -f "$pkgbuild_file" ]; then
     if [ -n "$current_version_in_pkgbuild" ]; then
       if [ "$current_version_in_pkgbuild" != "$current_version" ]; then
         # Construct the old patch regex
-        old_patch_regex="${current_version_in_pkgbuild}-${patch_name}\.patch"
+        old_patch_regex="${current_version_in_pkgbuild}-${patch_name}.patch"
 
         # Construct the new patch URL using the new patch number
         new_patch_url="${current_version}-${patch_name}.patch"
@@ -45,14 +47,20 @@ if [ -f "$pkgbuild_file" ]; then
         # Update the PKGBUILD file with the new constructed patch URL
         sed -i "s|$old_patch_regex|$new_patch_url|g" "$pkgbuild_file"
         echo "✅ Updated $old_patch_regex to $new_patch_url"
+        updates_made=true
       else
         echo "⚠️ No update needed for $patch_name, version is already $current_version."
       fi
     fi
   done
 
-  echo "✅ Finished updating patch URLs in $pkgbuild_file"
+  # Display feedback based on whether any updates were made
+  if [ "$updates_made" = true ]; then
+    echo "✅ Finished updating patch URLs in $pkgbuild_file"
+  else
+    echo "⚠️  No updates were necessary. PKGBUILD is already up-to-date!"
+  fi
 else
-  echo "PKGBUILD file not found!"
+  echo "❌ Fatal error: An unexpected issue occurred. Check logs for more details."
   exit 1
 fi
