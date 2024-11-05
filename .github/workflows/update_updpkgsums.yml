@@ -31,8 +31,8 @@ jobs:
           
       - name: Commit and push changes
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
           git add $GITHUB_WORKSPACE/processed/PKGBUILD
           git commit -m "Update PKGBUILD"
           git push
