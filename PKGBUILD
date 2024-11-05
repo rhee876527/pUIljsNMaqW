@@ -1,6 +1,6 @@
 # Caution! Please read what this package does before installing it on your machine!
 #
-# Maintainer: Anon ---> :-) 
+# Maintainer: Yet another BTW anon
 #
 # Original works by: Josip Ponjavic
 # (Source project) >>>
