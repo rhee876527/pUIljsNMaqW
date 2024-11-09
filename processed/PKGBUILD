@@ -31,7 +31,8 @@ _debug=n
 # Switch to stock build if needed
 # useful for dot 0 releases or when clearlinux is out of sync... 
 # This will invalidate all clear patches and build with stock kernel. 
-# Note: Sources must be updated to reflect new build status
+# Note: Sources must be updated to reflect new build status. 
+# You need to enable config from arch in sources or set your own
 _switchstock=
 
 # Enable x86-64 compiler ISA level
@@ -150,8 +151,8 @@ prepare() {
 
     ### Setting config
     if [ -n "$_switchstock" ]; then
-        echo "Will use the given .config..."
-        cp ../config .config || true
+        echo "Using clean config source..."
+        cp ../config .config
     else
         echo "Setting config..."
         cp -Tf $srcdir/linux-${_clr}/config ./.config
