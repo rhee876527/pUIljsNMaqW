@@ -137,7 +137,7 @@ prepare() {
                 fi
             fi
             echo "Applying patch ${i}..."
-            patch -Np1 -i "$srcdir/linux-${_clr}/${i}"
+            patch -Np1 -i "$srcdir/linux-${_clr}/${i}" || true
         done
     fi    
     
@@ -153,8 +153,8 @@ prepare() {
 
     ### Setting config
     if [ -n "$_switchstock" ]; then
-        echo "Setting config..."
-        cp ../config .config
+        echo "Will use the given .config..."
+        cp ../config .config || true
     else
         echo "Setting config..."
         cp -Tf $srcdir/linux-${_clr}/config ./.config
