@@ -242,7 +242,6 @@ prepare() {
 
     # some overlooked configs good for security/performance
     scripts/config --enable CONFIG_SECURITY_LOCKDOWN_LSM \
-                   --enable SECURITY_LANDLOCK \
                    --disable CONFIG_LEGACY_TIOCSTI \
                    --enable CONFIG_SECURITY_LANDLOCK \
                    --enable CONFIG_SECURITY_LOCKDOWN_LSM_EARLY \
