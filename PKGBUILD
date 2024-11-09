@@ -45,9 +45,9 @@ _isa_level="${_isa_level:-3}"
 ##### below is where the magic happens
 #
 _major=6.11
-_minor=6
+_minor=7
 _srcname=linux-${_major}
-_clr=6.11.5-1475
+_clr=6.11.6-1477
 _gcc_more_v='20241018'
 _cachy=CachyOS/kernel-patches/master
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
@@ -79,7 +79,7 @@ source=(
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-bbr3.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0001-address-masking.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0012-zstd.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0013-zstd.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0008-ksm.patch"
   "arch-0003-ASLR-bits.patch::https://${_archlinuxpatch}/0002-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
 #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
