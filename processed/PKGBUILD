@@ -45,9 +45,9 @@ _isa_level="${_isa_level:-3}"
 ##### below is where the magic happens
 #
 _major=6.11
-_minor=6
+_minor=7
 _srcname=linux-${_major}
-_clr=6.11.5-1475
+_clr=6.11.6-1477
 _gcc_more_v='20241018'
 _cachy=CachyOS/kernel-patches/master
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
@@ -79,21 +79,21 @@ source=(
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-bbr3.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0001-address-masking.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0012-zstd.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0013-zstd.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0008-ksm.patch"
   "arch-0003-ASLR-bits.patch::https://${_archlinuxpatch}/0002-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
 #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
 b2sums=('e7750c0878d71a56a0ce52d4c4c912199dad5bf5e2e8f872585a6494afbb37cbd852e612a6858936d2dc9b7776a3933818f540db408d57e90d18ea5249bba7ab'
-        '619c30d902a11a885e67af37929e16745b18912575d74acc1a25e0a4f670fde3f6b8220257eb44fb3ea858b132dd128c8245f9fa95f04d467103293088bcfec9'
-        '1a80722d399caf6344820f552ef8a8cc76af4e46f107e3ae16eb89710235ce51bf6db26233e5578a165ce5467fd172b84da0d3adbfedfcc947b3d96fccd65917'
+        'f2ec79bd337eaa61c7203c00ce61b3e5afa9eee38a3e38e63a7fc9270af86674e5c369ca7ddfe4fa5f79601b1c874af1ce732bd8987529c7db2f2f9ca54ba85b'
+        '2fea7be655e76700bcbca1767673073d2cb466bd83ce0a7eb688b50a4ee7b176bcf51f5ac55a66c6e148fef8add0a9d52737e45c13104e6270b331cd0a290c94'
         'f103018e7a081709e531a3548e13d7803c83f020507bbeb9642a459c79c2edfa9579d368ac2a58f8eca0fec9ab52895506cbb9f30a2e67dc8065f08986579d21'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
-        'bde634b57f468859f7bddc3d457f10231f021e1fcec3b3b6556fc11826f4bee3f58d1699dc19ddc8a4eab218f7d494f31f143187453587b1361be39483e52654'
-        '2af8d5648d9e05eb1b0e8f2ad401c223220029a30fab97ee38c31f4251f9131ebb835c1931d9dc88e684925a8a9ab155c445004a6de6304ca8b4900dfd867e4d'
-        '090622b59c8788253b6039d39013f96376189190d077790a78d5cde94691ed5a837590d1f07ffddbefedb343330a45076ceb7447c2d8ec11543f14b100e3798b'
-        'db4b94376ce03f78de55cf6c586b1c34cf6bdd262fe44f82b0f78a7cc3c22dab3e435042175d60e7b5d7f1c93c05fed89287f1369cd2909b5ee315b13354bc79'
+        '2105c8a5c1fe46ca37aa31e84dbcc37014999025a051cf45cda7be4eeb6cc19d536d751e3d5e4d34e4aa9e50cd6f419dd1ab10e37c952ba29a2fb044b8c63f68'
+        'd4f5c2c67eabe709a7a41d67397068338f1d09db93e4c4f800d21bd827b029e310cc092c81dfc247e91f2a47e16d15b57b48b4008cc8c2e22541cd00888af82a'
+        '3307ed37cf58b823124415fa3a69ff517728058fdff442860b42aad6f49096895f19a73c9ee4c96d46371068dd8a9d195f6b6e4c565ccb08280e1e299726f870'
+        '2014f2dc8c9c5c426ba8df3e6633edeb0fc95ba9c4f3b886c9bc89432082f54b1f31ea5daf4941bfad82521eaa7fa83a2582689a67a688ecbb0149d7e3b5b2ad'
         'fae57caa7b3e0dbcdfa59b46d073d33ffe07bb0988fea0b75d8a2c035a33d671dc65dcb271a5179dddf473374d56e971a0654eac1556fd20ef65c50c855b3cb7')
 
 # LLVM build option
@@ -238,6 +238,7 @@ prepare() {
 
     # some overlooked configs good for security/performance
     scripts/config --enable CONFIG_SECURITY_LOCKDOWN_LSM \
+		   --enable SECURITY_LANDLOCK \
                    --disable CONFIG_LEGACY_TIOCSTI \
                    --enable CONFIG_SECURITY_LANDLOCK \
                    --enable CONFIG_SECURITY_LOCKDOWN_LSM_EARLY \
