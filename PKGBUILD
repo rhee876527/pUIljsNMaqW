@@ -82,6 +82,7 @@ source=(
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0001-address-masking.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0013-zstd.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0008-ksm.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0012-thp-shrinker.patch"
   "arch-0003-ASLR-bits.patch::https://${_archlinuxpatch}/0002-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
 #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
@@ -96,6 +97,7 @@ b2sums=(
             '0' #address-masking
             '0' #zstd
             '0' #ksm
+            '0' #thp
             '0' #max ASLR bits
             '0' #arch config
            )
