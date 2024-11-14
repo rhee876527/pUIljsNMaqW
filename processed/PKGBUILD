@@ -82,6 +82,7 @@ source=(
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0001-address-masking.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0013-zstd.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0008-ksm.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0012-thp-shrinker.patch"
   "arch-0003-ASLR-bits.patch::https://${_archlinuxpatch}/0002-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
 #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
@@ -95,6 +96,7 @@ b2sums=('e7750c0878d71a56a0ce52d4c4c912199dad5bf5e2e8f872585a6494afbb37cbd852e61
         'd4f5c2c67eabe709a7a41d67397068338f1d09db93e4c4f800d21bd827b029e310cc092c81dfc247e91f2a47e16d15b57b48b4008cc8c2e22541cd00888af82a'
         '3307ed37cf58b823124415fa3a69ff517728058fdff442860b42aad6f49096895f19a73c9ee4c96d46371068dd8a9d195f6b6e4c565ccb08280e1e299726f870'
         '2014f2dc8c9c5c426ba8df3e6633edeb0fc95ba9c4f3b886c9bc89432082f54b1f31ea5daf4941bfad82521eaa7fa83a2582689a67a688ecbb0149d7e3b5b2ad'
+        '6b004a6c916fb4c40fa9d180f5f6a9f18ba9de2ae38cdf6998c3b871690f1bbc10f31a25ae05bbcdd2d53e2587d1718dbe354aa5c5618e11fd395f6a8f0b2137'
         'fae57caa7b3e0dbcdfa59b46d073d33ffe07bb0988fea0b75d8a2c035a33d671dc65dcb271a5179dddf473374d56e971a0654eac1556fd20ef65c50c855b3cb7')
 
 # LLVM build option
