@@ -79,7 +79,7 @@ jobs:
         run: |
           # Read the current pkgrel value
           current_pkgrel=$(grep '^pkgrel=' "PKGBUILD" | cut -d'=' -f2)
-	  # Check if pkgrel is anything other than 1
+          # Check if pkgrel is anything other than 1
           if [[ "$current_pkgrel" != "1" ]]; then
               # Set pkgrel to 1
               sed -i 's/^pkgrel=.*/pkgrel=1/' "PKGBUILD"
