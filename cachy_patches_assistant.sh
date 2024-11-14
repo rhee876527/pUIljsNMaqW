@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Requires latest_major
+[ -z "$latest_major" ] && { echo '⚠️  latest_major is not set.'; exit 1; }
+
 echo "🤖 Cachyos kernel patches update assistant 🤖"
 
 # Fetch cachyos patch names and their versions
