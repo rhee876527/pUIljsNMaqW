@@ -79,9 +79,7 @@ source=(
   "https://github.com/graysky2/kernel_compiler_patch/archive/$_gcc_more_v.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-bbr3.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0001-address-masking.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0013-zstd.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0012-thp-shrinker.patch"
   "arch-0002-ASLR-bits.patch::https://${_archlinuxpatch}/0002-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
   "https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
@@ -93,9 +91,7 @@ b2sums=(
             '0' #cpu-arch-optimization
             '0' #lockdown 
             '0' #bbr3 
-            '0' #address-masking
             '0' #zstd
-            '0' #thp
             '0' #max ASLR bits
             '0' #arch config
            )
