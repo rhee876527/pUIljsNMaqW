@@ -27,7 +27,7 @@ jobs:
       - name: Get latest kernel version
         id: get_latest_version
         run: |
-          latest_version=$(curl -s https://www.kernel.org/releases.json | jq -r '.latest_stable.version')
+          latest_version=$(curl -s https://www.kernel.org/releases.json | jq -r '.releases[] | select(.moniker == "stable") | .version')
           echo "Latest version: $latest_version"
            # Set latest_major and latest_minor 
           latest_major=$(echo "$latest_version" | cut -d'.' -f1-2)  # Extract major and minor
