@@ -82,7 +82,7 @@ source=(
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0001-address-masking.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0013-zstd.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0012-thp-shrinker.patch"
-  "arch-0003-ASLR-bits.patch::https://${_archlinuxpatch}/0002-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
+  "arch-0002-ASLR-bits.patch::https://${_archlinuxpatch}/0002-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
 #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
