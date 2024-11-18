@@ -33,7 +33,7 @@ _debug=n
 # This will invalidate all clear patches and build with stock kernel. 
 # Note: Sources must be updated to reflect new build status. 
 # You need to enable config from arch in sources or set your own
-_switchstock=
+_switchstock=y
 
 # Enable x86-64 compiler ISA level
 # Check using: /lib/ld-linux-x86-64.so.2 --help | grep supported
@@ -45,8 +45,8 @@ _isa_level=${_isa_level-3}
 #
 ##### below is where the magic happens
 #
-_major=6.11
-_minor=9
+_major=6.12
+_minor=0
 _srcname=linux-${_major}
 _clr=6.11.6-1477
 _gcc_more_v='20241018'
@@ -83,7 +83,7 @@ source=(
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0013-zstd.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0012-thp-shrinker.patch"
   "arch-0002-ASLR-bits.patch::https://${_archlinuxpatch}/0002-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
-#"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
+  "https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
 b2sums=(
