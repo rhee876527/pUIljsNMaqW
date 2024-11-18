@@ -105,6 +105,7 @@ if [ -n "$_use_llvm_lto" ]; then
   BUILD_FLAGS=(
     LLVM=1
     LLVM_IAS=1
+    KCFLAGS=-O3
   )
 fi
 
