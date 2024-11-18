@@ -33,20 +33,20 @@ _debug=n
 # This will invalidate all clear patches and build with stock kernel. 
 # Note: Sources must be updated to reflect new build status. 
 # You need to enable config from arch in sources or set your own
-_switchstock=
+_switchstock=y
 
 # Enable x86-64 compiler ISA level
 # Check using: /lib/ld-linux-x86-64.so.2 --help | grep supported
 # More information: https://gitlab.com/x86-psABIs/x86-64-ABI/-/commit/77566eb03bc6a326811cb7e9 
 # NOTE: Defaults to x86-64-v3 unless a level is provided.
 # Valid values are 1,2,3 corresponding to ascending x86-64 level
-_isa_level="${_isa_level:-3}"
+_isa_level=${_isa_level-3}
 
 #
 ##### below is where the magic happens
 #
-_major=6.11
-_minor=9
+_major=6.12
+_minor=0
 _srcname=linux-${_major}
 _clr=6.11.6-1477
 _gcc_more_v='20241018'
@@ -74,34 +74,30 @@ fi
 
 source=(
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${_major}.tar.xz"
-  "https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
+  #"https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
   "https://github.com/clearlinux-pkgs/linux/archive/${_clr}.tar.gz"  
   "https://github.com/graysky2/kernel_compiler_patch/archive/$_gcc_more_v.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-bbr3.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0001-address-masking.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0013-zstd.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0012-thp-shrinker.patch"
-  "arch-0003-ASLR-bits.patch::https://${_archlinuxpatch}/0002-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
-#"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0012-zstd.patch"
+  "arch-0002-ASLR-bits.patch::https://${_archlinuxpatch}/0002-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
+  "https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
-b2sums=('e7750c0878d71a56a0ce52d4c4c912199dad5bf5e2e8f872585a6494afbb37cbd852e612a6858936d2dc9b7776a3933818f540db408d57e90d18ea5249bba7ab'
-        '67963ecd33e19f8b24308606193783aa72502eb871b34161715b1f081fff89b4f2aa70dbe0f19b954beb3c537da5a90d995d7412aa1bc448a63da94aa30170d3'
+b2sums=('b2ec2fc69218cacabbbe49f78384a5d259ca581b717617c12b000b16f4a4c59ee348ea886b37147f5f70fb9a7a01c1e2c8f19021078f6b23f5bc62d1c48d5e5e'
         '2fea7be655e76700bcbca1767673073d2cb466bd83ce0a7eb688b50a4ee7b176bcf51f5ac55a66c6e148fef8add0a9d52737e45c13104e6270b331cd0a290c94'
         'f103018e7a081709e531a3548e13d7803c83f020507bbeb9642a459c79c2edfa9579d368ac2a58f8eca0fec9ab52895506cbb9f30a2e67dc8065f08986579d21'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
-        '4ec1fc66980b27d8e97fd42c7df3ae2ea6b5d40b004e59badff6a9e004aec738dccb38be1514cdb65622858660e0c135aa43bc7f6c6ba1448307fa0056337d5c'
-        'b8aa4dd5be250976c86691044c5da4c93ccc0b177c5d34ad0710deccdd2412f7481d339b5a2b250abef2db4503d5464bccceefa3e1bb4c470f3feab1ca11ac49'
-        'e241bd78966315d77c3bc2eb3357b007c7ee70ac0232d101b91d9e5c633a531e324814a6b8978fb62fbf93b095a914965c73e68a9b19a329cb1478f877c495c8'
-        '1d211ee0a707ffd5b6d3b7a391e04d06f71a9c6012495fade258dbf959f503cc0e460cb6da61d6b7e1e03f6c228da75406f14db1172f3690eff34158d26b8b96'
-        'fae57caa7b3e0dbcdfa59b46d073d33ffe07bb0988fea0b75d8a2c035a33d671dc65dcb271a5179dddf473374d56e971a0654eac1556fd20ef65c50c855b3cb7')
+        'd9dd3389fa20078171868a50a1aeb7ebbc2fa50ba7243038c13c51f6c0482d659b56075dd42c62b01f10b992430fa0725ccab6f66538c7b845513c3cf2cf6acc'
+        '6fab770832313555b71d88823564a6f091884049e2a7ef570a41f006c7a46320da733a4ad97ee70d1750849ce752842bf2d8425fc340308ffa8ce2181f6dfc40'
+        'fae57caa7b3e0dbcdfa59b46d073d33ffe07bb0988fea0b75d8a2c035a33d671dc65dcb271a5179dddf473374d56e971a0654eac1556fd20ef65c50c855b3cb7'
+        'd93b085af1eb81aacf91b79b06a1b7313f4d5290da4f0853beade5aab11a8a53fd1a541aa123ec8d445edee6c7d4a0b54c7d45afee2249b903614a582b5959bc')
 
 # LLVM build option
 if [ -n "$_use_llvm_lto" ]; then
   BUILD_FLAGS=(
     LLVM=1
-    LLVM_IAS=1
+    KCFLAGS=-O3
   )
 fi
 
