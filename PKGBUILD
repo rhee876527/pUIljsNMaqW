@@ -20,9 +20,6 @@ _makenconfig=
 # More at this wiki page ---> https://wiki.archlinux.org/index.php/Modprobed-db
 _localmodcfg=
 
-# Enable compiling with LLVM
-_use_llvm_lto=y
-
 # Enable/Disable debug options
 # Set 'y' to enable, 'n' to force disable debug options if already enabled in your
 # .config file or leave empty to ignore debug options.
@@ -62,10 +59,6 @@ arch=('x86_64')
 url="https://github.com/clearlinux-pkgs/linux"
 license=(GPL-2.0-only)
 makedepends=(bc cpio gettext libelf pahole perl python tar xz)
-
-if [ -n "$_use_llvm_lto" ]; then
-  makedepends+=(clang llvm lld)
-fi
 
 options=(!debug !strip)
 if [ "$_debug" == "y" ]; then
