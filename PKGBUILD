@@ -39,6 +39,9 @@ _switchstock=y
 # Valid values are 1,2,3 corresponding to ascending x86-64 level
 _isa_level=${_isa_level-3}
 
+# Specialized llvm version for kernel builds
+_llvmver=19.1.4
+
 #
 ##### below is where the magic happens
 #
@@ -68,7 +71,8 @@ fi
 source=(
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${_major}.tar.xz"
   #"https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
-  "https://github.com/clearlinux-pkgs/linux/archive/${_clr}.tar.gz"  
+  "https://github.com/clearlinux-pkgs/linux/archive/${_clr}.tar.gz"
+  "https://mirrors.edge.kernel.org/pub/tools/llvm/files/llvm-${_llvmver}-x86_64.tar.xz"
   "https://github.com/graysky2/kernel_compiler_patch/archive/$_gcc_more_v.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-bbr3.patch"
@@ -81,6 +85,7 @@ b2sums=(
             '0' #major
             '0' #minor-patches
             '0' #clear-patches
+            '0' #optimized llvm build
             '0' #cpu-arch-optimization
             '0' #lockdown 
             '0' #bbr3 
@@ -92,7 +97,7 @@ b2sums=(
 # LLVM build option
 if [ -n "$_use_llvm_lto" ]; then
   BUILD_FLAGS=(
-    LLVM=1
+    LLVM=$PWD/src/llvm-${_llvmver}-x86_64/bin/
     KCFLAGS=-O3
   )
 fi
