@@ -35,6 +35,7 @@ jobs:
         with:
           name: new-kernel
           path: ./
+	continue-on-error: true
 
       - name: Conditionally bump pkgrel for both PKGBUILD files
         run: |
