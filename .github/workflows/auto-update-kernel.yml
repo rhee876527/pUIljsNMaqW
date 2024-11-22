@@ -86,6 +86,20 @@ jobs:
               echo "Rollback pkgrel for new major"
           fi
 
+      - name: Save new kernel pkgrel artifact
+        if: env.updated == 'true'
+        run: |
+              echo "Save pkgrel for new major version"
+              echo "pkgrel_rollback=true" > new-release-update.txt
+
+      - name: Upload pkgrel update artifact
+        if: env.updated == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: new-kernel
+          path: new-release-update.txt
+
+
       - name: Update cachyos patch versions
         if: env.updated == 'true'
         run: |

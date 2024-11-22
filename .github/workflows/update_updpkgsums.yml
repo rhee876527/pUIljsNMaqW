@@ -13,6 +13,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: github.event.head_commit.message != 'Update PKGBUILD'  # Skip if commit is made by workflow itself
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -29,12 +30,33 @@ jobs:
           mkdir -p $GITHUB_WORKSPACE/processed
           cp $GITHUB_WORKSPACE/PKGBUILD $GITHUB_WORKSPACE/processed/
           
+      - name: Download pkgrel update artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: new-kernel
+          path: ./
+
+      - name: Bump pkgrel on both PKGBUILD files
+        if: !exists('./new-release-update.txt')  # Skip bump to maintain pkgrel=1
+        run: |
+          # Bump pkgrel for the main PKGBUILD
+          current_pkgrel_main=$(grep '^pkgrel=' PKGBUILD | cut -d'=' -f2)
+          next_pkgrel_main=$((current_pkgrel_main + 1))
+          sed -i "s/^pkgrel=.*/pkgrel=$next_pkgrel_main/" PKGBUILD
+
+          # Bump pkgrel for the processed PKGBUILD
+          current_pkgrel_processed=$(grep '^pkgrel=' $GITHUB_WORKSPACE/processed/PKGBUILD | cut -d'=' -f2)
+          next_pkgrel_processed=$((current_pkgrel_processed + 1))
+          sed -i "s/^pkgrel=.*/pkgrel=$next_pkgrel_processed/" $GITHUB_WORKSPACE/processed/PKGBUILD
+          echo "Bump up pkgrel"
+
       - name: Commit and push changes
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
-          git add $GITHUB_WORKSPACE/processed/PKGBUILD
+          git add $GITHUB_WORKSPACE/processed/PKGBUILD PKGBUILD
           git commit -m "Update PKGBUILD"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
