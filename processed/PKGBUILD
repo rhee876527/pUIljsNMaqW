@@ -16,8 +16,7 @@
 # Tweak kernel options prior to a build via nconfig
 _makenconfig=
 
-# Only compile active modules to VASTLY reduce the number of modules built 
-# More at this wiki page ---> https://wiki.archlinux.org/index.php/Modprobed-db
+# Localmodconfig. https://wiki.archlinux.org/index.php/Modprobed-db
 _localmodcfg=
 
 # Enable/Disable debug options
@@ -26,7 +25,7 @@ _localmodcfg=
 _debug=n
 
 # Switch to stock build if needed
-# useful for dot 0 releases or when clearlinux is out of sync... 
+# Useful for dot 0 releases or when clearlinux is out of sync... 
 # This will invalidate all clear patches and build with stock kernel. 
 # Note: Sources must be updated to reflect new build status. 
 # You need to enable config from arch in sources or set your own
@@ -34,9 +33,7 @@ _switchstock=
 
 # Enable x86-64 compiler ISA level
 # Check using: /lib/ld-linux-x86-64.so.2 --help | grep supported
-# More information: https://gitlab.com/x86-psABIs/x86-64-ABI/-/commit/77566eb03bc6a326811cb7e9 
 # NOTE: Defaults to x86-64-v3 unless a level is provided.
-# Valid values are 1,2,3 corresponding to ascending x86-64 level
 _isa_level=${_isa_level-3}
 
 # Specialized llvm version for kernel builds
@@ -56,7 +53,7 @@ _archlinuxpatch=aur.archlinux.org/cgit/aur.git/plain
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=1
+pkgrel=2
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/clearlinux-pkgs/linux"
