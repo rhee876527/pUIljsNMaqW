@@ -31,13 +31,12 @@ jobs:
           cp $GITHUB_WORKSPACE/PKGBUILD $GITHUB_WORKSPACE/processed/
           
       - name: Download pkgrel update artifact
-        uses: dawidd6/action-download-artifact@v6
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: new-kernel
-          if_no_artifact_found: warn
-          workflow: auto-update-kernel.yml
           run_id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           path: ./
 
       - name: Conditionally bump pkgrel for both PKGBUILD files
