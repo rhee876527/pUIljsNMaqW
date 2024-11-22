@@ -30,7 +30,7 @@ _debug=n
 # This will invalidate all clear patches and build with stock kernel. 
 # Note: Sources must be updated to reflect new build status. 
 # You need to enable config from arch in sources or set your own
-_switchstock=y
+_switchstock=
 
 # Enable x86-64 compiler ISA level
 # Check using: /lib/ld-linux-x86-64.so.2 --help | grep supported
@@ -70,7 +70,7 @@ fi
 
 source=(
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${_major}.tar.xz"
-  #"https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
+  "https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
   "https://github.com/clearlinux-pkgs/linux/archive/${_clr}.tar.gz"
   "https://mirrors.edge.kernel.org/pub/tools/llvm/files/llvm-${_llvmver}-x86_64.tar.xz"
   "https://github.com/graysky2/kernel_compiler_patch/archive/$_gcc_more_v.tar.gz"
@@ -78,7 +78,7 @@ source=(
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-bbr3.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0012-zstd.patch"
   "arch-0002-ASLR-bits.patch::https://${_archlinuxpatch}/0002-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
-  "https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
+  #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
 b2sums=(
