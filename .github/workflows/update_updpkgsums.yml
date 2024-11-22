@@ -35,7 +35,7 @@ jobs:
         continue-on-error: true
         with:
           name: new-kernel
-          run_id: ${{ github.event.workflow_run.id }}
+          run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path: ./
 
