@@ -32,10 +32,10 @@ jobs:
           
       - name: Download pkgrel update artifact
         uses: actions/download-artifact@v3
+        continue-on-error: true
         with:
           name: new-kernel
           path: ./
-	continue-on-error: true
 
       - name: Conditionally bump pkgrel for both PKGBUILD files
         run: |
