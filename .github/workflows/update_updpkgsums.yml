@@ -36,6 +36,7 @@ jobs:
         with:
           name: new-kernel
           if_no_artifact_found: warn
+          run_id: ${{ github.event.workflow_run.id }}
           path: ./
 
       - name: Conditionally bump pkgrel for both PKGBUILD files
