@@ -83,8 +83,8 @@ jobs:
           git config --global user.email "action@github.com"
           git add $GITHUB_WORKSPACE/processed/PKGBUILD PKGBUILD
           git commit -m "Update PKGBUILD"
-          # Unstage unnecessary artifact file
-          git reset new-release-update.txt
+          # Remove unneeded artifact file causing push issue
+          rm new-release-update.txt
           git push 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
