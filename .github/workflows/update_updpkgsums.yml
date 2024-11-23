@@ -43,11 +43,11 @@ jobs:
         id: check_changes
         run: |
          # Ensure changes made earlier are considered
-         if diff -q PKGBUILD processed/PKGBUILD > /dev/null; then
-           echo "No material changes between PKGBUILD and processed/PKGBUILD."
+         if diff -q PKGBUILD $GITHUB_WORKSPACE/processed/PKGBUILD > /dev/null; then
+           echo "No changes to be made!"
            echo "should_bump=false" >> $GITHUB_ENV
          else
-           echo "Material changes detected between PKGBUILD and processed/PKGBUILD."
+           echo "Changes detected!"
            echo "should_bump=true" >> $GITHUB_ENV
          fi
          
