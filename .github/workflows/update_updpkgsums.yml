@@ -83,6 +83,6 @@ jobs:
           git config --global user.email "action@github.com"
           git add $GITHUB_WORKSPACE/processed/PKGBUILD PKGBUILD
           git commit -m "Update PKGBUILD"
-          git push
+          git push || true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
