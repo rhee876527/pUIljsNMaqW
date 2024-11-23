@@ -53,7 +53,7 @@ _archlinuxpatch=aur.archlinux.org/cgit/aur.git/plain
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=1
+pkgrel=2
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/clearlinux-pkgs/linux"
@@ -79,7 +79,7 @@ source=(
   )
 
 b2sums=('b2ec2fc69218cacabbbe49f78384a5d259ca581b717617c12b000b16f4a4c59ee348ea886b37147f5f70fb9a7a01c1e2c8f19021078f6b23f5bc62d1c48d5e5e'
-        '70fa1b728a0a26ffe6734865c7a78a909cf76f6866947b2eb816024f33d089ee0464a5ad76ec1d79df2bc3c276d49cb894110ca8c6342840d1f8f6f829fde60'
+        '70fa1b728a0a26ffe67348365c7a78a909cf76f6866947b2eb816024f33d089ee0464a5ad76ec1d79df2bc3c276d49cb894110ca8c6342840d1f8f6f829fde60'
         '2fea7be655e76700bcbca1767673073d2cb466bd83ce0a7eb688b50a4ee7b176bcf51f5ac55a66c6e148fef8add0a9d52737e45c13104e6270b331cd0a290c94'
         '9b4438c9db2d2ea283cf9d660eea9491081471a8c54b58b10cbfa9563d101cada70d3a76c694aba8f09e9aac5f98053de1b8a08b4b76b8d77dcba7556d6f1324'
         'f103018e7a081709e531a3548e13d7803c83f020507bbeb9642a459c79c2edfa9579d368ac2a58f8eca0fec9ab52895506cbb9f30a2e67dc8065f08986579d21'
