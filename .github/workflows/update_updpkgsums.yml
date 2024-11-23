@@ -81,7 +81,7 @@ jobs:
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
-	  # Clean up untracked artifact files
+          # Clean up untracked artifact files
           git clean -fd new-release-update.txt || echo "No untracked files to clean"
           git add $GITHUB_WORKSPACE/processed/PKGBUILD PKGBUILD
           git commit -m "Update PKGBUILD"
