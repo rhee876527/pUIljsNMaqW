@@ -42,17 +42,15 @@ jobs:
       - name: Decide whether to bump pkgrel for PKGBUILD
         id: check_changes
         run: |
-            # Do a compare against the latest committed state
-            git fetch origin main
-            git diff origin/main -- PKGBUILD > diff_output.txt
-            
-            if [[ -s diff_output.txt ]]; then
-               echo "Changes detected in PKGBUILD."
-               echo "should_bump=true" >> $GITHUB_ENV
-            else
-               echo "No material changes to PKGBUILD. Exiting."
-                echo "should_bump=false" >> $GITHUB_ENV
-            fi
+         # Ensure changes made earlier are considered
+         if diff -q PKGBUILD processed/PKGBUILD > /dev/null; then
+           echo "No material changes between PKGBUILD and processed/PKGBUILD."
+           echo "should_bump=false" >> $GITHUB_ENV
+         else
+           echo "Material changes detected between PKGBUILD and processed/PKGBUILD."
+           echo "should_bump=true" >> $GITHUB_ENV
+         fi
+         
       - name: Bump pkgrel for new build
         if: env.should_bump == 'true' && !hashFiles('new-release-update.txt')
         run: |
