@@ -39,26 +39,34 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path: ./
 
-      - name: Conditionally bump pkgrel for both PKGBUILD files
+      - name: Decide whether to bump pkgrel for PKGBUILD
+        id: check_changes
         run: |
-          # If the artifact is missing, bump pkgrel
-          if [[ ! -f "new-release-update.txt" ]]; then
-
-              # Bump pkgrel for the main PKGBUILD
-              current_pkgrel_main=$(grep '^pkgrel=' PKGBUILD | cut -d'=' -f2)
-              next_pkgrel_main=$((current_pkgrel_main + 1))
-              sed -i "s/^pkgrel=.*/pkgrel=$next_pkgrel_main/" PKGBUILD
-
-              # Bump pkgrel for the processed PKGBUILD
-              current_pkgrel_processed=$(grep '^pkgrel=' $GITHUB_WORKSPACE/processed/PKGBUILD | cut -d'=' -f2)
-              next_pkgrel_processed=$((current_pkgrel_processed + 1))
-              sed -i "s/^pkgrel=.*/pkgrel=$next_pkgrel_processed/" $GITHUB_WORKSPACE/processed/PKGBUILD
-              echo "Auto bump pkgrel"
+          # Check if PKGBUILD differs from the latest committed version
+          if git diff --exit-code PKGBUILD; then
+            echo "No material changes to PKGBUILD. Exiting."
+            echo "should_bump=false" >> $GITHUB_ENV
           else
-              echo "new-release-update.txt found. Skipping bump."
+            echo "Significant enough changes detected in PKGBUILD."
+            echo "should_bump=true" >> $GITHUB_ENV
           fi
 
+      - name: Bump pkgrel for new build
+        if: env.should_bump == 'true' && !hashFiles('new-release-update.txt')
+        run: |
+          # Bump pkgrel for the main PKGBUILD
+          current_pkgrel=$(grep '^pkgrel=' PKGBUILD | cut -d'=' -f2)
+          next_pkgrel=$((current_pkgrel + 1))
+          sed -i "s/^pkgrel=.*/pkgrel=$next_pkgrel/" PKGBUILD
+
+          # Bump pkgrel for the processed PKGBUILD
+          current_pkgrel_processed=$(grep '^pkgrel=' $GITHUB_WORKSPACE/processed/PKGBUILD | cut -d'=' -f2)
+          next_pkgrel_processed=$((current_pkgrel_processed + 1))
+          sed -i "s/^pkgrel=.*/pkgrel=$next_pkgrel_processed/" $GITHUB_WORKSPACE/processed/PKGBUILD
+          echo "Auto bump pkgrel"
+
       - name: Commit and push changes
+        if: env.should_bump == 'true'
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
