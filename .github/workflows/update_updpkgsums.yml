@@ -34,7 +34,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path: ./
 
-      - name: Check for material changes between processed and root PKGBUILD
+      - name: Decide if bump needed
         id: check_changes
         run: |
           # Ensure /processed/PKGBUILD exists
@@ -45,10 +45,10 @@ jobs:
 
           # Compare the two files
           if diff -q PKGBUILD processed/PKGBUILD > /dev/null; then
-            echo "No material changes between PKGBUILD and processed/PKGBUILD."
+            echo "No changes detected!"
             echo "should_bump=false" >> $GITHUB_ENV
           else
-            echo "Material changes detected between PKGBUILD and processed/PKGBUILD."
+            echo "Changes detected. Prepare new build!"
             echo "should_bump=true" >> $GITHUB_ENV
           fi
 
