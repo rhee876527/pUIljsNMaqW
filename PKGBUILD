@@ -42,8 +42,8 @@ _llvmver=19.1.4
 #
 ##### below is where the magic happens
 #
-_major=6.12
-_minor=1
+_major=6.11
+_minor=9
 _srcname=linux-${_major}
 _clr=6.11.6-1477
 _gcc_more_v='20241018'
@@ -72,7 +72,7 @@ source=(
   "https://mirrors.edge.kernel.org/pub/tools/llvm/files/llvm-${_llvmver}-x86_64.tar.xz"
   "https://github.com/graysky2/kernel_compiler_patch/archive/$_gcc_more_v.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-bbr3.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0001-bbr3.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0012-zstd.patch"
   "arch-0002-ASLR-bits.patch::https://${_archlinuxpatch}/0002-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
   #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
