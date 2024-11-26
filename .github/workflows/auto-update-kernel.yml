@@ -52,7 +52,7 @@ jobs:
           fi
 
       - name: Fetch latest clearlinux tag
-        if: env.updated == 'true'  
+#        if: env.updated == 'true'  
         id: get_latest_clear
         run: |
           # Fetch the latest tag
