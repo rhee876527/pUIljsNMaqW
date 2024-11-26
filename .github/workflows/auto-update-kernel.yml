@@ -60,7 +60,7 @@ jobs:
           echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
             
       - name: Update clr
-        if: env.updated == 'true'  
+#        if: env.updated == 'true'  
         run: |
           # Get current major version
           CURRENT_CLR=$(grep '^_clr=' PKGBUILD | sed -E 's/^_clr=([0-9]+\.[0-9]+)\..*/\1/' | cut -d '.' -f 1-2)
