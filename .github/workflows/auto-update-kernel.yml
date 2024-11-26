@@ -68,6 +68,7 @@ jobs:
           # Compare current clr major version with update target
           if [ "${{ env.latest_major }}" == "$CURRENT_CLR" ]; then
               echo "Major version matches. Updating _clr to: $LATEST_TAG"
+              echo "clr_updated=true" >> $GITHUB_ENV
               # Update the PKGBUILD file to set _clr to the latest tag
               sed -i "s/^_clr=.*/_clr=${LATEST_TAG}/" PKGBUILD && echo "Updated PKGBUILD successfully."
           else
@@ -106,7 +107,7 @@ jobs:
           bash ./cachy_patches_assistant.sh ${{ env.latest_major }}
 
       - name: Commit changes
-        if: env.updated == 'true'  
+        if: env.updated == 'true' || env.clr_updated == 'true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
