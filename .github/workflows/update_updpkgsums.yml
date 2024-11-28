@@ -46,13 +46,12 @@ jobs:
           # Compare the two files
           if diff -q PKGBUILD processed/PKGBUILD > /dev/null; then
             echo "No changes to be made!"
-            echo "push_changes=false" >> $GITHUB_ENV
           else
             echo "New changes detected. Pushing for new build!"
             echo "push_changes=true" >> $GITHUB_ENV
           fi
 
-      - name: Conditionally bump pkgrel for PKGBUILD
+      - name: Decision to bump pkgrel for PKGBUILD
         run: |
           # Check if new kernel artifact exists
           if [[ ! -f "new-release-update.txt" ]]; then
@@ -81,8 +80,6 @@ jobs:
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
-          # Clean up untracked artifact files
-          #git clean -fd new-release-update.txt || echo "No untracked files to clean"
           # make sure processed is always in sync  
           cp $GITHUB_WORKSPACE/PKGBUILD $GITHUB_WORKSPACE/processed/
           git add $GITHUB_WORKSPACE/processed/PKGBUILD PKGBUILD

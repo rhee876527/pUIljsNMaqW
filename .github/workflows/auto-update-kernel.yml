@@ -48,11 +48,10 @@ jobs:
               echo "updated=true" >> $GITHUB_ENV 
           else
               echo "No update needed."
-              echo "updated=false" >> $GITHUB_ENV 
+              echo "kernel_upgrade=false" >> $GITHUB_ENV 
           fi
 
       - name: Fetch latest clearlinux tag
-#        if: env.updated == 'true'  
         id: get_latest_clear
         run: |
           # Fetch the latest tag
@@ -60,17 +59,20 @@ jobs:
           echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
             
       - name: Update clr
-#        if: env.updated == 'true'  
         run: |
-          # Get current major version
-          #CURRENT_CLR=$(grep '^_clr=' PKGBUILD | sed -E 's/^_clr=([0-9]+\.[0-9]+)\..*/\1/' | cut -d '.' -f 1-2)
+          PKG_CLR=$(grep '^_clr=' PKGBUILD | sed -E 's/^_clr=([0-9]+\.[0-9]+)\..*/\1/')
           CURRENT_CLR=$(echo "$LATEST_TAG" | cut -d '.' -f 1-2)
-          # Compare current clr major version with update target
+    
+          # Skip update if clr is behind or major doesn't match
           if [ "${{ env.latest_major }}" == "$CURRENT_CLR" ]; then
               echo "Updating _clr to: $LATEST_TAG"
-              # Update the PKGBUILD file to set _clr to the latest tag
-              sed -i "s/^_clr=.*/_clr=${LATEST_TAG}/" PKGBUILD && echo "Updated PKGBUILD successfully."
-              echo "clr_updated=true" >> $GITHUB_ENV
+        
+              if [ "$CURRENT_CLR" == "$PKG_CLR" ]; then
+                  echo "Current clr version matches. Skipping update."
+              else
+                  sed -i "s/^_clr=.*/_clr=${LATEST_TAG}/" PKGBUILD && echo "Updated PKGBUILD successfully."
+                  echo "clr_updated=true" >> $GITHUB_ENV
+              fi
           else
               echo "Clr major version does not match. Skipping update."
           fi

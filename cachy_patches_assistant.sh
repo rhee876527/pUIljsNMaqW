@@ -61,7 +61,11 @@ if [ -f "$pkgbuild_file" ]; then
   if [ "$updates_made" = true ]; then
     echo "✅ Finished updating patch URLs in $pkgbuild_file"
   else
-    echo "⚠️  No updates were necessary. PKGBUILD is already up-to-date!"
+    echo "
+    
+........................................................................
+    
+⚠️ No updates were necessary. PKGBUILD is already up-to-date!"
   fi
 else
   echo "❌ Fatal error: An unexpected issue occurred. Check logs for more details."
