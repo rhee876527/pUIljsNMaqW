@@ -56,7 +56,7 @@ _archlinuxpatch=aur.archlinux.org/cgit/aur.git/plain
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=4
+pkgrel=3
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/clearlinux-pkgs/linux"
@@ -94,7 +94,7 @@ b2sums=('b2ec2fc69218cacabbbe49f78384a5d259ca581b717617c12b000b16f4a4c59ee348ea8
 # LLVM build option
 if [ -n "$_use_llvm_lto" ]; then
   BUILD_FLAGS=(
-    LLVM="$PWD/src/llvm-${_llvmver}-x86_64/bin/"
+    LLVM="${startdir}/src/llvm-${_llvmver}-x86_64/bin/"
     KCFLAGS="-O3"
   )
 fi
