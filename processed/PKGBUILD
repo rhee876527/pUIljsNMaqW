@@ -94,7 +94,7 @@ b2sums=('b2ec2fc69218cacabbbe49f78384a5d259ca581b717617c12b000b16f4a4c59ee348ea8
 # LLVM build option
 if [ -n "$_use_llvm_lto" ]; then
   BUILD_FLAGS=(
-    LLVM="$PWD/src/llvm-${_llvmver}-x86_64/bin/"
+    LLVM="${startdir}/src/llvm-${_llvmver}-x86_64/bin/"
     KCFLAGS="-O3"
   )
 fi
