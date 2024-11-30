@@ -39,6 +39,9 @@ _isa_level=${_isa_level-3}
 # Specialized llvm version for kernel builds
 _llvmver=19.1.4
 
+# Use llvm by default. Blank to use gcc
+_use_llvm_lto=y
+
 #
 ##### below is where the magic happens
 #
@@ -53,7 +56,7 @@ _archlinuxpatch=aur.archlinux.org/cgit/aur.git/plain
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=3
+pkgrel=4
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/clearlinux-pkgs/linux"
@@ -91,8 +94,8 @@ b2sums=('b2ec2fc69218cacabbbe49f78384a5d259ca581b717617c12b000b16f4a4c59ee348ea8
 # LLVM build option
 if [ -n "$_use_llvm_lto" ]; then
   BUILD_FLAGS=(
-    LLVM=$PWD/src/llvm-${_llvmver}-x86_64/bin/
-    KCFLAGS=-O3
+    LLVM="$PWD/src/llvm-${_llvmver}-x86_64/bin/"
+    KCFLAGS="-O3"
   )
 fi
 
@@ -137,7 +140,7 @@ prepare() {
         src="${src##*/}"
         [[ $src = *.patch ]] || continue
         echo "Applying patch $src..."
-        patch -Np1 < "../$src"
+        patch -Np1 < "../$src" || true
     done		    
 
     ### Setting config
@@ -225,9 +228,6 @@ prepare() {
                    --enable TCP_CONG_BBR \
                    --set-str DEFAULT_TCP_CONG bbr 
                    
-    # enable basic upstream kernel hardening 
-    make hardening.config
-
     # some overlooked configs good for security/performance
     scripts/config --enable CONFIG_SECURITY_LOCKDOWN_LSM \
                    --disable CONFIG_LEGACY_TIOCSTI \
@@ -266,15 +266,8 @@ prepare() {
                        --disable DEBUG_INFO_BTF_MODULES
     fi
 
-    ### Checking config
-    if [ -n "$_switchstock" ]; then
-        diff -u ../config .config || :
-    else
-        diff -u $srcdir/linux-${_clr}/config .config || :
-    fi
-
     # https://github.com/graysky2/kernel_compiler_patch
-    # Apply patch and set ISA level only if _isa_level is set
+    # Apply patch and set ISA level
     if [ -n "$_isa_level" ]; then
         echo "Patching to enable x86-64 compiler ISA level..."
         patch -Np1 -i "$srcdir/kernel_compiler_patch-$_gcc_more_v/lite-more-x86-64-ISA-levels-for-kernel-6.8-rc4+.patch"
@@ -282,6 +275,16 @@ prepare() {
         scripts/config --set-val CONFIG_X86_64_VERSION "$_isa_level"
     else
         echo "Skip ISA level patch"
+    fi
+
+    # enable basic upstream kernel hardening 
+    make hardening.config
+
+    ### Checking config
+    if [ -n "$_switchstock" ]; then
+        diff -u ../config .config || :
+    else
+        diff -u $srcdir/linux-${_clr}/config .config || :
     fi
 
     # Run olddefconfig
