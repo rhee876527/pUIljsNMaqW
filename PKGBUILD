@@ -109,7 +109,7 @@ prepare() {
         echo "Skipping minor version patch for early 0 release"
     else
         echo "Add upstream patches"
-        patch -Np1 -i ../patch-${pkgver}
+        patch -Np1 -i ../patch-${pkgver} || true
     fi
 
     ### Setting version
@@ -237,6 +237,8 @@ prepare() {
                    --disable CONFIG_DEBUG_NOTIFIERS \
                    --disable CONFIG_KVM_WERROR \
                    --disable CONFIG_SCHED_DEBUG \
+                   --disable CC_OPTIMIZE_FOR_PERFORMANCE \
+                   --enable CC_OPTIMIZE_FOR_PERFORMANCE_O3 \
                    --set-val CONFIG_DEFAULT_MMAP_MIN_ADDR 65536    
 
     if [ -n "$_use_llvm_lto" ]; then
@@ -247,6 +249,7 @@ prepare() {
                        --enable ARCH_SUPPORTS_LTO_CLANG_THIN \
                        --enable HAS_LTO_CLANG \
                        --enable LTO_CLANG_THIN \
+                       --enable CONFIG_CFI_CLANG \
                        --enable HAVE_GCC_PLUGINS
     fi
 
