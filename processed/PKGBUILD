@@ -62,10 +62,17 @@ pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/clearlinux-pkgs/linux"
 license=(GPL-2.0-only)
-makedepends=("bc" "cpio" "gettext" "libelf" "pahole" "perl" "python" "tar" "xz" "zstd")
-[[ -n "${_use_llvm_to}" ]] && makedepends+=("clang" "llvm" "lld")
-options=("!strip" "!debug")
-[[ "${_debug}" == "y" ]] && options=("!strip")
+makedepends=(bc cpio gettext libelf pahole perl python tar xz zstd)
+
+if [[ -n "$_use_llvm_lto" ]]; then
+  makedepends+=(clang llvm lld)
+fi
+
+options=(!strip !debug)
+if [[ "$_debug" == "y" ]]; then
+  options=(!strip)
+fi
+
 
 source=(
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${_major}.tar.xz"
@@ -242,7 +249,7 @@ prepare() {
                        --enable LTO_CLANG_THIN \
                        --enable CONFIG_CFI_CLANG \
                        --enable ARCH_SUPPORTS_CFI_CLANG \
-                       --enable CFI_CLANG \                       
+                       --enable CFI_CLANG \
                        --enable HAVE_GCC_PLUGINS
     fi
 
@@ -272,7 +279,7 @@ prepare() {
     fi
 
     # Enable basic upstream kernel hardening 
-    if [ -n "$_harden_basic" ]; then
+    if [ -n "$_basic_harden" ]; then
         make hardening.config
     else
         echo "Skipping hardening.config..."
