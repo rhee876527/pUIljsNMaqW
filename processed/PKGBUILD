@@ -36,11 +36,12 @@ _switchstock=
 # NOTE: Defaults to x86-64-v3 unless a level is provided.
 _isa_level=${_isa_level-3}
 
-# Specialized llvm version for kernel builds
-_llvmver=19.1.4
-
 # Use llvm by default. Blank to use gcc
 _use_llvm_lto=y
+
+# Basic kernel self hardening
+# https://github.com/torvalds/linux/blob/master/kernel/configs/hardening.config
+_basic_harden=y
 
 #
 ##### below is where the magic happens
@@ -56,17 +57,15 @@ _archlinuxpatch=aur.archlinux.org/cgit/aur.git/plain
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=5
+pkgrel=6
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/clearlinux-pkgs/linux"
 license=(GPL-2.0-only)
-makedepends=(bc cpio gettext libelf pahole perl python tar xz clang llvm lld)
-
-options=(!debug !strip)
-if [ "$_debug" == "y" ]; then
-    options=(!strip)
-fi
+makedepends=("bc" "cpio" "gettext" "libelf" "pahole" "perl" "python" "tar" "xz" "zstd")
+[[ -n "${_use_llvm_to}" ]] && makedepends+=("clang" "llvm" "lld")
+options=("!strip" "!debug")
+[[ "${_debug}" == "y" ]] && options=("!strip")
 
 source=(
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${_major}.tar.xz"
@@ -92,7 +91,7 @@ b2sums=('b2ec2fc69218cacabbbe49f78384a5d259ca581b717617c12b000b16f4a4c59ee348ea8
 # LLVM build option
 if [ -n "$_use_llvm_lto" ]; then
   BUILD_FLAGS=(
-    LLVM="1"
+    LLVM=1
     KCFLAGS="-O3"
   )
 fi
@@ -131,7 +130,7 @@ prepare() {
         done
     fi    
     
-    ### Add all other patches
+    ### Add extra cherry-picked patches
     local src
         for src in "${source[@]}"; do
         src="${src%%::*}"
@@ -150,9 +149,6 @@ prepare() {
         cp -Tf $srcdir/linux-${_clr}/config ./.config
     fi
 
-    ### Enable extra options
-    echo "Enable extra options..."
-
     # General setup
     scripts/config --set-str DEFAULT_HOSTNAME archlinux \
                    --enable IKCONFIG \
@@ -165,10 +161,6 @@ prepare() {
 
     # General architecture-dependent options
     scripts/config --enable KPROBES
-
-    # Enable loadable module support
-    scripts/config --undefine MODULE_SIG_FORCE \
-                   --enable MODULE_COMPRESS_ZSTD
 
     # Networking support
     scripts/config --enable NETFILTER_INGRESS
@@ -226,7 +218,7 @@ prepare() {
                    --enable TCP_CONG_BBR \
                    --set-str DEFAULT_TCP_CONG bbr 
                    
-    # some overlooked configs good for security/performance
+    # More configs good for security/performance
     scripts/config --enable CONFIG_SECURITY_LOCKDOWN_LSM \
                    --disable CONFIG_LEGACY_TIOCSTI \
                    --enable CONFIG_SECURITY_LANDLOCK \
@@ -237,10 +229,9 @@ prepare() {
                    --disable CONFIG_DEBUG_NOTIFIERS \
                    --disable CONFIG_KVM_WERROR \
                    --disable CONFIG_SCHED_DEBUG \
-                   --disable CC_OPTIMIZE_FOR_PERFORMANCE \
-                   --enable CC_OPTIMIZE_FOR_PERFORMANCE_O3 \
                    --set-val CONFIG_DEFAULT_MMAP_MIN_ADDR 65536    
 
+    # Enables Clang thinLTO & KCFI
     if [ -n "$_use_llvm_lto" ]; then
         scripts/config --disable LTO_NONE \
                        --enable LTO \
@@ -250,9 +241,12 @@ prepare() {
                        --enable HAS_LTO_CLANG \
                        --enable LTO_CLANG_THIN \
                        --enable CONFIG_CFI_CLANG \
+                       --enable ARCH_SUPPORTS_CFI_CLANG \
+                       --enable CFI_CLANG \                       
                        --enable HAVE_GCC_PLUGINS
     fi
 
+    # Removing unnecessary debugging
     if [ "$_debug" == "y" ]; then
         scripts/config --enable DEBUG_INFO \
                        --enable DEBUG_INFO_BTF \
@@ -267,8 +261,7 @@ prepare() {
                        --disable DEBUG_INFO_BTF_MODULES
     fi
 
-    # https://github.com/graysky2/kernel_compiler_patch
-    # Apply patch and set ISA level
+    # Set ISA level
     if [ -n "$_isa_level" ]; then
         echo "Patching to enable x86-64 compiler ISA level..."
         patch -Np1 -i "$srcdir/kernel_compiler_patch-$_gcc_more_v/lite-more-x86-64-ISA-levels-for-kernel-6.8-rc4+.patch"
@@ -278,8 +271,12 @@ prepare() {
         echo "Skip ISA level patch"
     fi
 
-    # enable basic upstream kernel hardening 
-    make hardening.config
+    # Enable basic upstream kernel hardening 
+    if [ -n "$_harden_basic" ]; then
+        make hardening.config
+    else
+        echo "Skipping hardening.config..."
+    fi
 
     ### Checking config
     if [ -n "$_switchstock" ]; then
