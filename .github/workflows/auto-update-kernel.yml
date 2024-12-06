@@ -35,7 +35,7 @@ jobs:
           echo "latest_major=$latest_major" >> $GITHUB_ENV
           echo "latest_minor=$latest_minor" >> $GITHUB_ENV
 
-      - name: Update PKGBUILD if update is available
+      - name: Update PKGBUILD if new kernel is available
         id: update_pkgbuild
         run: |        
           latest_minor_int=${latest_minor%%.*}      
@@ -48,17 +48,16 @@ jobs:
               echo "updated=true" >> $GITHUB_ENV 
           else
               echo "No update needed."
-              echo "kernel_upgrade=false" >> $GITHUB_ENV 
           fi
 
-      - name: Fetch latest clearlinux tag
+      - name: Fetch clearlinux tag
         id: get_latest_clear
         run: |
           # Fetch the latest tag
           LATEST_TAG=$(curl -s https://api.github.com/repos/clearlinux-pkgs/linux/tags | grep '"name"' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')
           echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
             
-      - name: Update clr
+      - name: Update clr tag
         run: |
           PKG_CLR=$(grep '^_clr=' PKGBUILD | sed -E 's/^_clr=([0-9]+\.[0-9]+)\..*/\1/')
           CURRENT_CLR=$(echo "$LATEST_TAG" | cut -d '.' -f 1-2)
@@ -68,16 +67,16 @@ jobs:
               echo "Updating _clr to: $LATEST_TAG"
         
               if [ "$CURRENT_CLR" == "$PKG_CLR" ]; then
-                  echo "Current clr version matches. Skipping update."
+                  echo "Current clr version matches. Skip _clr update."
               else
                   sed -i "s/^_clr=.*/_clr=${LATEST_TAG}/" PKGBUILD && echo "Updated PKGBUILD successfully."
                   echo "clr_updated=true" >> $GITHUB_ENV
               fi
           else
-              echo "Clr major version does not match. Skipping update."
+              echo "Clr major version not congruent with selected stable version. Not updating!"
           fi
 
-      - name: Check and update pkgrel
+      - name: Rollback pkgrel
         if: env.updated == 'true'
         run: |
           # Read the current pkgrel value
@@ -95,7 +94,7 @@ jobs:
               echo "Save pkgrel for new major version"
               echo "pkgrel_rollback=true" > new-release-update.txt
 
-      - name: Upload pkgrel update artifact
+      - name: Avail pkgrel update artifact
         if: env.updated == 'true'
         uses: actions/upload-artifact@v4
         with:
@@ -103,7 +102,7 @@ jobs:
           path: new-release-update.txt
 
 
-      - name: Update cachyos patch versions
+      - name: Update cachyos patch names
         if: env.updated == 'true'
         run: |
           bash ./cachy_patches_assistant.sh ${{ env.latest_major }}
