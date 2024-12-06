@@ -53,7 +53,7 @@ _clr=6.12.1-1493
 _gcc_more_v='20241018'
 _cachy=CachyOS/kernel-patches/master
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
-_archlinuxpatch=aur.archlinux.org/cgit/aur.git/plain
+_archlinuxpatch=archlinux/linux/commit/d4237b86322adb5b208fe51fc3b77b234f2e965d
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
@@ -82,7 +82,7 @@ source=(
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-bbr3.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0012-zstd.patch"
-  "arch-0002-ASLR-bits.patch::https://${_archlinuxpatch}/0002-arch-Kconfig-Default-to-maximum-amount-of-ASLR-bits.patch?h=linux-llvm"
+  "arch-0001-ASLR-bits.patch::https://github.com/${_archlinuxpatch}.patch"
   #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
@@ -91,9 +91,9 @@ b2sums=('b2ec2fc69218cacabbbe49f78384a5d259ca581b717617c12b000b16f4a4c59ee348ea8
         '916ad7b14428f31f603129a35ff1940041317cb74ca3ae35d2abcd59da3a16a9acc4214947859cf5904447e99ce90c3e20a5f24d05b5b231e56652607ff29ee5'
         'f103018e7a081709e531a3548e13d7803c83f020507bbeb9642a459c79c2edfa9579d368ac2a58f8eca0fec9ab52895506cbb9f30a2e67dc8065f08986579d21'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
-        '28390406302c77fdcf897f1cbc72699484f0ca40394d9b45cf2c50cf2918791bf646eb11b272e860b7ac4997514e51f8fac52a27d70a717158df71c1e398dc43'
-        'd12755c568fa6ccace28f330544ac04b146bac82bc310465582165cfa6afa0b442ae466a440e25ab8176d1402ec208bf1ad5cc4ed98ec21a4177ad954185588f'
-        'fae57caa7b3e0dbcdfa59b46d073d33ffe07bb0988fea0b75d8a2c035a33d671dc65dcb271a5179dddf473374d56e971a0654eac1556fd20ef65c50c855b3cb7')
+        '0d016a6552ce85aa89edd43b1d6820299a8f378680a2bcee10b63a11262d9de10251c5bdbfd83a17076048ff055b8deaa10c3f256844293d10c326f130b98cc2'
+        '442cf212a0130dade9844a5314939a755bf4751c59e764d0f386ea7104b55c67746af4517bf0720eb63f8853331b0f57244f54c175c63dfb61684a6af0ad6649'
+        '384e181dd87010a77364dcd2810dfc4fa54689a38ec000d179f50c82f8cb564d1b05cc5e8f00e8e01de3b0153b7712ef30c5435821df15a07a2a8a7d2248c1d2')
 
 # LLVM build option
 if [ -n "$_use_llvm_lto" ]; then
