@@ -223,8 +223,12 @@ prepare() {
                    --enable DEFAULT_BBR \
                    --disable DEFAULT_CUBIC \
                    --enable TCP_CONG_BBR \
-                   --set-str DEFAULT_TCP_CONG bbr 
-                   
+                   --module NET_SCH_FQ_CODEL \
+                   --enable NET_SCH_FQ \
+                   --disable CONFIG_DEFAULT_FQ_CODEL \
+                   --enable CONFIG_DEFAULT_FQ \
+                   --set-str DEFAULT_TCP_CONG bbr
+    
     # More configs good for security/performance
     scripts/config --enable CONFIG_SECURITY_LOCKDOWN_LSM \
                    --disable CONFIG_LEGACY_TIOCSTI \
