@@ -34,12 +34,12 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path: ./
 
-      - name: Check if update is necessary
+      - name: Check if updpkgsums has triggered change
         id: check_changes
         run: |
-          # Ensure /processed/PKGBUILD exists
+          # Check /processed/PKGBUILD
           if [ ! -f processed/PKGBUILD ]; then
-            echo "Processed PKGBUILD does not exist. Exiting."
+            echo "Can't find processed PKGBUILD. Something is seriously wrong. Exiting now!!"
             exit 1
           fi
 
@@ -66,7 +66,8 @@ jobs:
                   current_pkgrel_processed=$(grep '^pkgrel=' processed/PKGBUILD | cut -d'=' -f2)
                   next_pkgrel_processed=$((current_pkgrel_processed + 1))
                   sed -i "s/^pkgrel=.*/pkgrel=$next_pkgrel_processed/" processed/PKGBUILD
-                  echo "Auto bumped pkgrel."
+
+                  echo "Auto bumped pkgrel!"
               else
                   echo "Exiting without bumping pkgrel."
                   exit 0
@@ -80,7 +81,6 @@ jobs:
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
-          # make sure processed is always in sync  
           cp $GITHUB_WORKSPACE/PKGBUILD $GITHUB_WORKSPACE/processed/
           git add $GITHUB_WORKSPACE/processed/PKGBUILD PKGBUILD
           git commit -m "Update PKGBUILD"
