@@ -5,10 +5,12 @@
 
 echo "🤖 Cachyos kernel patches update assistant 🤖"
 
+repo="CachyOS/kernel-patches"
 # Fetch cachyos patch names and their versions
-base_url="https://api.github.com/repos/CachyOS/kernel-patches/contents/$latest_major"
+base_url="https://github.com/$repo/tree/master/$latest_major"
 api_response=$(curl -sL "$base_url")
-patches_with_versions=($(echo "$api_response" | grep -oP '"name": "\K[^"]*"' | grep -oP '^([0-9]{4})-([-\w]+)\.patch'))
+patches_with_versions=$(echo "$html_response" | grep -oP '(?<=href="/'$repo'/blob/master/'"$latest_major"'/)[^"]+' | sort | uniq)
+
 
 # Path to PKGBUILD file
 pkgbuild_file="PKGBUILD"
