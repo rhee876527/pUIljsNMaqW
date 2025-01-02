@@ -102,7 +102,6 @@ jobs:
 
 
       - name: Update cachyos patch names
-        if: env.updated == 'true'
         run: |
           bash ./cachy_patches_assistant.sh ${{ env.latest_major }}
 
