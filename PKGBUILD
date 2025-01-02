@@ -242,7 +242,7 @@ prepare() {
                    --disable CONFIG_SCHED_DEBUG \
                    --set-val CONFIG_DEFAULT_MMAP_MIN_ADDR 65536    
 
-    # Enables Clang thinLTO & KCFI
+    # Enables LLVM Clang
     if [ -n "$_use_llvm_lto" ]; then
         scripts/config --disable LTO_NONE \
                        --enable LTO \
@@ -251,9 +251,6 @@ prepare() {
                        --enable ARCH_SUPPORTS_LTO_CLANG_THIN \
                        --enable HAS_LTO_CLANG \
                        --enable LTO_CLANG_THIN \
-                       --enable CONFIG_CFI_CLANG \
-                       --enable ARCH_SUPPORTS_CFI_CLANG \
-                       --enable CFI_CLANG \
                        --enable HAVE_GCC_PLUGINS
     fi
 
