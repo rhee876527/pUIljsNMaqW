@@ -5,12 +5,15 @@
 
 echo "🤖 Cachyos kernel patches update assistant 🤖"
 
+# Set the repository and directory (latest_major)
 repo="CachyOS/kernel-patches"
-# Fetch cachyos patch names and their versions
 base_url="https://github.com/$repo/tree/master/$latest_major"
-api_response=$(curl -sL "$base_url")
-patches_with_versions=$(echo "$html_response" | grep -oP '(?<=href="/'$repo'/blob/master/'"$latest_major"'/)[^"]+' | sort | uniq)
 
+# Fetch the HTML content of the directory
+html_response=$(curl -sL "$base_url")
+
+# Extract patch names from the HTML response and remove duplicates
+patches_with_versions=$(echo "$html_response" | grep -oP '(?<=href="/'$repo'/blob/master/'"$latest_major"'/)[^"]+' | grep -oP '^[0-9]{4}-[^/]+\.patch' | sort | uniq)
 
 # Path to PKGBUILD file
 pkgbuild_file="PKGBUILD"
@@ -20,12 +23,12 @@ updates_made=false
 if [ -f "$pkgbuild_file" ]; then
   # Fetch latest patch name versions
   echo "Fetched patches and their versions:"
-  for patch in "${patches_with_versions[@]}"; do
+  for patch in $patches_with_versions; do
     echo " - $patch"
   done
 
   # Loop through each patch name fetched from results
-  for patch in "${patches_with_versions[@]}"; do
+  for patch in $patches_with_versions; do
     current_version=$(echo "$patch" | awk -F'-' '{print $1}')
     patch_name=$(echo "$patch" | sed 's/^[0-9]\{4\}-//; s/\.patch$//')
 
