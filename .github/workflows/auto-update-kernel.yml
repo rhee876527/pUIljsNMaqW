@@ -54,7 +54,7 @@ jobs:
         id: get_latest_clear
         run: |
           # Fetch the latest tag
-          LATEST_TAG=$(curl -s https://api.github.com/repos/clearlinux-pkgs/linux/tags | grep '"name"' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')
+          LATEST_TAG=$(curl -s https://github.com/clearlinux-pkgs/linux/tags | grep -oP 'href="/clearlinux-pkgs/linux/releases/tag/[^"]+"' | head -n 1 | sed 's/href="\/clearlinux-pkgs\/linux\/releases\/tag\///;s/"//g')
           echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
             
       - name: Update clr tag
