@@ -80,8 +80,8 @@ source=(
   "https://github.com/clearlinux-pkgs/linux/archive/${_clr}.tar.gz"
   "https://github.com/graysky2/kernel_compiler_patch/archive/$_gcc_more_v.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0001-bbr3.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0012-zstd.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0005-bbr3.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0013-zstd.patch"
   "arch-0001-ASLR-bits.patch::https://github.com/${_archlinuxpatch}.patch"
   #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
