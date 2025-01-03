@@ -84,13 +84,13 @@ jobs:
           if [[ "$current_pkgrel" != "1" ]]; then
               # Set pkgrel to 1
               sed -i 's/^pkgrel=.*/pkgrel=1/' PKGBUILD
-              echo "Rollback pkgrel for new major"
+              echo "Rollback pkgrel for new kernel version"
           fi
 
       - name: Save new kernel pkgrel artifact
         if: env.updated == 'true'
         run: |
-              echo "Save pkgrel for new major version"
+              echo "Save pkgrel for new kernel version"
               echo "pkgrel_rollback=true" > new-release-update.txt
 
       - name: Avail pkgrel update artifact
@@ -103,7 +103,7 @@ jobs:
 
       - name: Update cachyos patch names
         run: |
-          bash ./cachy_patches_assistant.sh ${{ env.latest_major }}
+          bash ./cachy_patches_assistant.sh
 
       - name: Commit changes
         run: |
