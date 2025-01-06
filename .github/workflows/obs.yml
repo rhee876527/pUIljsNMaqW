@@ -21,10 +21,13 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
+
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y osc
+        sudo apt-get install -y python3-pip
+        pip3 install --break-system-packages osc==1.10.1
+        echo 'export PATH="$HOME/.local/bin:$PATH"' >> $GITHUB_ENV
 
     - name: Configure osc
       run: |
