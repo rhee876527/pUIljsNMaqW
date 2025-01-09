@@ -47,7 +47,7 @@ _basic_harden=y
 ##### below is where the magic happens
 #
 _major=6.12
-_minor=8
+_minor=9
 _srcname=linux-${_major}
 _clr=6.12.4-1518
 _gcc_more_v='20241018'
