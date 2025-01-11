@@ -10,7 +10,7 @@ repo="CachyOS/kernel-patches"
 base_url="https://github.com/$repo/tree/master/$latest_major"
 
 # Fetch the HTML content of the directory and HTTP status code
-response=$(curl -sL -w "%{http_code}" --max-time 10 "$base_url")
+response=$(curl -sL --retry 3 --retry-delay 5 --retry-max-time 30 -w "%{http_code}" "$base_url")
 http_response="${response: -3}"  
 html_response="${response%???}"  
 
