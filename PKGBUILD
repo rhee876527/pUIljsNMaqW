@@ -82,6 +82,7 @@ source=(
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0005-bbr3.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0013-zstd.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0007-crypto.patch"
   "arch-0001-ASLR-bits.patch::https://github.com/${_archlinuxpatch}.patch"
   #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
@@ -93,6 +94,7 @@ b2sums=('b2ec2fc69218cacabbbe49f78384a5d259ca581b717617c12b000b16f4a4c59ee348ea8
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
         '57990afae5287df3d34667ce37b3be556f7fd28a04dfc64ed02135c39018d14ecdd6ec4204a320f1f65031b58758076c4bdd813f7ade321d67a3158308beafa5'
         '14bdffcaa2ba46e7cda58cdd53ba7119c341483f2146919ea3324d428a2435c448520168ece6fffb1f8ab8f9c45b2a1f76678c4778042258846b282dfe4968b2'
+        '0'
         '384e181dd87010a77364dcd2810dfc4fa54689a38ec000d179f50c82f8cb564d1b05cc5e8f00e8e01de3b0153b7712ef30c5435821df15a07a2a8a7d2248c1d2')
 
 # LLVM build option
