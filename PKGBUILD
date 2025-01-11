@@ -57,7 +57,7 @@ _archlinuxpatch=archlinux/linux/commit/d4237b86322adb5b208fe51fc3b77b234f2e965d
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=2
+pkgrel=3
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/clearlinux-pkgs/linux"
@@ -94,7 +94,7 @@ b2sums=('b2ec2fc69218cacabbbe49f78384a5d259ca581b717617c12b000b16f4a4c59ee348ea8
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
         '57990afae5287df3d34667ce37b3be556f7fd28a04dfc64ed02135c39018d14ecdd6ec4204a320f1f65031b58758076c4bdd813f7ade321d67a3158308beafa5'
         '14bdffcaa2ba46e7cda58cdd53ba7119c341483f2146919ea3324d428a2435c448520168ece6fffb1f8ab8f9c45b2a1f76678c4778042258846b282dfe4968b2'
-        '0'
+        '0f7a13ebd25ca95b6aa1cd24a7d4f9c7ad4d9d0cb536561f0b107a74c8e47d1f25a7d0bb96df47170b75124040b5aac30ac81e376aabe22f21e2cbef2e8218e1'
         '384e181dd87010a77364dcd2810dfc4fa54689a38ec000d179f50c82f8cb564d1b05cc5e8f00e8e01de3b0153b7712ef30c5435821df15a07a2a8a7d2248c1d2')
 
 # LLVM build option
