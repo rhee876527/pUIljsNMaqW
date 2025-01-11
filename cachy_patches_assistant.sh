@@ -9,11 +9,37 @@ echo "🤖 Cachyos kernel patches update assistant 🤖"
 repo="CachyOS/kernel-patches"
 base_url="https://github.com/$repo/tree/master/$latest_major"
 
-# Fetch the HTML content of the directory
-html_response=$(curl -sL "$base_url")
+# Fetch the HTML content of the directory and HTTP status code
+response=$(curl -sL -w "%{http_code}" --max-time 10 "$base_url")
+http_response="${response: -3}"  
+html_response="${response%???}"  
 
-# Extract patch names from the HTML response and remove duplicates
+# Check for valid HTTP response
+if [ "$http_response" -ne 200 ]; then
+  echo "❌ Failed to fetch data from $base_url. HTTP response code: $http_response."
+  exit 1
+fi
+
+# Check if HTML response is empty
+if [ -z "$html_response" ]; then
+  echo "❌ Empty response received from $base_url. Please verify the URL or server status."
+  exit 1
+fi
+
+# Extract patch names from the HTML response
 patches_with_versions=$(echo "$html_response" | grep -oP '(?<=href="/'$repo'/blob/master/'"$latest_major"'/)[^"]+' | grep -oP '^[0-9]{4}-[^/]+\.patch' | sort | uniq)
+
+# Check if patches were found
+if [ -z "$patches_with_versions" ]; then
+    echo "❌ No patch files found at $base_url. The directory may be empty or incorrectly formatted."
+    exit 1
+fi
+
+# Fetched patches and their versions
+echo "Fetched patches and their versions:"
+for patch in $patches_with_versions; do
+    echo " - $patch"
+done
 
 # Path to PKGBUILD file
 pkgbuild_file="PKGBUILD"
@@ -21,12 +47,6 @@ pkgbuild_file="PKGBUILD"
 updates_made=false
 
 if [ -f "$pkgbuild_file" ]; then
-  # Fetch latest patch name versions
-  echo "Fetched patches and their versions:"
-  for patch in $patches_with_versions; do
-    echo " - $patch"
-  done
-
   # Loop through each patch name fetched from results
   for patch in $patches_with_versions; do
     current_version=$(echo "$patch" | awk -F'-' '{print $1}')
@@ -73,6 +93,6 @@ if [ -f "$pkgbuild_file" ]; then
 ⚠️ No updates were necessary. PKGBUILD is already up-to-date!"
   fi
 else
-  echo "❌ Fatal error: An unexpected issue occurred. Check logs for more details."
+  echo "❌ Fatal error: File not found or something else went wrong. Exiting."
   exit 1
 fi
