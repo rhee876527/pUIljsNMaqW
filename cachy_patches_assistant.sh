@@ -9,37 +9,46 @@ echo "🤖 Cachyos kernel patches update assistant 🤖"
 repo="CachyOS/kernel-patches"
 base_url="https://github.com/$repo/tree/master/$latest_major"
 
-# Fetch the HTML content of the directory and HTTP status code
-response=$(curl -sL --retry 3 --retry-delay 5 --retry-max-time 30 -w "%{http_code}" "$base_url")
-http_response="${response: -3}"  
-html_response="${response%???}"  
+# Function to fetch patches
+fetch_patches() {
+  local url=$1
+  local retries=5
+  local delay=10
 
-# Check for valid HTTP response
-if [ "$http_response" -ne 200 ]; then
-  echo "❌ Failed to fetch data from $base_url. HTTP response code: $http_response."
+  for ((i=1; i<=retries; i++)); do
+    response=$(curl -sL --retry 5 --retry-delay 10 --retry-max-time 60 -w "%{http_code}" "$url")
+    http_response="${response: -3}"
+    html_response="${response%???}"
+
+    if [ "$http_response" -eq 200 ] && [ -n "$html_response" ]; then
+      # Extract patch names from the HTML response
+      patches_with_versions=$(echo "$html_response" | grep -oP '(?<=href="/'$repo'/blob/master/'"$latest_major"'/)[^"]+' | grep -oP '^[0-9]{4}-[^/]+\.patch' | sort | uniq)
+      if [ -n "$patches_with_versions" ]; then
+        # Fetched patches and their versions
+        echo "Fetched patches and their versions:"
+        for patch in $patches_with_versions; do
+          echo " - $patch"
+        done
+        return 0
+      else
+        echo "❌ No patch files found at $url. The directory may be empty or incorrectly formatted."
+        return 1
+      fi
+    else
+      echo "Attempt $i/$retries: Failed to fetch data from $url. HTTP response code: $http_response. Retrying in $delay seconds..."
+      sleep $delay
+      delay=$((delay * 2))
+    fi
+  done
+
+  echo "❌ All retry attempts failed."
+  return 1
+}
+
+# Try fetching from the base URL
+if ! fetch_patches "$base_url"; then
   exit 1
 fi
-
-# Check if HTML response is empty
-if [ -z "$html_response" ]; then
-  echo "❌ Empty response received from $base_url. Please verify the URL or server status."
-  exit 1
-fi
-
-# Extract patch names from the HTML response
-patches_with_versions=$(echo "$html_response" | grep -oP '(?<=href="/'$repo'/blob/master/'"$latest_major"'/)[^"]+' | grep -oP '^[0-9]{4}-[^/]+\.patch' | sort | uniq)
-
-# Check if patches were found
-if [ -z "$patches_with_versions" ]; then
-    echo "❌ No patch files found at $base_url. The directory may be empty or incorrectly formatted."
-    exit 1
-fi
-
-# Fetched patches and their versions
-echo "Fetched patches and their versions:"
-for patch in $patches_with_versions; do
-    echo " - $patch"
-done
 
 # Path to PKGBUILD file
 pkgbuild_file="PKGBUILD"

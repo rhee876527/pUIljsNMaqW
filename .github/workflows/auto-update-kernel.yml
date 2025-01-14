@@ -103,7 +103,7 @@ jobs:
 
       - name: Update cachyos patch names
         run: |
-          bash ./cachy_patches_assistant.sh
+          for i in {1..6}; do bash ./cachy_patches_assistant.sh && break || sleep 10; done
 
       - name: Commit changes
         run: |
