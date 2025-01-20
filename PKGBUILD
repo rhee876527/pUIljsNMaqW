@@ -46,8 +46,8 @@ _basic_harden=y
 #
 ##### below is where the magic happens
 #
-_major=6.12
-_minor=10
+_major=6.13
+_minor=
 _srcname=linux-${_major}
 _clr=6.12.9-1535
 _gcc_more_v='20241018'
@@ -57,7 +57,7 @@ _archlinuxpatch=archlinux/linux/commit/d4237b86322adb5b208fe51fc3b77b234f2e965d
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=2
+pkgrel=1
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/clearlinux-pkgs/linux"
@@ -80,9 +80,9 @@ source=(
   "https://github.com/clearlinux-pkgs/linux/archive/${_clr}.tar.gz"
   "https://github.com/graysky2/kernel_compiler_patch/archive/$_gcc_more_v.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0005-bbr3.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0013-zstd.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0007-crypto.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0003-bbr3.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0012-zstd.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0005-crypto.patch"
   "arch-0001-ASLR-bits.patch::https://github.com/${_archlinuxpatch}.patch"
   #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
