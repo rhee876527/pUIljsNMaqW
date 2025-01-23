@@ -29,7 +29,7 @@ _debug=n
 # This will invalidate all clear patches and build with stock kernel. 
 # Note: Sources must be updated to reflect new build status. 
 # You need to enable config from arch in sources or set your own
-_switchstock=
+_switchstock=y
 
 # Enable x86-64 compiler ISA level
 # Check using: /lib/ld-linux-x86-64.so.2 --help | grep supported
@@ -47,7 +47,7 @@ _basic_harden=y
 ##### below is where the magic happens
 #
 _major=6.13
-_minor=
+_minor=0
 _srcname=linux-${_major}
 _clr=6.12.9-1535
 _gcc_more_v='20241018'
@@ -76,7 +76,7 @@ fi
 
 source=(
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${_major}.tar.xz"
-  "https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
+  #"https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
   "https://github.com/clearlinux-pkgs/linux/archive/${_clr}.tar.gz"
   "https://github.com/graysky2/kernel_compiler_patch/archive/$_gcc_more_v.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
@@ -84,7 +84,7 @@ source=(
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0012-zstd.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0005-crypto.patch"
   "arch-0001-ASLR-bits.patch::https://github.com/${_archlinuxpatch}.patch"
-  #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
+  "https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
 b2sums=('b2ec2fc69218cacabbbe49f78384a5d259ca581b717617c12b000b16f4a4c59ee348ea886b37147f5f70fb9a7a01c1e2c8f19021078f6b23f5bc62d1c48d5e5e'
