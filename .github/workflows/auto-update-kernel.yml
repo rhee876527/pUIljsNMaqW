@@ -119,7 +119,7 @@ jobs:
 
             echo "Successfully restored _clr build config"
           else
-            echo "Minor is not 0. Nothing to do here"
+            echo "Minor version state is correct. Nothing to do here"
           fi
 
       - name: Update cachyos patch names
