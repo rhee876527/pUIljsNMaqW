@@ -100,6 +100,27 @@ jobs:
           name: new-kernel
           path: new-release-update.txt
 
+      - name: Undo _switchstock
+        run: |
+          _minor=$(grep -oP '_minor=\K\d+' PKGBUILD)
+
+          # Check if we are at .0
+	  if [[ $_minor -eq 0 && -n $latest_minor ]]; then
+            echo "Undo dot 0 stock changes and reinstate default build sources"
+
+            # Revert _switchstock
+            sed -i 's/^_switchstock=.*/_switchstock=/' PKGBUILD
+
+            # Re-instate minor patch versions in sources
+            sed -i 's/^ *#\(.*cdn\.kernel\.org.*patch-.*\.xz"\)/  \1/' PKGBUILD
+
+            # Revert arch config
+            sed -i 's|^  "https://gitlab\.archlinux\.org.*config"|  #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"|' PKGBUILD
+
+            echo "Successfully restored _clr build config"
+          else
+            echo "Minor is not 0. Nothing to do here"
+          fi
 
       - name: Update cachyos patch names
         run: |
