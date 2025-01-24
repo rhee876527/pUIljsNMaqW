@@ -105,7 +105,7 @@ jobs:
           _minor=$(grep -oP '_minor=\K\d+' PKGBUILD)
 
           # Check if we are at .0
-	  if [[ $_minor -eq 0 && -n $latest_minor ]]; then
+          if [[ $_minor -eq 0 && -n $latest_minor ]]; then
             echo "Undo dot 0 stock changes and reinstate default build sources"
 
             # Revert _switchstock
