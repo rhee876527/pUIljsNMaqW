@@ -101,6 +101,7 @@ jobs:
           path: new-release-update.txt
 
       - name: Undo _switchstock
+        if: env.updated == 'true'
         run: |
           _minor=$(grep -oP '_minor=\K\d+' PKGBUILD)
 
