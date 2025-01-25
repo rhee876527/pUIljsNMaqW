@@ -35,14 +35,7 @@ jobs:
           path: ./
 
       - name: Check if updpkgsums has triggered change
-        id: check_changes
         run: |
-          # Check /processed/PKGBUILD
-          if [ ! -f processed/PKGBUILD ]; then
-            echo "Can't find processed PKGBUILD. Something is seriously wrong. Exiting now!!"
-            exit 1
-          fi
-
           # Compare the two files
           if diff -q PKGBUILD processed/PKGBUILD > /dev/null; then
             echo "No changes to be made!"
@@ -69,7 +62,7 @@ jobs:
 
                   echo "Auto bumped pkgrel!"
               else
-                  echo "Exiting without bumping pkgrel."
+                  echo "Bumping pkgrel not needed."
                   exit 0
               fi
           else

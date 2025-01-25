@@ -16,7 +16,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Read current version from PKGBUILD
-        id: read_version
         run: |
           _major=$(grep '^_major=' PKGBUILD | cut -d'=' -f2)
           _minor=$(grep '^_minor=' PKGBUILD | cut -d'=' -f2)
@@ -25,7 +24,6 @@ jobs:
           echo "current_minor=$_minor" >> $GITHUB_ENV
         
       - name: Get latest kernel version
-        id: get_latest_version
         run: |
           latest_version=$(curl -s https://www.kernel.org/finger_banner | grep "The latest stable version" | awk '{print $NF}')
           echo "Latest version: $latest_version"
@@ -36,10 +34,9 @@ jobs:
           echo "latest_minor=$latest_minor" >> $GITHUB_ENV
 
       - name: Update PKGBUILD if new kernel is available
-        id: update_pkgbuild
         run: |        
           latest_minor_int=${latest_minor%%.*}      
-          # Compare versions using string comparison
+          # Check if update is required
           if [[ "$latest_major" > "$current_major" || 
                 ("$latest_major" == "$current_major" && "$latest_minor_int" -gt "$current_minor") ]]; then
               echo "Updating PKGBUILD..."
@@ -51,7 +48,6 @@ jobs:
           fi
 
       - name: Fetch clearlinux tag
-        id: get_latest_clear
         run: |
           # Fetch the latest tag
           LATEST_TAG=$(curl -s https://github.com/clearlinux-pkgs/linux/tags | grep -oP 'href="/clearlinux-pkgs/linux/releases/tag/[^"]+"' | head -n 1 | sed 's/href="\/clearlinux-pkgs\/linux\/releases\/tag\///;s/"//g')
@@ -108,13 +104,10 @@ jobs:
           # Check if we are at .0
           if [[ $_minor -eq 0 && -n $latest_minor ]]; then
             echo "Undo dot 0 stock changes and reinstate default build sources"
-
             # Revert _switchstock
             sed -i 's/^_switchstock=.*/_switchstock=/' PKGBUILD
-
             # Re-instate minor patch versions in sources
             sed -i 's/^ *#\(.*cdn\.kernel\.org.*patch-.*\.xz"\)/  \1/' PKGBUILD
-
             # Revert arch config
             sed -i 's|^  "https://gitlab\.archlinux\.org.*config"|  #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"|' PKGBUILD
 
