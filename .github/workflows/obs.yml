@@ -41,6 +41,7 @@ jobs:
         osc checkout ${{ secrets.OBS_PROJECT_PATH }}
 
     - name: Extract PKGBUILD Version
+      id: extract_pkgver
       run: |
         PKGBUILD_PATH="processed/PKGBUILD"
         _major=$(grep -Po '^_major=\K.*' $PKGBUILD_PATH)
