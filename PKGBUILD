@@ -1,9 +1,7 @@
-# Caution! Please read what this package does before installing it on your machine!
-#
 # Maintainer: Yet another BTW anon
 #
-# Original works by: Josip Ponjavic
-# (Source project) >>>
+# Credit to: Josip Ponjavic
+# >>>
 # https://aur.archlinux.org/packages/linux-clear
 # https://build.opensuse.org/package/show/home:metakcahura:kernel/linux-clear-llvm
 #
@@ -26,14 +24,14 @@ _debug=n
 
 # Switch to stock build if needed
 # Useful for dot 0 releases or when clearlinux is out of sync... 
-# This will invalidate all clear patches and build with stock kernel. 
+# This will invalidate all clear patches and build with stock kernel config. 
 # Note: Sources must be updated to reflect new build status. 
 # You need to enable config from arch in sources or set your own
 _switchstock=y
 
 # Enable x86-64 compiler ISA level
 # Check using: /lib/ld-linux-x86-64.so.2 --help | grep supported
-# NOTE: Defaults to x86-64-v3 unless a level is provided.
+# NOTE: Defaults to x86-64-v3 unless a level (1,2,3,4) is provided.
 _isa_level=${_isa_level-3}
 
 # Use llvm by default. Blank to use gcc
@@ -139,7 +137,7 @@ prepare() {
         done
     fi    
     
-    ### Add extra cherry-picked patches
+    ### Add the cherry-picked patches
     local src
         for src in "${source[@]}"; do
         src="${src%%::*}"
@@ -158,62 +156,65 @@ prepare() {
         cp -Tf $srcdir/linux-${_clr}/config ./.config
     fi
 
-    # General setup
-    scripts/config --set-str DEFAULT_HOSTNAME archlinux \
-                   --enable IKCONFIG \
-                   --enable IKCONFIG_PROC \
-                   --undefine RT_GROUP_SCHED
+    ### Extra config for clearlinux
+    if [ -z "$_switchstock" ]; then
+        # General setup
+        scripts/config --set-str DEFAULT_HOSTNAME archlinux \
+                       --enable IKCONFIG \
+                       --enable IKCONFIG_PROC \
+                       --undefine RT_GROUP_SCHED
 
-    # Power management and ACPI options
-    scripts/config --enable ACPI_REV_OVERRIDE_POSSIBLE \
-                   --enable ACPI_TABLE_UPGRADE
+        # Power management and ACPI options
+        scripts/config --enable ACPI_REV_OVERRIDE_POSSIBLE \
+                       --enable ACPI_TABLE_UPGRADE
 
-    # General architecture-dependent options
-    scripts/config --enable KPROBES
+        # General architecture-dependent options
+        scripts/config --enable KPROBES
 
-    # Networking support
-    scripts/config --enable NETFILTER_INGRESS
-    
-    # Virtualization support
-    scripts/config --enable KVM_SMM
+        # Networking support
+        scripts/config --enable NETFILTER_INGRESS
+        
+        # Virtualization support
+        scripts/config --enable KVM_SMM
 
-    # Device Drivers
-    scripts/config --enable FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER \
-                   --enable DELL_SMBIOS_SMM \
-                   --module PATA_JMICRON \
-                   --enable-after SOUND SOUND_OSS_CORE \
-                   --enable SND_OSSEMUL \
-                   --module-after SND_OSSEMUL SND_MIXER_OSS \
-                   --module-after SND_MIXER_OSS SND_PCM_OSS \
-                   --enable-after SND_PCM_OSS SND_PCM_OSS_PLUGINS \
-                   --module AGP --module-after AGP AGP_INTEL --module-after AGP_INTEL AGP_VIA
+        # Device Drivers
+        scripts/config --enable FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER \
+                       --enable DELL_SMBIOS_SMM \
+                       --module PATA_JMICRON \
+                       --enable-after SOUND SOUND_OSS_CORE \
+                       --enable SND_OSSEMUL \
+                       --module-after SND_OSSEMUL SND_MIXER_OSS \
+                       --module-after SND_MIXER_OSS SND_PCM_OSS \
+                       --enable-after SND_PCM_OSS SND_PCM_OSS_PLUGINS \
+                       --module AGP --module-after AGP AGP_INTEL --module-after AGP_INTEL AGP_VIA
 
-    # Kernel hacking -> Compile-time checks and compiler options -> Make section mismatch errors non-fatal
-    scripts/config --enable SECTION_MISMATCH_WARN_ONLY
+        # Kernel hacking -> Compile-time checks and compiler options -> Make section mismatch errors non-fatal
+        scripts/config --enable SECTION_MISMATCH_WARN_ONLY
 
-    # File systems
-    scripts/config --module NTFS3_FS \
-                   --enable NTFS3_LZX_XPRESS \
-                   --enable NTFS3_FS_POSIX_ACL
+        # File systems
+        scripts/config --module NTFS3_FS \
+                       --enable NTFS3_LZX_XPRESS \
+                       --enable NTFS3_FS_POSIX_ACL
 
-    scripts/config --module SMB_SERVER \
-                   --enable SMB_SERVER_SMBDIRECT \
-                   --enable SMB_SERVER_CHECK_CAP_NET_ADMIN \
-                   --enable SMB_SERVER_KERBEROS5
+        scripts/config --module SMB_SERVER \
+                       --enable SMB_SERVER_SMBDIRECT \
+                       --enable SMB_SERVER_CHECK_CAP_NET_ADMIN \
+                       --enable SMB_SERVER_KERBEROS5
 
-    # Security options
-    scripts/config --enable SECURITY_SELINUX \
-                   --enable SECURITY_SELINUX_BOOTPARAM \
-                   --enable SECURITY_SMACK \
-                   --enable SECURITY_SMACK_BRINGUP \
-                   --enable SECURITY_SMACK_NETFILTER \
-                   --enable SECURITY_SMACK_APPEND_SIGNALS \
-                   --enable SECURITY_TOMOYO \
-                   --enable SECURITY_APPARMOR \
-                   --enable SECURITY_YAMA
+        # Security options
+        scripts/config --enable SECURITY_SELINUX \
+                       --enable SECURITY_SELINUX_BOOTPARAM \
+                       --enable SECURITY_SMACK \
+                       --enable SECURITY_SMACK_BRINGUP \
+                       --enable SECURITY_SMACK_NETFILTER \
+                       --enable SECURITY_SMACK_APPEND_SIGNALS \
+                       --enable SECURITY_TOMOYO \
+                       --enable SECURITY_APPARMOR \
+                       --enable SECURITY_YAMA
 
-    # Library routines
-    scripts/config --keep-case --enable FONT_TER16x32
+        # Library routines
+        scripts/config --keep-case --enable FONT_TER16x32
+    fi
 
     ### Other extra misc improvements
    
@@ -244,7 +245,7 @@ prepare() {
                    --disable CONFIG_SCHED_DEBUG \
                    --set-val CONFIG_DEFAULT_MMAP_MIN_ADDR 65536    
 
-    # Enables LLVM Clang
+    # LLVM Clang
     if [ -n "$_use_llvm_lto" ]; then
         scripts/config --disable LTO_NONE \
                        --enable LTO \
