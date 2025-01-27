@@ -55,7 +55,7 @@ _archlinuxpatch=archlinux/linux/commit/d4237b86322adb5b208fe51fc3b77b234f2e965d
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=3
+pkgrel=4
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/clearlinux-pkgs/linux"
@@ -126,7 +126,7 @@ prepare() {
     ### Add Clearlinux patches
     if [ -z "$_switchstock" ]; then
         for i in $(grep '^Patch' ${srcdir}/linux-${_clr}/linux.spec |\
-                     grep -Ev '^Patch0132|^Patch0109|^Patch0118|^Patch0138|^Patch0113|^Patch0139|^Patch0147' | sed -n 's/.*: //p'); do
+                     grep -Ev '^Patch0132|^Patch0109|^Patch0125|^Patch0118|^Patch0138|^Patch0113|^Patch0139|^Patch0147' | sed -n 's/.*: //p'); do
             if [ -n "$_use_llvm_lto" ]; then
                 if [ "${i}" == "0133-novector.patch" ]; then
                     continue
