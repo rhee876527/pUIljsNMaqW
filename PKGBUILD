@@ -214,6 +214,10 @@ prepare() {
 
         # Library routines
         scripts/config --keep-case --enable FONT_TER16x32
+
+	# Make schedutil default gov
+	scripts/config --undefine CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE \
+	scripts/config --enable CONFIG_CPU_FREQ_DEFAULT_GOV_SCHEDUTIL
     fi
 
     ### Other extra misc improvements
