@@ -55,7 +55,7 @@ _archlinuxpatch=archlinux/linux/commit/d4237b86322adb5b208fe51fc3b77b234f2e965d
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=4
+pkgrel=5
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/clearlinux-pkgs/linux"
@@ -214,6 +214,10 @@ prepare() {
 
         # Library routines
         scripts/config --keep-case --enable FONT_TER16x32
+
+	# Make schedutil default gov
+	scripts/config --undefine CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE \
+	scripts/config --enable CONFIG_CPU_FREQ_DEFAULT_GOV_SCHEDUTIL
     fi
 
     ### Other extra misc improvements
