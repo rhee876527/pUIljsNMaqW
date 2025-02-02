@@ -99,7 +99,8 @@ jobs:
       - name: Undo _switchstock
         if: env.updated == 'true'
         run: |
-          _minor=$(grep -oP '_minor=\K\d+' PKGBUILD)
+          # use correct PKGBUILD to check for _minor
+          _minor=$(curl -sL "https://raw.githubusercontent.com/${{ github.repository }}/refs/heads/${{ github.ref_name }}/PKGBUILD" | grep -oP '_minor=\K\d+')
 
           # Check if we are at .0
           if [[ $_minor -eq 0 && -n $latest_minor ]]; then
