@@ -55,7 +55,7 @@ _archlinuxpatch=archlinux/linux/commit/d4237b86322adb5b208fe51fc3b77b234f2e965d
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=4
+pkgrel=5
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/clearlinux-pkgs/linux"
@@ -94,7 +94,8 @@ b2sums=('9f617ecb3f2393b57ba03c654fea62a7213f24c835989f333a1ef29492af551bfa7d9ad
         '25d244711c2216cd0b37e2d3ef91c8077e316c426c13b5ebf31f90d8f350faaf63a8682c6c19d5532a47a579ab687d4e381524a0fe13a1bb770c6d7d781ed233'
         'e3f62f3eced4b97844d0ed87bdfa396fd3b297d777e051b59562ad13692ad8a475d92bd0bef5f1e45c7910c921193ecdb2f46cfb9bb6b8024517b756ee44af09'
         '85ba051858630487f6eb5835c4d92c601a047db65f02309bc8db4d6470fe7d013ac1d2bc03620314c19d7a5033fd63649c961a560dced76a3d111c3526e21884'
-        '384e181dd87010a77364dcd2810dfc4fa54689a38ec000d179f50c82f8cb564d1b05cc5e8f00e8e01de3b0153b7712ef30c5435821df15a07a2a8a7d2248c1d2')
+        '384e181dd87010a77364dcd2810dfc4fa54689a38ec000d179f50c82f8cb564d1b05cc5e8f00e8e01de3b0153b7712ef30c5435821df15a07a2a8a7d2248c1d2'
+        '7a8b8b469e70b1585b0d8cf2605de0a19b025f5f578dfe3bb8ea01e866c74090a884d32f8ff0acc3dbe18a6195ee3f0b8e1894695c537e4881371dc40e910280')
 
 # LLVM build option
 if [ -n "$_use_llvm_lto" ]; then
