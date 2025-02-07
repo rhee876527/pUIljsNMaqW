@@ -2,11 +2,11 @@ name: OBS Commit
 # OBS_PROJECT_PATH example:
 # home:user:project/sub-project *sub-project is optional
 
-#on: 
-#  workflow_run:
-#    workflows: ['Update checksums']
-#    types:
-#      - completed
+on: 
+  workflow_run:
+    workflows: ['Update checksums']
+    types:
+      - completed
 
 #  workflow_dispatch
 

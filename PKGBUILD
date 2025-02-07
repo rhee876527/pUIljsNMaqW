@@ -83,6 +83,7 @@ source=(
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0005-crypto.patch"
   "arch-0001-ASLR-bits.patch::https://github.com/${_archlinuxpatch}.patch"
   #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
+  "https://raw.githubusercontent.com/rhee876527/pUIljsNMaqW/refs/heads/main/fuse.patch"
   )
 
 b2sums=('9f617ecb3f2393b57ba03c654fea62a7213f24c835989f333a1ef29492af551bfa7d9ad786d5ef1484854adc77c7c6af38fb09a72d994d305695f512c325e77f'
