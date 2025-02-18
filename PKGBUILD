@@ -220,7 +220,10 @@ prepare() {
 
         # Make schedutil default gov
         scripts/config --undefine CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE \
-                       --enable CONFIG_CPU_FREQ_DEFAULT_GOV_SCHEDUTIL    
+                       --enable CONFIG_CPU_FREQ_DEFAULT_GOV_SCHEDUTIL
+
+        # Add landlock lsm
+        scripts/config --set-str LSM "landlock,yama,loadpin,safesetid,integrity"    
     fi
 
     ### Other extra misc improvements
