@@ -51,7 +51,8 @@ _clr=6.13.2-1541
 _gcc_more_v='20241018'
 _cachy=CachyOS/kernel-patches/master
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
-_archlinuxpatch=archlinux/linux/commit/d4237b86322adb5b208fe51fc3b77b234f2e965d
+_archlinuxpatch1=archlinux/linux/commit/d4237b86322adb5b208fe51fc3b77b234f2e965d
+_archlinuxpatch2=archlinux/linux/commit/0d3c69d665f688426a5a0699de387a4a7b8e0d95
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
@@ -81,9 +82,9 @@ source=(
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0003-bbr3.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0012-zstd.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0005-crypto.patch"
-  "arch-0001-ASLR-bits.patch::https://github.com/${_archlinuxpatch}.patch"
+  "arch-0001-ASLR-bits.patch::https://github.com/${_archlinuxpatch1}.patch"
+  "arch-0002-fuse-bug.patch::https://github.com/${_archlinuxpatch2}.patch"
   #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
-  "https://raw.githubusercontent.com/rhee876527/pUIljsNMaqW/refs/heads/main/fuse.patch"
   )
 
 b2sums=('9f617ecb3f2393b57ba03c654fea62a7213f24c835989f333a1ef29492af551bfa7d9ad786d5ef1484854adc77c7c6af38fb09a72d994d305695f512c325e77f'
