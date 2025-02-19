@@ -47,7 +47,7 @@ _basic_harden=y
 _major=6.13
 _minor=3
 _srcname=linux-${_major}
-_clr=6.13.2-1541
+_clr=6.13.3-1546
 _gcc_more_v='20241018'
 _cachy=CachyOS/kernel-patches/master
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
@@ -56,7 +56,7 @@ _archlinuxpatch2=archlinux/linux/commit/0d3c69d665f688426a5a0699de387a4a7b8e0d95
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=2
+pkgrel=3
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/clearlinux-pkgs/linux"
@@ -89,7 +89,7 @@ source=(
 
 b2sums=('9f617ecb3f2393b57ba03c654fea62a7213f24c835989f333a1ef29492af551bfa7d9ad786d5ef1484854adc77c7c6af38fb09a72d994d305695f512c325e77f'
         'ae366ba3c7544275b7d7015d6d0d612a10c2142d9fe5a69ba52e73f9563feaa737997678045aa2dc5eea1ff5e63930a2c5f2645cd2e10406cb55e7bba28c13df'
-        '77b240da14449081d9e127b5fae584ee65de09d945ee8e69599aa4c86cd64e6bde650d882338cd52e7d78738ce6d49fa8b41baa700acff0adfaef2fcb90d8188'
+        '2b44425476ff01feb5d042dc7639baa1cd9f9f34d6faf381c40f29cd43e62c5bd858a6eb4788db1795f12e669bdaaa375cec4a9d9bd033efd20124f684fff0de'
         'f103018e7a081709e531a3548e13d7803c83f020507bbeb9642a459c79c2edfa9579d368ac2a58f8eca0fec9ab52895506cbb9f30a2e67dc8065f08986579d21'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
         'c79c08e07bbed363f53628b8d30eafd1d98abbba4e248e4c32f4083178c9c27ec616d1667d42b5a552322ef65ea846bb49a2bdead0c15932d15ea0acd379b568'
