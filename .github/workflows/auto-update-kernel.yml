@@ -25,7 +25,7 @@ jobs:
         
       - name: Get latest kernel version
         run: |
-          latest_version=$(curl -s https://www.kernel.org/finger_banner | grep "The latest stable version" | awk '{print $NF}')
+          latest_version=$(curl -s --retry 8 https://www.kernel.org/finger_banner | grep "The latest stable version" | awk '{print $NF}')
           echo "Latest version: $latest_version"
            # Set latest_major and latest_minor 
           latest_major=$(echo "$latest_version" | cut -d'.' -f1-2)  # Extract major and minor
