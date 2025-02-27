@@ -45,7 +45,7 @@ _basic_harden=y
 ##### below is where the magic happens
 #
 _major=6.13
-_minor=4
+_minor=5
 _srcname=linux-${_major}
 _clr=6.13.4-1548
 _gcc_more_v='20241018'
@@ -56,7 +56,7 @@ _archlinuxpatch2=archlinux/linux/commit/0d3c69d665f688426a5a0699de387a4a7b8e0d95
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=3
+pkgrel=1
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/clearlinux-pkgs/linux"
