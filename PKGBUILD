@@ -23,9 +23,9 @@ _localmodcfg=
 _debug=n
 
 # Switch to stock build if needed
-# Useful for dot 0 releases or when clearlinux is out of sync... 
-# This will invalidate all clear patches and build with stock kernel config. 
-# Note: Sources must be updated to reflect new build status. 
+# Useful for dot 0 releases or when clearlinux is out of sync...
+# This will invalidate all clear patches and build with stock kernel config.
+# Note: Sources must be updated to reflect new build status.
 # You need to enable config from arch in sources or set your own
 _switchstock=
 
@@ -45,14 +45,13 @@ _basic_harden=y
 ##### below is where the magic happens
 #
 _major=6.13
-_minor=6
+_minor=5
 _srcname=linux-${_major}
 _clr=6.13.4-1548
 _gcc_more_v='20241018'
 _cachy=CachyOS/kernel-patches/master
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
-_archlinuxpatch1=archlinux/linux/commit/d4237b86322adb5b208fe51fc3b77b234f2e965d
-_archlinuxpatch2=archlinux/linux/commit/0d3c69d665f688426a5a0699de387a4a7b8e0d95
+_archlinuxpatch=archlinux/linux/commit/d4237b86322adb5b208fe51fc3b77b234f2e965d
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
@@ -82,8 +81,7 @@ source=(
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0003-bbr3.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0012-zstd.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0005-crypto.patch"
-  "arch-0001-ASLR-bits.patch::https://github.com/${_archlinuxpatch1}.patch"
-  "arch-0002-fuse-bug.patch::https://github.com/${_archlinuxpatch2}.patch"
+  "arch-0001-ASLR-bits.patch::https://github.com/${_archlinuxpatch}.patch"
   #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
@@ -112,7 +110,7 @@ export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EP
 
 prepare() {
     cd ${_srcname}
-    
+
     ### Add upstream patches
     if [ $_minor -eq 0 ]; then
         echo "Skipping minor version patch for early 0 release"
@@ -125,7 +123,7 @@ prepare() {
     echo "Setting version..."
     echo "-$pkgrel" > localversion.10-pkgrel
     echo "${pkgbase#linux}" > localversion.20-pkgname
-    
+
     ### Add Clearlinux patches
     if [ -z "$_switchstock" ]; then
         for i in $(grep '^Patch' ${srcdir}/linux-${_clr}/linux.spec |\
@@ -138,8 +136,8 @@ prepare() {
             echo "Applying patch ${i}..."
             patch -Np1 -i "$srcdir/linux-${_clr}/${i}" || true
         done
-    fi    
-    
+    fi
+
     ### Add the cherry-picked patches
     local src
         for src in "${source[@]}"; do
@@ -148,7 +146,7 @@ prepare() {
         [[ $src = *.patch ]] || continue
         echo "Applying patch $src..."
         patch -Np1 < "../$src" || true
-    done		    
+    done
 
     ### Setting config
     if [ -n "$_switchstock" ]; then
@@ -176,7 +174,7 @@ prepare() {
 
         # Networking support
         scripts/config --enable NETFILTER_INGRESS
-        
+
         # Virtualization support
         scripts/config --enable KVM_SMM
 
@@ -223,15 +221,15 @@ prepare() {
                        --enable CONFIG_CPU_FREQ_DEFAULT_GOV_SCHEDUTIL
 
         # Add landlock lsm
-        scripts/config --set-str LSM "landlock,yama,loadpin,safesetid,integrity"    
+        scripts/config --set-str LSM "landlock,yama,loadpin,safesetid,integrity"
     fi
 
     ### Other extra misc improvements
-   
+
     # enable PSI for oomd
     scripts/config --undefine CONFIG_PSI_DEFAULT_DISABLED
-                  
-    # BBRv3               
+
+    # BBRv3
     scripts/config --module TCP_CONG_CUBIC \
                    --enable DEFAULT_BBR \
                    --disable DEFAULT_CUBIC \
@@ -241,7 +239,7 @@ prepare() {
                    --disable CONFIG_DEFAULT_FQ_CODEL \
                    --enable CONFIG_DEFAULT_FQ \
                    --set-str DEFAULT_TCP_CONG bbr
-    
+
     # More configs good for security/performance
     scripts/config --enable CONFIG_SECURITY_LOCKDOWN_LSM \
                    --disable CONFIG_LEGACY_TIOCSTI \
@@ -253,7 +251,7 @@ prepare() {
                    --disable CONFIG_DEBUG_NOTIFIERS \
                    --disable CONFIG_KVM_WERROR \
                    --disable CONFIG_SCHED_DEBUG \
-                   --set-val CONFIG_DEFAULT_MMAP_MIN_ADDR 65536    
+                   --set-val CONFIG_DEFAULT_MMAP_MIN_ADDR 65536
 
     # LLVM Clang
     if [ -n "$_use_llvm_lto" ]; then
@@ -292,7 +290,7 @@ prepare() {
         echo "Skip ISA level patch"
     fi
 
-    # Enable basic upstream kernel hardening 
+    # Enable basic upstream kernel hardening
     if [ -n "$_basic_harden" ]; then
         make hardening.config
     else
@@ -308,7 +306,7 @@ prepare() {
 
     # Run olddefconfig
     make ${BUILD_FLAGS[*]} olddefconfig
-    
+
     ### Optionally load needed modules for the make localmodconfig
     # See https://aur.archlinux.org/packages/modprobed-db
     if [ -n "$_localmodcfg" ]; then
@@ -320,7 +318,7 @@ prepare() {
             exit
         fi
     fi
-    
+
     make -s kernelrelease > version
     echo "Prepared $pkgbase version $(<version)"
 
@@ -334,7 +332,7 @@ build() {
     cd ${_srcname}
   	__nthreads=$(($(nproc) + 1))
 	make ${BUILD_FLAGS[*]} -j${__nthreads} all
-#	make ${BUILD_FLAGS[*]} -C tools/bpf/bpftool vmlinux.h feature-clang-bpf-co-re=1 
+#	make ${BUILD_FLAGS[*]} -C tools/bpf/bpftool vmlinux.h feature-clang-bpf-co-re=1
 }
 
 package_linux-clear-llvm() {
@@ -409,7 +407,7 @@ package_linux-clear-llvm-headers() {
 
     echo "Installing KConfig files..."
     find . -name 'Kconfig*' -exec install -Dm644 {} "$builddir/{}" \;
-    
+
     echo "Removing unneeded architectures..."
     local arch
     for arch in "$builddir"/arch/*/; do
