@@ -1,9 +1,8 @@
-# Maintainer: Yet another BTW anon
-#
-# Credit to: Josip Ponjavic
-# >>>
-# https://aur.archlinux.org/packages/linux-clear
-# https://build.opensuse.org/package/show/home:metakcahura:kernel/linux-clear-llvm
+# Maintainer: Martin Kibera <martin.kibera.n at gmail dot com>
+# Contributor: Josip Ponjavic <josipponjavic at gmail dot com>
+# 
+# Link to forked project >>>
+# https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=linux-clear&id=e6ad9bba1bf1114dc40e0cae217fe0af1abb513d
 #
 #######################################################################
 #
@@ -58,7 +57,7 @@ pkgver=${_major}.${_minor}
 pkgrel=1
 pkgdesc='Clear Linux'
 arch=('x86_64')
-url="https://github.com/clearlinux-pkgs/linux"
+url="https://github.com/rhee876527/pUIljsNMaqW"
 license=(GPL-2.0-only)
 makedepends=(bc cpio gettext libelf pahole perl python tar xz zstd)
 
