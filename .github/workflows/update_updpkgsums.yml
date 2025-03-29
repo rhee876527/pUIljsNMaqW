@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Validate package
-        uses: MotorTruck1221/arch-linux-pkgbuild-package@4fd2b58122e6f05808cdd3d9b8356823d85706c9
+        uses: heyhusen/archlinux-package-action@v2
         with:
           flags: ''
           namcap: false
