@@ -50,7 +50,7 @@ _clr=6.14.2-1563
 _gcc_more_v='20241018'
 _cachy=CachyOS/kernel-patches/master
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
-_archlinuxpatch=archlinux/linux/commit/d4237b86322adb5b208fe51fc3b77b234f2e965d
+#_archlinuxpatch=archlinux/linux/commit/d4237b86322adb5b208fe51fc3b77b234f2e965d
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
@@ -80,7 +80,7 @@ source=(
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-bbr3.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0009-zstd.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0006-crypto.patch"
-  "arch-0001-ASLR-bits.patch::https://github.com/${_archlinuxpatch}.patch"
+  #"arch-0001-ASLR-bits.patch::https://github.com/${_archlinuxpatch}.patch"
   #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
@@ -214,6 +214,9 @@ prepare() {
         # Library routines
         scripts/config --keep-case --enable FONT_TER16x32
 
+        # enable PSI for oomd
+        scripts/config --undefine CONFIG_PSI_DEFAULT_DISABLED
+
         # Make schedutil default gov
         scripts/config --undefine CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE \
                        --enable CONFIG_CPU_FREQ_DEFAULT_GOV_SCHEDUTIL
@@ -223,9 +226,6 @@ prepare() {
     fi
 
     ### Other extra misc improvements
-
-    # enable PSI for oomd
-    scripts/config --undefine CONFIG_PSI_DEFAULT_DISABLED
 
     # BBRv3
     scripts/config --module TCP_CONG_CUBIC \
