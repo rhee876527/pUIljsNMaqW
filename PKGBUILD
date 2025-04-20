@@ -40,9 +40,9 @@ _use_llvm_lto=y
 # https://github.com/torvalds/linux/blob/master/kernel/configs/hardening.config
 _basic_harden=y
 
-#
-##### below is where the magic happens
-#
+######################
+##########
+####
 _major=6.14
 _minor=3
 _srcname=linux-${_major}
@@ -50,7 +50,6 @@ _clr=6.14.2-1563
 _gcc_more_v='20241018'
 _cachy=CachyOS/kernel-patches/master
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
-#_archlinuxpatch=archlinux/linux/commit/d4237b86322adb5b208fe51fc3b77b234f2e965d
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
@@ -80,7 +79,6 @@ source=(
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-bbr3.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0009-zstd.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0006-crypto.patch"
-  #"arch-0001-ASLR-bits.patch::https://github.com/${_archlinuxpatch}.patch"
   #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
@@ -154,7 +152,7 @@ prepare() {
         cp -Tf $srcdir/linux-${_clr}/config ./.config
     fi
 
-    ### Extra config for clearlinux
+    ### Extra configs for clearlinux
     if [ -z "$_switchstock" ]; then
         # General setup
         scripts/config --set-str DEFAULT_HOSTNAME archlinux \
