@@ -53,7 +53,7 @@ _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b221693855
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=2
+pkgrel=3
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/rhee876527/pUIljsNMaqW"
@@ -90,7 +90,8 @@ b2sums=('11835719804b406fe281ea1c276a84dc0cbaa808552ddcca9233d3eaeb1c001d0455c72
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
         '8cc775dd4bf768baa591850ec65baaea57bcd691ee7fd5c52b308006a93cb1a73b34f1e4b1b99ab2bc451b9ac1c8a8c6ca13c0b471ae7a99335d8efebeac6618'
         '635293bccd16932e826d375a921b778a8d074c0c0099a90525885ffa92a1d3708515129a425452b84849befa290fa318fb9771af41ffc41a6d59c9d080f22815'
-        '1a0d7f0450936fa32e030dffd2638534ebf652367cae14055f4f3434bc152efe488d54ede8c6d967b5321a3fb0a0ffb2a051a318c8c391ffeb82d22da5788137')
+        '1a0d7f0450936fa32e030dffd2638534ebf652367cae14055f4f3434bc152efe488d54ede8c6d967b5321a3fb0a0ffb2a051a318c8c391ffeb82d22da5788137'
+        'c1c2f17109c87dad83b284dff62a37b3de02f620eae8ed8264c42ae9fff13bd673315294c75154e1990b42848d0cef37d00436774eeee4ae1f9db3fb423fdf29')
 
 # LLVM build option
 if [ -n "$_use_llvm_lto" ]; then
