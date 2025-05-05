@@ -79,6 +79,7 @@ source=(
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-bbr3.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0009-zstd.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0006-crypto.patch"
+  "https://raw.githubusercontent.com/rhee876527/pUIljsNMaqW/refs/heads/main/kcompressd.patch"
   #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
