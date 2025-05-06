@@ -21,8 +21,8 @@ fetch_patches() {
     html_response="${response%???}"
 
     if [ "$http_response" -eq 200 ] && [ -n "$html_response" ]; then
-      # Extract patch names from the HTML response
-      patches_with_versions=$(echo "$html_response" | grep -oP '(?<=href="/'$repo'/blob/master/'"$latest_major"'/)[^"]+' | grep -oP '^[0-9]{4}-[^/]+\.patch' | sort | uniq)
+      # Extract patch names from HTML page
+      patches_with_versions=$(curl -sL $url | grep -ozP '<script type="application/json" data-target="react-app.embeddedData">\K.*?(?=</script>)' | tr -d '\0' | sed 's/\\"/"/g; s/^[^{]*//; s/[^}]*$//' | jq -r '.payload.tree.items[] | select(.name | endswith(".patch")) | .name' | sort | uniq)
       if [ -n "$patches_with_versions" ]; then
         # Fetched patches and their versions
         echo "Fetched patches and their versions:"
@@ -96,9 +96,9 @@ if [ -f "$pkgbuild_file" ]; then
     echo "✅ Finished updating patch URLs in $pkgbuild_file"
   else
     echo "
-    
+
 ........................................................................
-    
+
 ⚠️ No updates were necessary. PKGBUILD is already up-to-date!"
   fi
 else
