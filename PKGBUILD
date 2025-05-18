@@ -44,7 +44,7 @@ _basic_harden=y
 ##########
 ####
 _major=6.14
-_minor=6
+_minor=7
 _srcname=linux-${_major}
 _clr=6.14.6-1568
 _gcc_more_v='20241018'
@@ -53,7 +53,7 @@ _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b221693855
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=3
+pkgrel=1
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/rhee876527/pUIljsNMaqW"
