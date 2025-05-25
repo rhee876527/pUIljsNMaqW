@@ -2,7 +2,7 @@ name: OBS Commit
 # OBS_PROJECT_PATH example:
 # home:user:project/sub-project *sub-project is optional
 
-on: 
+on:
   workflow_run:
     workflows: ['Update checksums']
     types:
@@ -12,7 +12,7 @@ on:
 
 jobs:
   copy-and-commit:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}  
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -36,7 +36,7 @@ jobs:
 
     - name: Checkout OBS project
       run: |
-        osc checkout ${{ secrets.OBS_PROJECT_PATH }}
+        timeout 5m osc checkout ${{ secrets.OBS_PROJECT_PATH }}
 
     - name: Extract PKGBUILD Version
       id: extract_pkgver
@@ -47,7 +47,7 @@ jobs:
         PKGVER="${_major}.${_minor}"
         echo "Package version extracted from PKGBUILD: $PKGVER"
         echo "pkgver=$PKGVER" >> $GITHUB_OUTPUT
-    
+
     - name: Copy PKGBUILD file to OBS project
       run: |
         cp processed/PKGBUILD ${{ secrets.OBS_PROJECT_PATH }}
