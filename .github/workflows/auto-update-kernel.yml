@@ -3,7 +3,7 @@ name: Auto update Kernel Version
 on:
   push:
     branches:
-      - main 
+      - main
   schedule:
     - cron: '8 15 * * *' #run daily
 
@@ -22,45 +22,44 @@ jobs:
           echo "Current version: $_major.$_minor"
           echo "current_major=$_major" >> $GITHUB_ENV
           echo "current_minor=$_minor" >> $GITHUB_ENV
-        
+
       - name: Get latest kernel version
         run: |
           latest_version=$(curl -s --retry 8 https://www.kernel.org/finger_banner | grep "The latest stable version" | awk '{print $NF}')
           echo "Latest version: $latest_version"
-           # Set latest_major and latest_minor 
+           # Set latest_major and latest_minor
           latest_major=$(echo "$latest_version" | cut -d'.' -f1-2)  # Extract major and minor
           latest_minor=$(echo "$latest_version" | cut -d'.' -f3)    # Extract patch
           echo "latest_major=$latest_major" >> $GITHUB_ENV
           echo "latest_minor=$latest_minor" >> $GITHUB_ENV
 
       - name: Update PKGBUILD if new kernel is available
-        run: |        
-          latest_minor_int=${latest_minor%%.*}      
-          # Check if update is required
-          if [[ "$latest_major" > "$current_major" || 
+        run: |
+          latest_minor_int=${latest_minor%%.*}
+          # Update if latest version is bigger than current version
+          if [[ "$latest_major" > "$current_major" ||
                 ("$latest_major" == "$current_major" && "$latest_minor_int" -gt "$current_minor") ]]; then
               echo "Updating PKGBUILD..."
               sed -i "s/^_major=.*/_major=${latest_major}/" PKGBUILD
               sed -i "s/^_minor=.*/_minor=${latest_minor}/" PKGBUILD
-              echo "updated=true" >> $GITHUB_ENV 
+              echo "updated=true" >> $GITHUB_ENV
           else
               echo "No update needed."
           fi
 
       - name: Fetch clearlinux tag
         run: |
-          # Fetch the latest tag
-          LATEST_TAG=$(curl -s https://github.com/clearlinux-pkgs/linux/tags | grep -oP 'href="/clearlinux-pkgs/linux/releases/tag/[^"]+"' | head -n 1 | sed 's/href="\/clearlinux-pkgs\/linux\/releases\/tag\///;s/"//g')
+          LATEST_TAG=$(curl -s --retry 8 https://github.com/clearlinux-pkgs/linux/tags | grep -oP 'href="/clearlinux-pkgs/linux/releases/tag/[^"]+"' | head -n 1 | sed 's/href="\/clearlinux-pkgs\/linux\/releases\/tag\///;s/"//g')
           echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
-            
+
       - name: Update clr tag
         run: |
           CURRENT_CLR=$(echo "$LATEST_TAG" | cut -d '.' -f 1-2)
-    
+
           # Skip update if clr is behind or major doesn't match
           if [ "${{ env.latest_major }}" == "$CURRENT_CLR" ]; then
               echo "Updating _clr to: $LATEST_TAG"
-        
+
               if [[ "$LATEST_TAG" == "$(grep '^_clr=' PKGBUILD | cut -d'=' -f2 | tr -d ' ')" ]]; then
                   echo "Current clr version matches. Skip _clr update."
               else
@@ -74,11 +73,9 @@ jobs:
       - name: Rollback pkgrel
         if: env.updated == 'true'
         run: |
-          # Read the current pkgrel value
+          # Enforce pkgrel=1
           current_pkgrel=$(grep '^pkgrel=' PKGBUILD | cut -d'=' -f2)
-          # Check if pkgrel is anything other than 1
           if [[ "$current_pkgrel" != "1" ]]; then
-              # Set pkgrel to 1
               sed -i 's/^pkgrel=.*/pkgrel=1/' PKGBUILD
               echo "Rollback pkgrel for new kernel version"
           fi
@@ -100,7 +97,7 @@ jobs:
         if: env.updated == 'true'
         run: |
           # use correct PKGBUILD to check for _minor
-          _minor=$(curl -sL "https://raw.githubusercontent.com/${{ github.repository }}/refs/heads/${{ github.ref_name }}/PKGBUILD" | grep -oP '_minor=\K\d+')
+          _minor=$(curl -sL --retry 8 "https://raw.githubusercontent.com/${{ github.repository }}/refs/heads/${{ github.ref_name }}/PKGBUILD" | grep -oP '_minor=\K\d+')
 
           # Check if we are at .0
           if [[ $_minor -eq 0 && -n $latest_minor ]]; then

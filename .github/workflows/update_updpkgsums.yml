@@ -36,7 +36,6 @@ jobs:
 
       - name: Check if updpkgsums has triggered change
         run: |
-          # Compare the two files
           if diff -q PKGBUILD processed/PKGBUILD > /dev/null; then
             echo "No changes to be made!"
           else
