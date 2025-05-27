@@ -26,7 +26,7 @@ _debug=n
 # This will invalidate all clear patches and build with stock kernel config.
 # Note: Sources must be updated to reflect new build status.
 # You need to enable config from arch in sources or set your own
-_switchstock=
+_switchstock=y
 
 # Enable x86-64 compiler ISA level
 # Check using: /lib/ld-linux-x86-64.so.2 --help | grep supported
@@ -43,8 +43,8 @@ _basic_harden=y
 ######################
 ##########
 ####
-_major=6.14
-_minor=8
+_major=6.15
+_minor=0
 _srcname=linux-${_major}
 _clr=6.14.8-1572
 _gcc_more_v='20241018'
@@ -72,26 +72,24 @@ fi
 
 source=(
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${_major}.tar.xz"
-  "https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
+#  "https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
   "https://github.com/clearlinux-pkgs/linux/archive/${_clr}.tar.gz"
   "https://github.com/graysky2/kernel_compiler_patch/archive/$_gcc_more_v.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-bbr3.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0009-zstd.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0006-crypto.patch"
+#  "https://raw.githubusercontent.com/${_cachy}/${_major}/0009-zstd.patch"
+#  "https://raw.githubusercontent.com/${_cachy}/${_major}/0006-crypto.patch"
   "https://raw.githubusercontent.com/rhee876527/pUIljsNMaqW/refs/heads/main/kcompressd.patch"
-  #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
+  "https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
-b2sums=('11835719804b406fe281ea1c276a84dc0cbaa808552ddcca9233d3eaeb1c001d0455c7205379b02de8e8db758c1bae6fe7ceb6697e63e3cf9ae7187dc7a9715e'
-        'd172423b8d6ed3b8c2f35bbf2e53d89e33547ac4651b1f9628ba9e69cdd72bae7f798cd0e422d73f065ca4f86d4443d98993363fb432feab6b6c7d404d700904'
+b2sums=('465596c6dc053ff3a3966302a906d3edb4f7ee1ef82f8c20b96360196d3414f5b1deeafa67b8340fcdecd3617280ba9b756d7073ad15c707865e256397b4af53'
         'e8fea1050c240385913c02c60f3714fea8b6a4d28c198714232f1e8fce9fd5f5d9a2d039ef799d46c4ce55f79d7457c60d6a420a98066a7d560d4b6bbcf36f5a'
         'f103018e7a081709e531a3548e13d7803c83f020507bbeb9642a459c79c2edfa9579d368ac2a58f8eca0fec9ab52895506cbb9f30a2e67dc8065f08986579d21'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
-        'e52c03aa7ea7e61f56b9b3161b35bacc97a32b0ffa679118370aa3128ad845c7371e527c81723914ac7cb11487bb881b9bf90f147b1c4b3ad10afbabe9a06734'
-        '96a6bc975563d22d950973d0913553898905b2d2585022af6a73d332a027b09f9c7c6d5bd585fb673959447401e64a77454ee252a086fade5047c10c3d32d6aa'
-        '9c71bd70b433169abd3805bd6acf8444d21e475334642abd9f8350530698de5c25c7b98d093c722a8f50e69714b466f7f1e3b98a56fc6e24279258ec9326fb34'
-        'c1c2f17109c87dad83b284dff62a37b3de02f620eae8ed8264c42ae9fff13bd673315294c75154e1990b42848d0cef37d00436774eeee4ae1f9db3fb423fdf29')
+        '27824fa84f67ea99b0cb62b64f86d8e7de77bd18c36658053f356de2e6e9fd1b56ffb224a25bb88c32c508d60fde24bab14a2c429ff702692be143bb57b03e8a'
+        'c1c2f17109c87dad83b284dff62a37b3de02f620eae8ed8264c42ae9fff13bd673315294c75154e1990b42848d0cef37d00436774eeee4ae1f9db3fb423fdf29'
+        'd9fce63715a2de2416515fbbc9a230e8e175cdf9bb186896a20d74e38e55aa02910d839612353be9d4fcfea8c57c53fede416e79378125bea2d9405a9050a462')
 
 # LLVM build option
 if [ -n "$_use_llvm_lto" ]; then
