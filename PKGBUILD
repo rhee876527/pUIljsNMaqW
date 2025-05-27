@@ -26,7 +26,7 @@ _debug=n
 # This will invalidate all clear patches and build with stock kernel config.
 # Note: Sources must be updated to reflect new build status.
 # You need to enable config from arch in sources or set your own
-_switchstock=
+_switchstock=y
 
 # Enable x86-64 compiler ISA level
 # Check using: /lib/ld-linux-x86-64.so.2 --help | grep supported
@@ -44,7 +44,7 @@ _basic_harden=y
 ##########
 ####
 _major=6.15
-_minor=
+_minor=0
 _srcname=linux-${_major}
 _clr=6.14.8-1572
 _gcc_more_v='20241018'
@@ -72,7 +72,7 @@ fi
 
 source=(
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${_major}.tar.xz"
-  "https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
+#  "https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
   "https://github.com/clearlinux-pkgs/linux/archive/${_clr}.tar.gz"
   "https://github.com/graysky2/kernel_compiler_patch/archive/$_gcc_more_v.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
@@ -80,7 +80,7 @@ source=(
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0009-zstd.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0006-crypto.patch"
   "https://raw.githubusercontent.com/rhee876527/pUIljsNMaqW/refs/heads/main/kcompressd.patch"
-  #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
+  "https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
 b2sums=('11835719804b406fe281ea1c276a84dc0cbaa808552ddcca9233d3eaeb1c001d0455c7205379b02de8e8db758c1bae6fe7ceb6697e63e3cf9ae7187dc7a9715e'
