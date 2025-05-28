@@ -28,10 +28,13 @@ _debug=n
 # You need to enable config from arch in sources or set your own
 _switchstock=y
 
-# Enable x86-64 compiler ISA level
+# Select x86-64 ISA level in compiler
 # Check using: /lib/ld-linux-x86-64.so.2 --help | grep supported
 # NOTE: Defaults to x86-64-v3 unless a level (1,2,3,4) is provided.
-_isa_level=${_isa_level-3}
+_isa=${_isa:-3}
+
+# -march flag
+_isa_flag="-march=x86-64-v${_isa}"
 
 # Use llvm by default. Blank to use gcc
 _use_llvm_lto=y
@@ -91,13 +94,26 @@ b2sums=('465596c6dc053ff3a3966302a906d3edb4f7ee1ef82f8c20b96360196d3414f5b1deeaf
         'c1c2f17109c87dad83b284dff62a37b3de02f620eae8ed8264c42ae9fff13bd673315294c75154e1990b42848d0cef37d00436774eeee4ae1f9db3fb423fdf29'
         'd9fce63715a2de2416515fbbc9a230e8e175cdf9bb186896a20d74e38e55aa02910d839612353be9d4fcfea8c57c53fede416e79378125bea2d9405a9050a462')
 
-# LLVM build option
+# Initialize build variables
+BUILD_FLAGS=()
+KCFLAGS=""
+KCPPFLAGS=""
+
+# Enable LLVM and -O3 optimization
 if [ -n "$_use_llvm_lto" ]; then
-  BUILD_FLAGS=(
-    LLVM=1
+    BUILD_FLAGS+=("LLVM=1")
     KCFLAGS="-O3"
-  )
 fi
+
+# Add ISA flag to compiler flags
+if [ -n "$_isa_flag" ]; then
+    KCFLAGS="${KCFLAGS:+$KCFLAGS }$_isa_flag"
+    KCPPFLAGS="${KCPPFLAGS:+$KCPPFLAGS }$_isa_flag"
+fi
+
+# Set build flags
+[ -n "$KCFLAGS" ] && BUILD_FLAGS+=("KCFLAGS=$KCFLAGS")
+[ -n "$KCPPFLAGS" ] && BUILD_FLAGS+=("KCPPFLAGS=$KCPPFLAGS")
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
@@ -275,16 +291,6 @@ prepare() {
                        --disable DEBUG_INFO_BTF_MODULES
     fi
 
-    # Set ISA level
-    if [ -n "$_isa_level" ]; then
-        echo "Patching to enable x86-64 compiler ISA level..."
-        patch -Np1 -i "$srcdir/kernel_compiler_patch-$_gcc_more_v/lite-more-x86-64-ISA-levels-for-kernel-6.8-rc4+.patch"
-        scripts/config --enable CONFIG_GENERIC_CPU
-        scripts/config --set-val CONFIG_X86_64_VERSION "$_isa_level"
-    else
-        echo "Skip ISA level patch"
-    fi
-
     # Enable basic upstream kernel hardening
     if [ -n "$_basic_harden" ]; then
         make hardening.config
@@ -300,14 +306,14 @@ prepare() {
     fi
 
     # Run olddefconfig
-    make ${BUILD_FLAGS[*]} olddefconfig
+    make olddefconfig
 
     ### Optionally load needed modules for the make localmodconfig
     # See https://aur.archlinux.org/packages/modprobed-db
     if [ -n "$_localmodcfg" ]; then
         if [ -e $HOME/.config/modprobed.db ]; then
             echo "Running Steven Rostedt's make localmodconfig now"
-            make ${BUILD_FLAGS[*]} LSMOD=$HOME/.config/modprobed.db localmodconfig
+            make LSMOD=$HOME/.config/modprobed.db localmodconfig
         else
             echo "No modprobed.db data found"
             exit
@@ -317,7 +323,7 @@ prepare() {
     make -s kernelrelease > version
     echo "Prepared $pkgbase version $(<version)"
 
-    [[ -z "$_makenconfig" ]] || make ${BUILD_FLAGS[*]} nconfig
+    [[ -z "$_makenconfig" ]] || make nconfig
 
     ### Save configuration for later reuse
     cp -Tf ./.config "${startdir}/config-${pkgver}-${pkgrel}${pkgbase#linux}"
@@ -326,8 +332,8 @@ prepare() {
 build() {
     cd ${_srcname}
   	__nthreads=$(($(nproc) + 1))
-	make ${BUILD_FLAGS[*]} -j${__nthreads} all
-#	make ${BUILD_FLAGS[*]} -C tools/bpf/bpftool vmlinux.h feature-clang-bpf-co-re=1
+	make "${BUILD_FLAGS[@]}" -j${__nthreads} all
+#	make "${BUILD_FLAGS[@]}" -C tools/bpf/bpftool vmlinux.h feature-clang-bpf-co-re=1
 }
 
 package_linux-clear-llvm() {
@@ -352,7 +358,7 @@ package_linux-clear-llvm() {
     echo "$pkgbase" | install -Dm644 /dev/stdin "$modulesdir/pkgbase"
 
     echo "Installing modules..."
-    ZSTD_CLEVEL=19 make ${BUILD_FLAGS[*]} INSTALL_MOD_PATH="$pkgdir/usr" INSTALL_MOD_STRIP=1 \
+    ZSTD_CLEVEL=19 make "${BUILD_FLAGS[@]}" INSTALL_MOD_PATH="$pkgdir/usr" INSTALL_MOD_STRIP=1 \
         DEPMOD=/doesnt/exist modules_install  # Suppress depmod
 
     # remove build link
