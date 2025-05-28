@@ -232,9 +232,28 @@ prepare() {
 
         # Add landlock lsm
         scripts/config --set-str LSM "landlock,yama,loadpin,safesetid,integrity"
+
+        # Increase MMAP minimum address
+        scripts/config --set-val CONFIG_DEFAULT_MMAP_MIN_ADDR 65536
+
+        # Good for security
+        scripts/config --enable CONFIG_SECURITY_LOCKDOWN_LSM \
+                       --disable CONFIG_LEGACY_TIOCSTI \
+                       --enable CONFIG_SECURITY_LANDLOCK \
+                       --enable CONFIG_SECURITY_LOCKDOWN_LSM_EARLY
+
+        # Disable some debug options
+        scripts/config --undefine CONFIG_LATENCYTOP \
+                       --disable CONFIG_DEBUG_LIST \
+                       --disable CONFIG_DEBUG_SG \
+                       --disable CONFIG_DEBUG_NOTIFIERS \
+                       --disable CONFIG_KVM_WERROR
     fi
 
     ### Other extra misc improvements
+
+    # Disable scheduler debugging
+    scripts/config --disable CONFIG_SCHED_DEBUG
 
     # BBRv3
     scripts/config --module TCP_CONG_CUBIC \
@@ -246,19 +265,6 @@ prepare() {
                    --disable CONFIG_DEFAULT_FQ_CODEL \
                    --enable CONFIG_DEFAULT_FQ \
                    --set-str DEFAULT_TCP_CONG bbr
-
-    # More configs good for security/performance
-    scripts/config --enable CONFIG_SECURITY_LOCKDOWN_LSM \
-                   --disable CONFIG_LEGACY_TIOCSTI \
-                   --enable CONFIG_SECURITY_LANDLOCK \
-                   --enable CONFIG_SECURITY_LOCKDOWN_LSM_EARLY \
-                   --undefine CONFIG_LATENCYTOP \
-                   --disable CONFIG_DEBUG_LIST \
-                   --disable CONFIG_DEBUG_SG \
-                   --disable CONFIG_DEBUG_NOTIFIERS \
-                   --disable CONFIG_KVM_WERROR \
-                   --disable CONFIG_SCHED_DEBUG \
-                   --set-val CONFIG_DEFAULT_MMAP_MIN_ADDR 65536
 
     # LLVM Clang
     if [ -n "$_use_llvm_lto" ]; then
