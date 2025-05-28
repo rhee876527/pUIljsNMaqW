@@ -50,7 +50,6 @@ _major=6.15
 _minor=0
 _srcname=linux-${_major}
 _clr=6.14.8-1572
-_gcc_more_v='20241018'
 _cachy=CachyOS/kernel-patches/master
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
 pkgbase=linux-clear-llvm
@@ -77,11 +76,8 @@ source=(
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${_major}.tar.xz"
   #"https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
   "https://github.com/clearlinux-pkgs/linux/archive/${_clr}.tar.gz"
-  "https://github.com/graysky2/kernel_compiler_patch/archive/$_gcc_more_v.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-bbr3.patch"
-  #"https://raw.githubusercontent.com/${_cachy}/${_major}/0009-zstd.patch"
-  #"https://raw.githubusercontent.com/${_cachy}/${_major}/0006-crypto.patch"
   "https://raw.githubusercontent.com/rhee876527/pUIljsNMaqW/refs/heads/main/kcompressd.patch"
   "https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
@@ -333,7 +329,6 @@ build() {
     cd ${_srcname}
   	__nthreads=$(($(nproc) + 1))
 	make "${BUILD_FLAGS[@]}" -j${__nthreads} all
-#	make "${BUILD_FLAGS[@]}" -C tools/bpf/bpftool vmlinux.h feature-clang-bpf-co-re=1
 }
 
 package_linux-clear-llvm() {
