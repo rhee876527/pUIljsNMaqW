@@ -30,8 +30,9 @@ jobs:
            # Set latest_major and latest_minor
           latest_major=$(echo "$latest_version" | cut -d'.' -f1-2)  # Extract major and minor
           latest_minor=$(echo "$latest_version" | cut -d'.' -f3)    # Extract patch
+          latest_minor=${latest_minor:-0}                           # Default to 0 if empty
           echo "latest_major=$latest_major" >> $GITHUB_ENV
-          echo "latest_minor=$latest_minor" >> $GITHUB_ENV
+          echo "latest_minor=${latest_minor:-0}" >> $GITHUB_ENV
 
       - name: Update PKGBUILD if new kernel is available
         run: |
