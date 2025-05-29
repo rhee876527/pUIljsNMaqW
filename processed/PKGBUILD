@@ -50,13 +50,12 @@ _major=6.15
 _minor=0
 _srcname=linux-${_major}
 _clr=6.14.8-1572
-_gcc_more_v='20241018'
 _cachy=CachyOS/kernel-patches/master
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=4
+pkgrel=5
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/rhee876527/pUIljsNMaqW"
@@ -77,18 +76,14 @@ source=(
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${_major}.tar.xz"
   #"https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
   "https://github.com/clearlinux-pkgs/linux/archive/${_clr}.tar.gz"
-  "https://github.com/graysky2/kernel_compiler_patch/archive/$_gcc_more_v.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-bbr3.patch"
-  #"https://raw.githubusercontent.com/${_cachy}/${_major}/0009-zstd.patch"
-  #"https://raw.githubusercontent.com/${_cachy}/${_major}/0006-crypto.patch"
   "https://raw.githubusercontent.com/rhee876527/pUIljsNMaqW/refs/heads/main/kcompressd.patch"
   "https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
 b2sums=('465596c6dc053ff3a3966302a906d3edb4f7ee1ef82f8c20b96360196d3414f5b1deeafa67b8340fcdecd3617280ba9b756d7073ad15c707865e256397b4af53'
         'e8fea1050c240385913c02c60f3714fea8b6a4d28c198714232f1e8fce9fd5f5d9a2d039ef799d46c4ce55f79d7457c60d6a420a98066a7d560d4b6bbcf36f5a'
-        'f103018e7a081709e531a3548e13d7803c83f020507bbeb9642a459c79c2edfa9579d368ac2a58f8eca0fec9ab52895506cbb9f30a2e67dc8065f08986579d21'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
         '27824fa84f67ea99b0cb62b64f86d8e7de77bd18c36658053f356de2e6e9fd1b56ffb224a25bb88c32c508d60fde24bab14a2c429ff702692be143bb57b03e8a'
         'c1c2f17109c87dad83b284dff62a37b3de02f620eae8ed8264c42ae9fff13bd673315294c75154e1990b42848d0cef37d00436774eeee4ae1f9db3fb423fdf29'
@@ -236,9 +231,28 @@ prepare() {
 
         # Add landlock lsm
         scripts/config --set-str LSM "landlock,yama,loadpin,safesetid,integrity"
+
+        # Increase MMAP minimum address
+        scripts/config --set-val CONFIG_DEFAULT_MMAP_MIN_ADDR 65536
+
+        # Good for security
+        scripts/config --enable CONFIG_SECURITY_LOCKDOWN_LSM \
+                       --disable CONFIG_LEGACY_TIOCSTI \
+                       --enable CONFIG_SECURITY_LANDLOCK \
+                       --enable CONFIG_SECURITY_LOCKDOWN_LSM_EARLY
+
+        # Disable some debug options
+        scripts/config --undefine CONFIG_LATENCYTOP \
+                       --disable CONFIG_DEBUG_LIST \
+                       --disable CONFIG_DEBUG_SG \
+                       --disable CONFIG_DEBUG_NOTIFIERS \
+                       --disable CONFIG_KVM_WERROR
     fi
 
     ### Other extra misc improvements
+
+    # Disable scheduler debugging
+    scripts/config --disable CONFIG_SCHED_DEBUG
 
     # BBRv3
     scripts/config --module TCP_CONG_CUBIC \
@@ -250,19 +264,6 @@ prepare() {
                    --disable CONFIG_DEFAULT_FQ_CODEL \
                    --enable CONFIG_DEFAULT_FQ \
                    --set-str DEFAULT_TCP_CONG bbr
-
-    # More configs good for security/performance
-    scripts/config --enable CONFIG_SECURITY_LOCKDOWN_LSM \
-                   --disable CONFIG_LEGACY_TIOCSTI \
-                   --enable CONFIG_SECURITY_LANDLOCK \
-                   --enable CONFIG_SECURITY_LOCKDOWN_LSM_EARLY \
-                   --undefine CONFIG_LATENCYTOP \
-                   --disable CONFIG_DEBUG_LIST \
-                   --disable CONFIG_DEBUG_SG \
-                   --disable CONFIG_DEBUG_NOTIFIERS \
-                   --disable CONFIG_KVM_WERROR \
-                   --disable CONFIG_SCHED_DEBUG \
-                   --set-val CONFIG_DEFAULT_MMAP_MIN_ADDR 65536
 
     # LLVM Clang
     if [ -n "$_use_llvm_lto" ]; then
@@ -333,7 +334,6 @@ build() {
     cd ${_srcname}
   	__nthreads=$(($(nproc) + 1))
 	make "${BUILD_FLAGS[@]}" -j${__nthreads} all
-#	make "${BUILD_FLAGS[@]}" -C tools/bpf/bpftool vmlinux.h feature-clang-bpf-co-re=1
 }
 
 package_linux-clear-llvm() {
