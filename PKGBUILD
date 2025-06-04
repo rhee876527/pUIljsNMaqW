@@ -26,7 +26,7 @@ _debug=n
 # This will invalidate all clear patches and build with stock kernel config.
 # Note: Sources must be updated to reflect new build status.
 # You need to enable config from arch in sources or set your own
-_switchstock=y
+_switchstock=
 
 # Select x86-64 ISA level in compiler
 # Check using: /lib/ld-linux-x86-64.so.2 --help | grep supported
@@ -47,7 +47,7 @@ _basic_harden=y
 ##########
 ####
 _major=6.15
-_minor=0
+_minor=1
 _srcname=linux-${_major}
 _clr=6.14.8-1572
 _cachy=CachyOS/kernel-patches/master
@@ -55,7 +55,7 @@ _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b221693855
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=6
+pkgrel=1
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/rhee876527/pUIljsNMaqW"
@@ -74,12 +74,12 @@ fi
 
 source=(
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${_major}.tar.xz"
-  #"https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
+  "https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
   "https://github.com/clearlinux-pkgs/linux/archive/${_clr}.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-bbr3.patch"
   "https://raw.githubusercontent.com/rhee876527/pUIljsNMaqW/refs/heads/main/kcompressd.patch"
-  "https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
+  #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
 b2sums=('465596c6dc053ff3a3966302a906d3edb4f7ee1ef82f8c20b96360196d3414f5b1deeafa67b8340fcdecd3617280ba9b756d7073ad15c707865e256397b4af53'
