@@ -55,7 +55,7 @@ _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b221693855
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=1
+pkgrel=2
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/rhee876527/pUIljsNMaqW"
@@ -294,7 +294,7 @@ prepare() {
 
     # Enable basic upstream kernel hardening
     if [ -n "$_basic_harden" ]; then
-        make hardening.config
+        make "${BUILD_FLAGS[@]}" hardening.config
     else
         echo "Skipping hardening.config..."
     fi
@@ -307,14 +307,14 @@ prepare() {
     fi
 
     # Run olddefconfig
-    make olddefconfig
+    make "${BUILD_FLAGS[@]}" olddefconfig
 
     ### Optionally load needed modules for the make localmodconfig
     # See https://aur.archlinux.org/packages/modprobed-db
     if [ -n "$_localmodcfg" ]; then
         if [ -e $HOME/.config/modprobed.db ]; then
             echo "Running Steven Rostedt's make localmodconfig now"
-            make LSMOD=$HOME/.config/modprobed.db localmodconfig
+            make "${BUILD_FLAGS[@]}" LSMOD=$HOME/.config/modprobed.db localmodconfig
         else
             echo "No modprobed.db data found"
             exit
@@ -324,7 +324,7 @@ prepare() {
     make -s kernelrelease > version
     echo "Prepared $pkgbase version $(<version)"
 
-    [[ -z "$_makenconfig" ]] || make nconfig
+    [[ -z "$_makenconfig" ]] || make "${BUILD_FLAGS[@]}" nconfig
 
     ### Save configuration for later reuse
     cp -Tf ./.config "${startdir}/config-${pkgver}-${pkgrel}${pkgbase#linux}"
