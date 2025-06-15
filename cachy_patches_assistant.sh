@@ -14,17 +14,23 @@ fetch_patches() {
   local url=$1
   local retries=5
   local delay=10
+  local i
+  local html_response
 
   for ((i=1; i<=retries; i++)); do
-    response=$(curl -sL --retry 5 --retry-delay 10 --retry-max-time 60 -w "%{http_code}" "$url")
-    http_response="${response: -3}"
-    html_response="${response%???}"
+    # Fetch url
+    html_response=$(curl -sL --retry 5 --retry-delay 10 --retry-max-time 60 "$url")
 
-    if [ "$http_response" -eq 200 ] && [ -n "$html_response" ]; then
-      # Extract patch names from HTML page
-      patches_with_versions=$(curl -sL $url | grep -ozP '<script type="application/json" data-target="react-app.embeddedData">\K.*?(?=</script>)' | tr -d '\0' | sed 's/\\"/"/g; s/^[^{]*//; s/[^}]*$//' | jq -r '.payload.tree.items[] | select(.name | endswith(".patch")) | .name' | sort | uniq)
+    # Return status by checking if html_response contains expected JSON tag
+    if echo "$html_response" | grep -q 'data-target="react-app.embeddedData"'; then
+      # Extract patch names
+      patches_with_versions=$(echo "$html_response" | \
+        grep -ozP '<script type="application/json" data-target="react-app.embeddedData">\K.*?(?=</script>)' | \
+        tr -d '\0' | \
+        sed 's/\\"/"/g; s/^[^{]*//; s/[^}]*$//' | \
+        jq -r '.payload.tree.items[] | select(.name | endswith(".patch")) | .name' | sort | uniq)
+
       if [ -n "$patches_with_versions" ]; then
-        # Fetched patches and their versions
         echo "Fetched patches and their versions:"
         for patch in $patches_with_versions; do
           echo " - $patch"
@@ -35,7 +41,7 @@ fetch_patches() {
         return 1
       fi
     else
-      echo "Attempt $i/$retries: Failed to fetch data from $url. HTTP response code: $http_response. Retrying in $delay seconds..."
+      echo "Attempt $i/$retries: Failed to fetch valid data from $url. Retrying in $delay seconds..."
       sleep $delay
       delay=$((delay * 2))
     fi
