@@ -47,7 +47,7 @@ _basic_harden=y
 ##########
 ####
 _major=6.15
-_minor=4
+_minor=5
 _srcname=linux-${_major}
 _clr=6.15.4-1587
 _cachy=CachyOS/kernel-patches/master
@@ -56,7 +56,7 @@ _archlinuxpatch=archlinux/linux/commit/a99fa2f4142d06725f64df565270820289219eb5
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=3
+pkgrel=1
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/rhee876527/pUIljsNMaqW"
