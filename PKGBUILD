@@ -130,7 +130,7 @@ prepare() {
     ### Add Clearlinux patches
     if [ -z "$_switchstock" ]; then
         for i in $(grep '^Patch' ${srcdir}/linux-${_clr}/linux.spec |\
-                     grep -Ev '^Patch0132|^Patch0125|^Patch0118|^Patch0138|^Patch0113|^Patch0147' | sed -n 's/.*: //p'); do
+                     grep -Ev '^Patch0132|^Patch0125|^Patch0118|^Patch0138|^Patch0113|^Patch0147|^Patch0174' | sed -n 's/.*: //p'); do
             if [ -n "$_use_llvm_lto" ]; then
                 if [ "${i}" == "0133-novector.patch" ]; then
                     continue
