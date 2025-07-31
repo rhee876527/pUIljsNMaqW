@@ -52,7 +52,7 @@ _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b221693855
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=2
+pkgrel=3
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/rhee876527/pUIljsNMaqW"
@@ -161,7 +161,7 @@ prepare() {
         # Append unique values from clean config to clr config
         while IFS= read -r line; do
             key=$(echo "$line" | sed -nE 's/^(# )?(CONFIG_[A-Za-z0-9_]+).*/\2/p')
-            if [ -n "$key" ] && ! grep -q "^$key[= ]" .config; then
+            if [ -n "$key" ] && ! grep -qE "^(# )?$key[= ]" .config; then
                 echo "$line" >> .config
             fi
         done < ../config
