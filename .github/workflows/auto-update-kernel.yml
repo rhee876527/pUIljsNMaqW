@@ -94,7 +94,7 @@ jobs:
           name: new-kernel
           path: new-release-update.txt
 
-      - name: Undo _switchstock
+      - name: Rollback dot 0 accomodations
         if: env.updated == 'true'
         run: |
           # use correct PKGBUILD to check for _minor
@@ -102,15 +102,9 @@ jobs:
 
           # Check if we are at .0
           if [[ $_minor -eq 0 && -n $latest_minor ]]; then
-            echo "Undo dot 0 stock changes and reinstate default build sources"
-            # Revert _switchstock
-            sed -i 's/^_switchstock=.*/_switchstock=/' PKGBUILD
             # Re-instate minor patch versions in sources
             sed -i 's/^ *#\(.*cdn\.kernel\.org.*patch-.*\.xz"\)/  \1/' PKGBUILD
-            # Revert arch config
-            sed -i 's|^  "https://gitlab\.archlinux\.org.*config"|  #"https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"|' PKGBUILD
-
-            echo "Successfully restored _clr build config"
+            echo "Successfully restored default build config"
           else
             echo "Minor version state is correct. Nothing to do here"
           fi
