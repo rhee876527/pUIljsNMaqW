@@ -48,29 +48,6 @@ jobs:
               echo "No update needed."
           fi
 
-      - name: Fetch clearlinux tag
-        run: |
-          LATEST_TAG=$(curl -s --retry 8 https://github.com/clearlinux-pkgs/linux/tags | grep -oP 'href="/clearlinux-pkgs/linux/releases/tag/[^"]+"' | head -n 1 | sed 's/href="\/clearlinux-pkgs\/linux\/releases\/tag\///;s/"//g')
-          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
-
-      - name: Update clr tag
-        run: |
-          CURRENT_CLR=$(echo "$LATEST_TAG" | cut -d '.' -f 1-2)
-
-          # Skip update if clr is behind or major doesn't match
-          if [ "${{ env.latest_major }}" == "$CURRENT_CLR" ]; then
-              echo "Updating _clr to: $LATEST_TAG"
-
-              if [[ "$LATEST_TAG" == "$(grep '^_clr=' PKGBUILD | cut -d'=' -f2 | tr -d ' ')" ]]; then
-                  echo "Current clr version matches. Skip _clr update."
-              else
-                  sed -i "s/^_clr=.*/_clr=${LATEST_TAG}/" PKGBUILD && echo "Updated latest clr version!"
-                  echo "clr_updated=true" >> $GITHUB_ENV
-              fi
-          else
-              echo "Clr major version not congruent with selected stable version. Not updating!"
-          fi
-
       - name: Rollback pkgrel
         if: env.updated == 'true'
         run: |
