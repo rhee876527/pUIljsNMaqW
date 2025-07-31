@@ -161,7 +161,7 @@ prepare() {
         # Append unique values from clean config to clr config
         while IFS= read -r line; do
             key=$(echo "$line" | sed -nE 's/^(# )?(CONFIG_[A-Za-z0-9_]+).*/\2/p')
-            if [ -n "$key" ] && ! grep -q "^$key[= ]" .config; then
+            if [ -n "$key" ] && ! grep -qE "^(# )?$key[= ]" .config; then
                 echo "$line" >> .config
             fi
         done < ../config
