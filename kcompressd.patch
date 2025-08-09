@@ -1,11 +1,10 @@
-From git@z Thu Jan  1 00:00:00 1970
+Original source: https://lore.kernel.org/lkml/20250430082651.3152444-1-qun-wei.lin@mediatek.com/
+Modified by: Martin Kibera <martin.kibera.n@gmail.com>
+Modified on: 2025-Aug-09
+
 Subject: [PATCH] mm: Add Kcompressd for accelerated memory compression
 From: Qun-Wei Lin <qun-wei.lin@mediatek.com>
 Date: Wed, 30 Apr 2025 16:26:41 +0800
-Message-Id: <20250430082651.3152444-1-qun-wei.lin@mediatek.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
 
 This patch series introduces a new mechanism called kcompressd to
 improve the efficiency of memory reclaiming in the operating system.
@@ -41,9 +40,9 @@ Reference: Re: [PATCH 0/2] Improve Zram by separating compression context from k
  include/linux/mmzone.h |  6 ++++
  mm/mm_init.c           |  1 +
  mm/page_io.c           | 71 ++++++++++++++++++++++++++++++++++++++++++
- mm/swap.h              |  6 ++++
- mm/vmscan.c            | 25 +++++++++++++++
- 5 files changed, 109 insertions(+)
+ mm/swap.h              |  5 ++++
+ mm/vmscan.c            | 27 ++++++++++++++++-
+ 5 files changed, 109 insertions(+), 1 deletion(-)
 
 diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
 index 6ccec1bf2896..93c9195a54ae 100644
@@ -55,12 +54,12 @@ index 6ccec1bf2896..93c9195a54ae 100644
  #include <linux/zswap.h>
 +#include <linux/kfifo.h>
  #include <asm/page.h>
- 
+
  /* Free memory management - zoned buddy allocator.  */
 @@ -1398,6 +1399,11 @@ typedef struct pglist_data {
- 
+
  	int kswapd_failures;		/* Number of 'reclaimed == 0' runs */
- 
+
 +#define KCOMPRESS_FIFO_SIZE 256
 +	wait_queue_head_t kcompressd_wait;
 +	struct task_struct *kcompressd;
@@ -75,20 +74,20 @@ index 9659689b8ace..49bae1dd4584 100644
 +++ b/mm/mm_init.c
 @@ -1410,6 +1410,7 @@ static void __meminit pgdat_init_internals(struct pglist_data *pgdat)
  	pgdat_init_kcompactd(pgdat);
- 
+
  	init_waitqueue_head(&pgdat->kswapd_wait);
 +	init_waitqueue_head(&pgdat->kcompressd_wait);
  	init_waitqueue_head(&pgdat->pfmemalloc_wait);
- 
+
  	for (i = 0; i < NR_VMSCAN_THROTTLE; i++)
 diff --git a/mm/page_io.c b/mm/page_io.c
-index 4bce19df557b..d85deb494a6a 100644
+index 4bce19df557b..a2c8c1d5c8d5 100644
 --- a/mm/page_io.c
 +++ b/mm/page_io.c
 @@ -233,6 +233,38 @@ static void swap_zeromap_folio_clear(struct folio *folio)
  	}
  }
- 
+
 +static bool swap_sched_async_compress(struct folio *folio)
 +{
 +	struct swap_info_struct *sis = swp_swap_info(folio->swap);
@@ -143,8 +142,8 @@ index 4bce19df557b..d85deb494a6a 100644
 @@ -289,6 +330,36 @@ int swap_writepage(struct page *page, struct writeback_control *wbc)
  	return 0;
  }
- 
-+int kcompressd(void *p)
+
++int __visible kcompressd(void *p)
 +{
 +	pg_data_t *pgdat = (pg_data_t *)p;
 +	struct folio *folio;
@@ -178,42 +177,43 @@ index 4bce19df557b..d85deb494a6a 100644
  {
  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
 diff --git a/mm/swap.h b/mm/swap.h
-index 6f4a3f927edb..3579da413dc2 100644
+index 6f4a3f927edb..1c4d4c0a5f8b 100644
 --- a/mm/swap.h
 +++ b/mm/swap.h
-@@ -22,6 +22,7 @@ static inline void swap_read_unplug(struct swap_iocb *plug)
- void swap_write_unplug(struct swap_iocb *sio);
- int swap_writepage(struct page *page, struct writeback_control *wbc);
- void __swap_writepage(struct folio *folio, struct writeback_control *wbc);
-+int kcompressd(void *p);
- 
- /* linux/mm/swap_state.c */
- /* One swap address space for each 64M swap space */
-@@ -199,6 +200,11 @@ static inline int swap_zeromap_batch(swp_entry_t entry, int max_nr,
+@@ -146,6 +146,11 @@ static inline int non_swapcache_batch(swp_entry_t entry, int max_nr)
+ {
  	return 0;
  }
- 
-+static inline int kcompressd(void *p)
++
++static inline int __visible kcompressd(void *p)
 +{
 +	return 0;
 +}
-+
  #endif /* CONFIG_SWAP */
- 
+
  #endif /* _MM_SWAP_H */
 diff --git a/mm/vmscan.c b/mm/vmscan.c
-index 3783e45bfc92..2d7b9167bfd6 100644
+index 3783e45bfc92..d4c1b5d7c4b9 100644
 --- a/mm/vmscan.c
 +++ b/mm/vmscan.c
-@@ -7420,6 +7420,7 @@ unsigned long shrink_all_memory(unsigned long nr_to_reclaim)
+@@ -74,6 +74,8 @@
+ #include <linux/khugepaged.h>
+ #include <linux/rculist_nulls.h>
+
++int kcompressd(void *p);
++
+ #include "internal.h"
+ #include "swap.h"
+
+@@ -7420,6 +7422,7 @@ unsigned long shrink_all_memory(unsigned long nr_to_reclaim)
  void __meminit kswapd_run(int nid)
  {
  	pg_data_t *pgdat = NODE_DATA(nid);
 +	int ret;
- 
+
  	pgdat_kswapd_lock(pgdat);
  	if (!pgdat->kswapd) {
-@@ -7433,7 +7434,26 @@ void __meminit kswapd_run(int nid)
+@@ -7433,7 +7436,26 @@ void __meminit kswapd_run(int nid)
  		} else {
  			wake_up_process(pgdat->kswapd);
  		}
@@ -228,7 +228,7 @@ index 3783e45bfc92..2d7b9167bfd6 100644
 +		pgdat->kcompressd = kthread_create_on_node(kcompressd, pgdat, nid,
 +				"kcompressd%d", nid);
 +		if (IS_ERR(pgdat->kcompressd)) {
-+			pr_err("Failed to start kcompressd on node %d，ret=%ld\n",
++			pr_err("Failed to start kcompressd on node %d, ret=%ld\n",
 +					nid, PTR_ERR(pgdat->kcompressd));
 +			pgdat->kcompressd = NULL;
 +			kfifo_free(&pgdat->kcompress_fifo);
@@ -239,8 +239,8 @@ index 3783e45bfc92..2d7b9167bfd6 100644
 +out:
  	pgdat_kswapd_unlock(pgdat);
  }
- 
-@@ -7452,6 +7472,11 @@ void __meminit kswapd_stop(int nid)
+
+@@ -7452,6 +7474,11 @@ void __meminit kswapd_stop(int nid)
  		kthread_stop(kswapd);
  		pgdat->kswapd = NULL;
  	}
@@ -251,7 +251,6 @@ index 3783e45bfc92..2d7b9167bfd6 100644
 +	}
  	pgdat_kswapd_unlock(pgdat);
  }
- 
--- 
-2.45.2
 
+--
+2.45.2
