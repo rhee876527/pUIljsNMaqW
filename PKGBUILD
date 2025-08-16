@@ -53,7 +53,7 @@ _archlinuxpatch=archlinux/linux/commit/25759cbac7c99ed0643aadf6a8dfe1ce363d2949
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=2
+pkgrel=3
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/rhee876527/pUIljsNMaqW"
@@ -87,7 +87,7 @@ b2sums=('87bc4da7e89cc8265aebffea7ec6c09f711be24fee87cb1c03a264c03fd5a538d66aa80
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
         '7ce38cd55989e03e03a8b29afe97c77c7bcc5a4b6fe4c71c31f90017e05d908e6c051e1f68e1397d9b1ef6375a61cd330b92c79e9297de5e4947aeffb6a07034'
         'd7983dfdb0facad5630cf5766394853b965bcbdf6f356bb0a9fe15e53ec40bbf4e966f6467129a3facf0f095a703809cf0e719f88557b46779ef196518f5e9e9'
-        '0'
+        'dcb78b1cf584953dc45a42ce4ee74cf576b66c9324e63b40d8f1bc2242ff0ba3bca46b5f16c5b96d59f04b3fcc1e2da0d082d603c75cce55629f05af82023b0b'
         '0aea5109845ffa5d80726854a9a8faff57cbff326a96bf8bf55543d6518cab894046b35fedcd4155fdc5e81e1c1c701c42f40e5c2dc928bd5ba1565d0a0ac2eb')
 
 # Initialize build variables
