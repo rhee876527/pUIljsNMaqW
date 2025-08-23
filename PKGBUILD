@@ -44,7 +44,7 @@ _basic_harden=y
 ##########
 ####
 _major=6.16
-_minor=2
+_minor=3
 _srcname=linux-${_major}
 _clr=6.15.7-1591
 _cachy=CachyOS/kernel-patches/master
