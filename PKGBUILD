@@ -135,7 +135,7 @@ prepare() {
 
     ### Add Clearlinux patches
     if [ -z "$_switchstock" ]; then
-        for i in $(grep '^Patch' ${srcdir}/linux-${_clr}/linux.spec |\
+        for i in $(grep '^Patch' ${srcdir}/linux-6.15.7-1591/linux.spec |\
                      grep -Ev '^Patch0132|^Patch0125|^Patch0118|^Patch0138|^Patch0113|^Patch0147|^Patch0174' | sed -n 's/.*: //p'); do
             if [ -n "$_use_llvm_lto" ]; then
                 if [ "${i}" == "0133-novector.patch" ]; then
@@ -143,7 +143,7 @@ prepare() {
                 fi
             fi
             echo "Applying patch ${i}..."
-            patch -Np1 -i "$srcdir/linux-${_clr}/${i}" || true
+            patch -Np1 -i "$srcdir/linux-6.15.7-1591/${i}" || true
         done
     fi
 
@@ -163,7 +163,7 @@ prepare() {
         cp ../config .config
     else
         echo "Setting clr config and merging any new values from archlinux config..."
-        cp -Tf "$srcdir/linux-${_clr}/config" ./.config
+        cp -Tf "$srcdir/linux-6.15.7-1591/config" ./.config
         # Append unique values from clean config to clr config
         while IFS= read -r line; do
             key=$(echo "$line" | sed -nE 's/^(# )?(CONFIG_[A-Za-z0-9_]+).*/\2/p')
@@ -316,7 +316,7 @@ prepare() {
     if [ -n "$_switchstock" ]; then
         diff -u ../config .config || :
     else
-        diff -u $srcdir/linux-${_clr}/config .config || :
+        diff -u $srcdir/linux-6.15.7-1591/config .config || :
     fi
 
     # Run olddefconfig
