@@ -48,7 +48,6 @@ _minor=9
 _srcname=linux-${_major}
 _cachy=CachyOS/kernel-patches/master
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
-_archlinuxpatch2=archlinux/linux/commit/3b64d3f6844d848083990f67110e0b905c608e66
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
@@ -76,7 +75,6 @@ source=(
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0002-bbr3.patch"
   "https://raw.githubusercontent.com/rhee876527/pUIljsNMaqW/refs/heads/main/kcompressd.patch"
-  "arch-0001-watchdog.patch::https://github.com/${_archlinuxpatch2}.patch"
   "https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
@@ -86,7 +84,6 @@ b2sums=('87bc4da7e89cc8265aebffea7ec6c09f711be24fee87cb1c03a264c03fd5a538d66aa80
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
         '0f7816978c01912d073bae7125c1c312be262c242cf2fd51ba18e007dbd461b97cf83ee93d5edd843c09db14f0984a53549f6b552388ec2ba1326c26dc9abe99'
         'd7983dfdb0facad5630cf5766394853b965bcbdf6f356bb0a9fe15e53ec40bbf4e966f6467129a3facf0f095a703809cf0e719f88557b46779ef196518f5e9e9'
-        'f7fc60a3f7dc641aacf88e79175f62c8f381008e4cf073d09d67b990f6138e344dee968644b76c933aadc59307651cb0c29ae83a095fb0d657bf865fbaf3814c'
         'e6cbf387f445acfc9eeaa7cd2fe65b77ac2024053705a132c45ce3db1467eb86cb8488fb0e6e33e63303e78e7b3afe0747e145d1a0dcde48e61a3a44873d6dae')
 
 # Initialize build variables
