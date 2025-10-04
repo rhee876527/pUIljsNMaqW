@@ -74,7 +74,6 @@ source=(
   "https://github.com/clearlinux-pkgs/linux/archive/6.15.7-1591.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0002-bbr3.patch"
-  "https://raw.githubusercontent.com/rhee876527/pUIljsNMaqW/refs/heads/main/kcompressd.patch"
   "https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
@@ -83,7 +82,6 @@ b2sums=('87bc4da7e89cc8265aebffea7ec6c09f711be24fee87cb1c03a264c03fd5a538d66aa80
         '9cfb071f5f8228706dfee3c17409af3956c8db9b32a097a6d638eefadb58708e5f7779e9c5030f52ecfd2acfc2789d0fc57c10a10c4c37e8a79878a3990e8aea'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
         '7d5155af74c8a308003fbc4115a0f090f8e6be07e3ab47886a7537680ca5613abc03ccb8b414058d08ea95a55f1910d9ffd29b3e0c724a8dfe5c1a73fbdae82e'
-        'd7983dfdb0facad5630cf5766394853b965bcbdf6f356bb0a9fe15e53ec40bbf4e966f6467129a3facf0f095a703809cf0e719f88557b46779ef196518f5e9e9'
         'b82d1fa42bf1412b32a49a89b5089cd4f6dab9bcbf87d7d8eb25bf5677743fd6487f56fad2d6bc5e802e0e8ead56c3197b11b325908f0002baef7f5e6d63264d')
 
 # Initialize build variables
