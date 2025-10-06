@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Validate package
-        uses: rhee876527/archlinux-package-action@edge
+        uses: docker://ghcr.io/rhee876527/archlinux-package-action:edge
         with:
           flags: ''
           namcap: false
