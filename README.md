@@ -6,6 +6,6 @@ Updates the following:
 - latest kernel stable based on daily cron
 - ~~clearlinux tag (as long as the major version still matches current kernel stable)~~
 - cachyos patch names (more so the prefix numbers)
-- b2sums of the sources using this [Arch Linux PKGBUILD Package action](https://github.com/marketplace/actions/arch-linux-pkgbuild-package)
+- b2sums of the sources using a fork of [Arch Linux PKGBUILD Package action](https://github.com/rhee876527/archlinux-package-action)
 
 Then pushes from /processed the updated PKGBUILD to an Open Build Service repository (as defined in obs.yml).
