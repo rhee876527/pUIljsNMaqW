@@ -18,12 +18,55 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Keep PKGBUILD for processing based on updpkgsums result
+        run: |
+          mkdir -p original
+          cp PKGBUILD original/PKGBUILD
+
       - name: Validate package
         uses: docker://ghcr.io/rhee876527/archlinux-package-action:edge
         with:
           flags: ''
           namcap: false
           updpkgsums: true
+
+      - name: Drop pipeline if only archlinux config has changed
+        run: |
+          # Check for last-source-only checksum update and fail if detected
+          diff_output=$(diff -u original/PKGBUILD PKGBUILD)
+
+          echo "$diff_output" | awk '
+              /^         '"'"'/ || /^[-+]        '"'"'/ {
+                  if (!in_b2sums_hunk) {
+                      in_b2sums_hunk = 1;
+                      minus_count = 0;
+                      plus_count = 0;
+                      last_minus = ""
+                  }
+              }
+              in_b2sums_hunk && /^-/ {
+                  minus_count++;
+                  last_minus = $0
+              }
+              in_b2sums_hunk && /^\+/ {
+                  plus_count++
+              }
+              /^@@/ || /diff --git/ {
+                  if (in_b2sums_hunk && minus_count == 1 && plus_count == 1 && last_minus ~ /\)$/) {
+                      print "Only last checksum changed. Exiting.";
+                      exit 1
+                  }
+                  in_b2sums_hunk = 0
+              }
+              END {
+                  if (in_b2sums_hunk && minus_count == 1 && plus_count == 1 && last_minus ~ /\)$/) {
+                      print "Only last checksum changed—minor update. Exiting.";
+                      exit 1
+                  }
+              }
+          ' ; if [ ${PIPESTATUS[1]} -ne 0 ]; then exit 1; fi
+
+          echo "Relevant changes detected. Proceeding with pipeline."
 
       - name: Download pkgrel update artifact
         uses: actions/download-artifact@v4
