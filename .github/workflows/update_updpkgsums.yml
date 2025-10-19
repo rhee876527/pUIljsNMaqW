@@ -30,10 +30,6 @@ jobs:
           namcap: false
           updpkgsums: true
 
-      - name: Debug diff
-        run: |
-          diff -u original/PKGBUILD PKGBUILD || true
-
 
       - name: Drop pipeline if only archlinux config has changed
         run: |
