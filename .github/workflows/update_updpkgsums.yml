@@ -36,7 +36,10 @@ jobs:
           diff_output=$(diff -u original/PKGBUILD PKGBUILD)
 
           echo "$diff_output" | awk '
-              /^         '"'"'/ || /^[-+]        '"'"'/ {
+              # Count only real diff +/- lines
+              /^[+-][^+-]/ { total_changes++ }
+
+              /^         '\''/ || /^[+-][^+-]        '\''/ {
                   if (!in_b2sums_hunk) {
                       in_b2sums_hunk = 1;
                       minus_count = 0;
@@ -44,23 +47,21 @@ jobs:
                       last_minus = ""
                   }
               }
-              in_b2sums_hunk && /^-/ {
+              in_b2sums_hunk && /^-[^-]/ {
                   minus_count++;
                   last_minus = $0
               }
-              in_b2sums_hunk && /^\+/ {
+              in_b2sums_hunk && /^\+[^+]/ {
                   plus_count++
               }
               /^@@/ || /diff --git/ {
-                  if (in_b2sums_hunk && minus_count == 1 && plus_count == 1 && last_minus ~ /\)$/) {
-                      print "Only last checksum changed. Exiting.";
+                  if (in_b2sums_hunk && minus_count == 1 && plus_count == 1 && last_minus ~ /\)$/ && total_changes == 2) {
                       exit 1
                   }
                   in_b2sums_hunk = 0
               }
               END {
-                  if (in_b2sums_hunk && minus_count == 1 && plus_count == 1 && last_minus ~ /\)$/) {
-                      print "Only last checksum changed—minor update. Exiting.";
+                  if (in_b2sums_hunk && minus_count == 1 && plus_count == 1 && last_minus ~ /\)$/ && total_changes == 2) {
                       exit 1
                   }
               }
