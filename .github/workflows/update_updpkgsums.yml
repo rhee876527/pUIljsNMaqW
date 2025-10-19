@@ -32,13 +32,13 @@ jobs:
 
       - name: Debug diff
         run: |
-          diff -u original/PKGBUILD PKGBUILD
+          diff -u original/PKGBUILD PKGBUILD || true
 
 
       - name: Drop pipeline if only archlinux config has changed
         run: |
           # Check for last-source-only checksum update and fail if detected
-          diff_output=$(diff -u original/PKGBUILD PKGBUILD)
+          diff_output=$(diff -u original/PKGBUILD PKGBUILD || true)
 
           awk_program='
           # Count only real diff +/- lines
