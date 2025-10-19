@@ -30,6 +30,11 @@ jobs:
           namcap: false
           updpkgsums: true
 
+      - name: Debug diff
+        run: |
+          diff -u original/PKGBUILD PKGBUILD
+
+
       - name: Drop pipeline if only archlinux config has changed
         run: |
           # Check for last-source-only checksum update and fail if detected
