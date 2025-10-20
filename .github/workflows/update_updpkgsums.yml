@@ -70,6 +70,7 @@ jobs:
           echo "$diff_output" | awk "$awk_program"
           if [ ${PIPESTATUS[1]} -ne 0 ]; then exit 1; fi
 
+          echo "push_changes=true" >> $GITHUB_ENV
           echo "Relevant changes detected. Proceeding with pipeline."
 
       - name: Download pkgrel update artifact
@@ -80,15 +81,6 @@ jobs:
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path: ./
-
-      - name: Check if updpkgsums has triggered change
-        run: |
-          if diff -q PKGBUILD processed/PKGBUILD > /dev/null; then
-            echo "No changes to be made!"
-          else
-            echo "New changes detected. Pushing for new build!"
-            echo "push_changes=true" >> $GITHUB_ENV
-          fi
 
       - name: Decision to bump pkgrel for PKGBUILD
         run: |
