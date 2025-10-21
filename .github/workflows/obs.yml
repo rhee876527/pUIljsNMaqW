@@ -14,18 +14,39 @@ jobs:
   copy-and-commit:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
+    env:
+      skip: false
 
     steps:
+
+    - name: Determine whether to skip obs update
+      uses: actions/download-artifact@v4
+      continue-on-error: true
+      with:
+        name: skip-obs-update
+        run-id: ${{ github.event.workflow_run.id }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path: ./
+
+    - name: Set skip environment variable
+      run: |
+        if [[ -f skip-obs-update.txt ]]; then
+          echo "skip=true" >> $GITHUB_ENV
+        fi
+
     - name: Checkout repository
+      if: ${{ env.skip != 'true' }}
       uses: actions/checkout@v4
 
 
     - name: Install dependencies
+      if: ${{ env.skip != 'true' }}
       run: |
         pip install --break-system-packages osc==1.19.0
         echo 'export PATH="$HOME/.local/bin:$PATH"' >> $GITHUB_ENV
 
     - name: Configure osc
+      if: ${{ env.skip != 'true' }}
       run: |
         mkdir -p ~/.config/osc
         echo "[general]" > ~/.config/osc/oscrc
@@ -35,10 +56,12 @@ jobs:
         echo "pass = ${{ secrets.OBS_PASSWORD }}" >> ~/.config/osc/oscrc
 
     - name: Checkout OBS project
+      if: ${{ env.skip != 'true' }}
       run: |
         timeout 5m osc checkout ${{ secrets.OBS_PROJECT_PATH }}
 
     - name: Extract PKGBUILD Version
+      if: ${{ env.skip != 'true' }}
       id: extract_pkgver
       run: |
         PKGBUILD_PATH="processed/PKGBUILD"
@@ -49,6 +72,7 @@ jobs:
         echo "pkgver=$PKGVER" >> $GITHUB_OUTPUT
 
     - name: Copy PKGBUILD file to OBS project
+      if: ${{ env.skip != 'true' }}
       run: |
         cp processed/PKGBUILD ${{ secrets.OBS_PROJECT_PATH }}
         cd ${{ secrets.OBS_PROJECT_PATH }}
