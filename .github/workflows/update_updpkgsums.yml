@@ -57,23 +57,28 @@ jobs:
           }
           /^@@/ || /diff --git/ {
               if (in_b2sums_hunk && minus_count == 1 && plus_count == 1 && last_minus ~ /\)$/ && total_changes == 2) {
-                  exit 1
+                  print "skip"
               }
               in_b2sums_hunk = 0
           }
           END {
               if (in_b2sums_hunk && minus_count == 1 && plus_count == 1 && last_minus ~ /\)$/ && total_changes == 2) {
-                  exit 1
+                  print "skip"
               }
           }
           '
-          echo "$diff_output" | awk "$awk_program"
-          if [ ${PIPESTATUS[1]} -ne 0 ]; then exit 1; fi
+          result=$(echo "$diff_output" | awk "$awk_program")
+
+          if [[ "$result" == "skip" ]]; then
+              echo "Only Arch config changed. Skipping subsequent steps."
+              exit 0
+          fi
 
           echo "push_changes=true" >> $GITHUB_ENV
           echo "Relevant changes detected. Proceeding with pipeline."
 
       - name: Download pkgrel update artifact
+        if: env.push_changes == 'true'
         uses: actions/download-artifact@v4
         continue-on-error: true
         with:
@@ -83,6 +88,7 @@ jobs:
           path: ./
 
       - name: Decision to bump pkgrel for PKGBUILD
+        if: env.push_changes == 'true'
         run: |
           # Check if new kernel artifact exists
           if [[ ! -f "new-release-update.txt" ]]; then
