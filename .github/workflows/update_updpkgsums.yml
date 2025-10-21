@@ -113,6 +113,17 @@ jobs:
               echo "Artifact found. Skipping pkgrel bump."
           fi
 
+      - name: Skip obs update artifact
+        if: ${{ env.push_changes != 'true' }}
+        run: echo "skip=true" > skip-obs-update.txt
+
+      - name: Avail skip obs update artifact
+        if: ${{ env.push_changes != 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: skip-obs-update
+          path: skip-obs-update.txt
+
       - name: Commit and push changes
         if: env.push_changes == 'true'
         run: |
