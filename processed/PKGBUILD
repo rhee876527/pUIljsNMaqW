@@ -44,14 +44,14 @@ _basic_harden=y
 ##########
 ####
 _major=6.17
-_minor=4
+_minor=5
 _srcname=linux-${_major}
 _cachy=CachyOS/kernel-patches/master
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=3
+pkgrel=1
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/rhee876527/pUIljsNMaqW"
@@ -78,7 +78,7 @@ source=(
   )
 
 b2sums=('0edb2324be5638aa75984128aafdba3e50824187d2fcdff8794eab99d85c10c3a17d1e840053c2c83df5ee11fdf69f1c9452c57ecc9dae01c4af38180fe7821a'
-        '4121f8cc485a71878335d1b186c39271b83bca4e176566ee63e60a26eedd74e68e5d238492c7bb462c4139fade13bff105c46a1d12411cb4fa0972c9eb9cb3d9'
+        'd1a8f1ab63801a8ca421981cce57aae2b5da5864336821fe8bbb5131a40b16c100d4fa3d3dd2d5c4ce28bb6e3dd9c6b4b5a642d81f2303dbe12739ce4b7f3c68'
         '9cfb071f5f8228706dfee3c17409af3956c8db9b32a097a6d638eefadb58708e5f7779e9c5030f52ecfd2acfc2789d0fc57c10a10c4c37e8a79878a3990e8aea'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
         '7867541ba8db8a11ab7eb1231b4a6f22f213549f5c2aee1dc0f58e0c94fa48b74b4c7a36053dbf147fb9ebe99d52d5f90d02d9ca6d79d013c8e2708a020f0da9'
