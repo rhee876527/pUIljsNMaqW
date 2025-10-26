@@ -67,6 +67,12 @@ jobs:
               }
           }
           '
+
+          if [[ -z "$diff_output" ]]; then
+            echo "No changes in PKGBUILD!"
+            exit 0
+          fi
+
           result=$(echo "$diff_output" | awk "$awk_program")
 
           if [[ "$result" == "skip" ]]; then
