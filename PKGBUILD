@@ -44,7 +44,7 @@ _basic_harden=y
 ##########
 ####
 _major=6.17
-_minor=8
+_minor=9
 _srcname=linux-${_major}
 _cachy=CachyOS/kernel-patches/master
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
