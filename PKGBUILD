@@ -43,8 +43,8 @@ _basic_harden=y
 ######################
 ##########
 ####
-_major=6.17
-_minor=9
+_major=6.18
+_minor=0
 _srcname=linux-${_major}
 _cachy=CachyOS/kernel-patches/master
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
@@ -73,7 +73,7 @@ source=(
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
   "https://github.com/clearlinux-pkgs/linux/archive/6.15.7-1591.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0002-bbr3.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-bbr3.patch"
   "https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
