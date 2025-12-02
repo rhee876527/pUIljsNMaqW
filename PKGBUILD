@@ -305,6 +305,10 @@ prepare() {
         echo "Skipping hardening.config..."
     fi
 
+    ## Keep KCFI disabled
+    scripts/config --disable CONFIG_ARCH_SUPPORTS_CFI \
+                   --disable CONFIG_CFI
+
     ### Checking config
     if [ -n "$_switchstock" ]; then
         diff -u ../config .config || :
