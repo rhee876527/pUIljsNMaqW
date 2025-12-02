@@ -70,7 +70,7 @@ fi
 
 source=(
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${_major}.tar.xz"
-  "https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
+  #"https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
   "https://github.com/clearlinux-pkgs/linux/archive/6.15.7-1591.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-bbr3.patch"
@@ -78,7 +78,6 @@ source=(
   )
 
 b2sums=('0edb2324be5638aa75984128aafdba3e50824187d2fcdff8794eab99d85c10c3a17d1e840053c2c83df5ee11fdf69f1c9452c57ecc9dae01c4af38180fe7821a'
-        'a0ce8311be7c251ad21b7cc11be4f30ec5125e3763f97a750afef855be385a3ceae24df3b65b5dd751729575aa0cd254a95cbae0f2e8cc8f95539dcfa2d9d3a1'
         '9cfb071f5f8228706dfee3c17409af3956c8db9b32a097a6d638eefadb58708e5f7779e9c5030f52ecfd2acfc2789d0fc57c10a10c4c37e8a79878a3990e8aea'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
         '2f4fb3657627f4ca856391283fa12dd2d4e6603b621ff13072b360addd3391b7e3000b300359c5bdbb37febbb77fdadd871e4c5a7ab94ff22fc447a680499987'
