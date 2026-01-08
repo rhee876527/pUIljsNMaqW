@@ -42,7 +42,7 @@ jobs:
     - name: Install dependencies
       if: ${{ env.skip != 'true' }}
       run: |
-        pip install --break-system-packages osc==1.19.0
+        pip install --break-system-packages osc==1.23.0
         echo 'export PATH="$HOME/.local/bin:$PATH"' >> $GITHUB_ENV
 
     - name: Configure osc
