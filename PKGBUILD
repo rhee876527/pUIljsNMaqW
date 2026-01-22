@@ -70,6 +70,7 @@ fi
 
 source=(
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${_major}.tar.xz"
+  "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${_major}.tar.sign"
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
   "https://github.com/clearlinux-pkgs/linux/archive/6.15.7-1591.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
@@ -78,7 +79,13 @@ source=(
   "https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
+validpgpkeys=(
+    'ABAF11C65A2970B130ABE3C479BE3E4300411886' # Linus Torvalds
+    '647F28654894E3BD457199BE38DBBDC86092693E' # Greg Kroah-Hartman
+)
+
 b2sums=('b94b7b9bf18aca0c3e50baf79b009a1448fc6cd9c3ee019f641cc247dcf53a4abef4274ee0608ad8cd4943af69854363a95d26e117ff23620bb07dccb158859f'
+        '0'
         'b7df26c8e524eacf89dfd34c92d572a0b36e0f6c6bbe3183d3cb909ef156487557337bd1e3780ce383966d06a9d2f640cf6ee4fc64750ff9c592a46fea010993'
         '9cfb071f5f8228706dfee3c17409af3956c8db9b32a097a6d638eefadb58708e5f7779e9c5030f52ecfd2acfc2789d0fc57c10a10c4c37e8a79878a3990e8aea'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
