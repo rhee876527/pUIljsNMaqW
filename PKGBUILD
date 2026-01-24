@@ -75,7 +75,6 @@ source=(
   "https://github.com/clearlinux-pkgs/linux/archive/6.15.7-1591.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-bbr3.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0005-block.patch"
   "https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
@@ -90,7 +89,6 @@ b2sums=('b94b7b9bf18aca0c3e50baf79b009a1448fc6cd9c3ee019f641cc247dcf53a4abef4274
         '9cfb071f5f8228706dfee3c17409af3956c8db9b32a097a6d638eefadb58708e5f7779e9c5030f52ecfd2acfc2789d0fc57c10a10c4c37e8a79878a3990e8aea'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
         '8942ec31c4a1a6ced364fce67dd5853c35564e306b53ba097100c3477bf5fd80128151cd3cc1a4f50ecc2447b963a5abdf7343a1753c48ec9f0e3d522af0020d'
-        '0b5b23a67f23e396633c8a3131ecf5532cfe40c44dd49267f029df973dc69225674dee237bc348854da3c7486476134a013939174f2281a21cac6968a76f74e5'
         '5a92c071676cfabe4c6276de74fe4d17b957ffd8fcf1298c3a7bbfef50012529e02a40dcedc711021d4de5eb26c63fb27016353382002493ca8797690df34d5b')
 
 # Initialize build variables
