@@ -51,7 +51,7 @@ _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b221693855
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=1
+pkgrel=2
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/rhee876527/pUIljsNMaqW"
@@ -88,8 +88,8 @@ b2sums=('b94b7b9bf18aca0c3e50baf79b009a1448fc6cd9c3ee019f641cc247dcf53a4abef4274
         '681e87a802952a892d24828e41e565b2c2bb23cb0ed0d91fac162a0a64a2542c50be87a0c6c05dbdb9be37cda4bb5193e49c2a2a6a916e091621ee8c4e85b0bf'
         '9cfb071f5f8228706dfee3c17409af3956c8db9b32a097a6d638eefadb58708e5f7779e9c5030f52ecfd2acfc2789d0fc57c10a10c4c37e8a79878a3990e8aea'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
-        '8942ec31c4a1a6ced364fce67dd5853c35564e306b53ba097100c3477bf5fd80128151cd3cc1a4f50ecc2447b963a5abdf7343a1753c48ec9f0e3d522af0020d'
-        '5a92c071676cfabe4c6276de74fe4d17b957ffd8fcf1298c3a7bbfef50012529e02a40dcedc711021d4de5eb26c63fb27016353382002493ca8797690df34d5b')
+        'd1f893b222af295af8a92b69e2b4b9781d4578c068cf3492493845184f87c9faeb8161a27eff20ba11af3e29d9517f0e6757045ef09405257e25a6a5b9e41bdc'
+        'f31d83e1e10bb901d0d25c1db0ad2844584ff1014c8bf36f342fcf1999f41e5e2d5ddfa20a5a23d4626c6b35005c7e01ebe8ae7f3de3d4b61a189a49add3a158')
 
 # Initialize build variables
 BUILD_FLAGS=()
