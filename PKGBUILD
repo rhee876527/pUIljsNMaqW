@@ -43,8 +43,8 @@ _basic_harden=y
 ######################
 ##########
 ####
-_major=6.18
-_minor=9
+_major=6.19
+_minor=0
 _srcname=linux-${_major}
 _cachy=CachyOS/kernel-patches/master
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
@@ -71,7 +71,7 @@ fi
 source=(
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${_major}.tar.xz"
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${_major}.tar.sign"
-  "https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
+  #"https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
   "https://github.com/clearlinux-pkgs/linux/archive/6.15.7-1591.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-bbr3.patch"
@@ -85,7 +85,6 @@ validpgpkeys=(
 
 b2sums=('b94b7b9bf18aca0c3e50baf79b009a1448fc6cd9c3ee019f641cc247dcf53a4abef4274ee0608ad8cd4943af69854363a95d26e117ff23620bb07dccb158859f'
         'SKIP'
-        '2296caebac3b92c0ed247229b1cd0f9d9d7cad6930b1a84a1cc4ff71567141a0a2e7e65d66c1df670df872961583afe13cfbad368a819d637d67d9e0b64aab65'
         '9cfb071f5f8228706dfee3c17409af3956c8db9b32a097a6d638eefadb58708e5f7779e9c5030f52ecfd2acfc2789d0fc57c10a10c4c37e8a79878a3990e8aea'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
         'ced01da7f025454b70420f7a5e6067cf5f0b44dab47873175ef1c30cd50601b63bffb78c43d2af00027fa9fab05656966298c5b0e5b6fa8e87fa40486d1ffa32'
