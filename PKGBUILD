@@ -74,7 +74,7 @@ source=(
   #"https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
   "https://github.com/clearlinux-pkgs/linux/archive/6.15.7-1591.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
-  "https://raw.githubusercontent.com/${_cachy}/${_major}/0004-bbr3.patch"
+  "https://raw.githubusercontent.com/${_cachy}/${_major}/0002-bbr3.patch"
   "https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
   )
 
