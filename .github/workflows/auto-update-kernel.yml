@@ -46,6 +46,13 @@ jobs:
               echo "updated=true" >> $GITHUB_ENV
           else
               echo "No update needed."
+              # If minor is manually set to 0, we need to override fetched latest_major/minor
+              pkgbuild_minor=$(grep '^_minor=' PKGBUILD | cut -d'=' -f2)
+              if [[ "$pkgbuild_minor" == "0" ]]; then
+                  echo "Overriding latest version with set PKGBUILD value for minor 0 release"
+                  echo "latest_major=$current_major" >> $GITHUB_ENV
+                  echo "latest_minor=$current_minor" >> $GITHUB_ENV
+              fi
           fi
 
       - name: Rollback pkgrel
