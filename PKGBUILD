@@ -75,7 +75,7 @@ source=(
   "https://github.com/clearlinux-pkgs/linux/archive/6.15.7-1591.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0002-bbr3.patch"
-  "https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config"
+  "config::https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config.x86_64"
   )
 
 validpgpkeys=(
