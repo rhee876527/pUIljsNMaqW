@@ -25,7 +25,7 @@ jobs:
 
       - name: Get latest kernel version
         run: |
-          latest_version=$(curl -s --retry 8 "https://github.com/gregkh/linux/tags" | grep -oP 'href="/gregkh/linux/releases/tag/v[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*"' | grep -v 'rc' | sed 's/.*tag\/v\([^"]*\).*/\1/' | sort -V | tail -n1)
+          latest_version=$(git ls-remote --tags https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git | grep -oP 'refs/tags/v\K[0-9]+\.[0-9]+\.[0-9]+$' | grep -v 'rc' | sort -V | tail -n1)
           echo "Latest version: $latest_version"
            # Set latest_major and latest_minor
           latest_major=$(echo "$latest_version" | cut -d'.' -f1-2)  # Extract major and minor
