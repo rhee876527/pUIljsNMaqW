@@ -44,14 +44,14 @@ _basic_harden=y
 ##########
 ####
 _major=6.19
-_minor=0
+_minor=1
 _srcname=linux-${_major}
 _cachy=CachyOS/kernel-patches/master
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=3
+pkgrel=1
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/rhee876527/pUIljsNMaqW"
@@ -71,7 +71,7 @@ fi
 source=(
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${_major}.tar.xz"
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${_major}.tar.sign"
-  #"https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
+  "https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
   "https://github.com/clearlinux-pkgs/linux/archive/6.15.7-1591.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "https://raw.githubusercontent.com/${_cachy}/${_major}/0002-bbr3.patch"
@@ -85,9 +85,10 @@ validpgpkeys=(
 
 b2sums=('d1551c058e9a1201a0fa769b427255f13bb0d73fdd384e2c0302956cc9a1eeba255b013fa87a15fdad508bc00fdae2085590572c76cfe20fe2af31ba87b7d289'
         'SKIP'
+        '44cd1d1cc372007b7f86eb864e3855b8c8319b2dc590643cc8f2b4b1a943cac995c8c2528e517eafdf9f03adb7daf2c15a685278fb79619a5f7301fbe8fd3e6d'
         '9cfb071f5f8228706dfee3c17409af3956c8db9b32a097a6d638eefadb58708e5f7779e9c5030f52ecfd2acfc2789d0fc57c10a10c4c37e8a79878a3990e8aea'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
-        'bb83ad9c725d76199b109a0a1417eca53508fc82ba058efc66de04ef0dd89152e4fe77b724b06e6cde9866c7487b5c054ae0df9ba9d04c0b87068ff544054e46'
+        '13929c5643307bfc837921f3591c4d6b8cbcb49829a51f6b79010fe226f9bdd93de72e42cc6ab31e0d373a03ff4368930f69343d837cf81de4b207e4a14e76e0'
         'bef3377ad86440af76e9dde4c29c9f4aaad42f5fe343f7d31f5eb537d6d358602f996f5d63986af275f2e92f94e71dc28c320edc8c03d05bd64dbd8ed23d75dc')
 
 # Initialize build variables
