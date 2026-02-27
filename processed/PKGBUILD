@@ -44,14 +44,14 @@ _basic_harden=y
 ##########
 ####
 _major=6.19
-_minor=3
+_minor=4
 _srcname=linux-${_major}
 _cachy=CachyOS/kernel-patches/master
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=2
+pkgrel=1
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/rhee876527/pUIljsNMaqW"
@@ -85,11 +85,11 @@ validpgpkeys=(
 
 b2sums=('d1551c058e9a1201a0fa769b427255f13bb0d73fdd384e2c0302956cc9a1eeba255b013fa87a15fdad508bc00fdae2085590572c76cfe20fe2af31ba87b7d289'
         'SKIP'
-        'b3a81dfb06c63bf4837863f8a609ca8d3a34f6383359afaf1753dea31e2bbf9e24e8892eb5a108734cb22c445ae7f743c436d08cf7ee7c9b3d7bd75a372737a7'
+        'cf9ec8739faed7602b150b19d6995c5c9ffea23a13ad139ca5a407bd51509edd855c791639ab8556938e0b096b448652b5bd377eb556ee94f11ad50620676f76'
         '9cfb071f5f8228706dfee3c17409af3956c8db9b32a097a6d638eefadb58708e5f7779e9c5030f52ecfd2acfc2789d0fc57c10a10c4c37e8a79878a3990e8aea'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
-        'f643c719e8f2a674d753b03d2c97dc45492dde962555cb0618240259a8a5f7dce4c1ee115a24e67550daa517b56514aa99d51bfae40885495ceb4ed04f872d5d'
-        'bef3377ad86440af76e9dde4c29c9f4aaad42f5fe343f7d31f5eb537d6d358602f996f5d63986af275f2e92f94e71dc28c320edc8c03d05bd64dbd8ed23d75dc')
+        'ec08892c8e0cf29356ea7bd3e85ec51f30390d76d5fbe34cf57b65a561fa7adcc7d9eb73f594ab654aec23235cbdc23c51828ee5d6babd911e7698b8734f4e19'
+        '9e161a131a1914eca05b7e69b04b544c7bec5b49c081aac08e7883ad3403e1578651e8e5560b083e47aa5830f5f271417ebecbbef0e3b245dd3ab7e06136940e')
 
 # Initialize build variables
 BUILD_FLAGS=()
