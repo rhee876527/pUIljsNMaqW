@@ -27,7 +27,6 @@ fetch_patches() {
       patches_with_versions=$(echo "$html_response" | \
         grep -ozP '<script type="application/json" data-target="react-app.embeddedData">\K.*?(?=</script>)' | \
         tr -d '\0' | \
-        sed 's/\\"/"/g; s/^[^{]*//; s/[^}]*$//' | \
         jq -r '.payload.codeViewFileTreeLayoutRoute.fileTree["'"$latest_major"'"].items[] | select(.name | endswith(".patch")) | .name' | sort | uniq)
 
       if [ -n "$patches_with_versions" ]; then
