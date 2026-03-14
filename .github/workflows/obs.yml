@@ -8,11 +8,11 @@ on:
     types:
       - completed
 
-#  workflow_dispatch
+  workflow_dispatch:
 
 jobs:
   copy-and-commit:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     env:
       skip: false
