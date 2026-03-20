@@ -16,7 +16,7 @@ jobs:
     if: github.event.head_commit.message != 'Update PKGBUILD'
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Keep PKGBUILD for processing based on updpkgsums result
         run: |
@@ -125,7 +125,7 @@ jobs:
 
       - name: Avail skip obs update artifact
         if: ${{ env.push_changes != 'true' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: skip-obs-update
           path: skip-obs-update.txt
