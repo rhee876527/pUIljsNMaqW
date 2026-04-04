@@ -200,12 +200,13 @@ prepare() {
         scripts/config --enable FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER \
                        --enable DELL_SMBIOS_SMM \
                        --module PATA_JMICRON \
-                       --enable-after SOUND SOUND_OSS_CORE \
+                       --enable SOUND_OSS_CORE \
                        --enable SND_OSSEMUL \
-                       --module-after SND_OSSEMUL SND_MIXER_OSS \
-                       --module-after SND_MIXER_OSS SND_PCM_OSS \
-                       --enable-after SND_PCM_OSS SND_PCM_OSS_PLUGINS \
-                       --module AGP --module-after AGP AGP_INTEL --module-after AGP_INTEL AGP_VIA
+                       --enable SND_MIXER_OSS \
+                       --enable SND_PCM_OSS \
+                       --enable SND_PCM_OSS_PLUGINS \
+                       --module AGP_INTEL \
+                       --module AGP_VIA
 
         # Kernel hacking -> Compile-time checks and compiler options -> Make section mismatch errors non-fatal
         scripts/config --enable SECTION_MISMATCH_WARN_ONLY
@@ -303,6 +304,10 @@ prepare() {
                        --disable PAHOLE_HAS_SPLIT_BTF \
                        --disable DEBUG_INFO_BTF_MODULES
     fi
+
+    # Workaround legacy Clearlinux config warnings
+    scripts/config --enable CRYPTO_LIB_CURVE25519_GENERIC \
+                   --set-val BOOTPARAM_HUNG_TASK_PANIC 0
 
     # Enable basic upstream kernel hardening
     if [ -n "$_basic_harden" ]; then
