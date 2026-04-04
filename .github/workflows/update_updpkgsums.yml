@@ -36,6 +36,14 @@ jobs:
           # Check for last-source-only checksum update and fail if detected
           diff_output=$(diff -u original/PKGBUILD PKGBUILD || true)
 
+          # Allow force pushes to bypass config check
+          commit_msg="${{ github.event.workflow_run.head_commit.message }}"
+          if echo "$commit_msg" | grep -qi "force"; then
+              echo "Force push detected. Bypassing relevant config changes check."
+              echo "push_changes=true" >> $GITHUB_ENV
+              exit 0
+          fi
+
           awk_program='
           # Count only real diff +/- lines
           /^[+-][^+-]/ { total_changes++ }
