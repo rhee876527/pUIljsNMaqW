@@ -5,7 +5,6 @@ Automate update of sources required to build kernel in PKGBUILD and push it to O
 Updates the following:
 - latest kernel stable based on daily cron
 - ~~clearlinux tag (as long as the major version still matches current kernel stable)~~
-- cachyos patch names (more so the prefix numbers)
 - b2sums of the sources using a fork of [Arch Linux PKGBUILD Package action](https://github.com/rhee876527/archlinux-package-action)
 
 Then pushes from /processed the updated PKGBUILD to an Open Build Service repository (as defined in obs.yml).
