@@ -43,8 +43,8 @@ _basic_harden=y
 ######################
 ##########
 ####
-_major=6.19
-_minor=13
+_major=7.0
+_minor=0
 _srcname=linux-${_major}
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
 pkgbase=linux-clear-llvm
@@ -68,9 +68,9 @@ fi
 
 
 source=(
-  "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${_major}.tar.xz"
-  "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${_major}.tar.sign"
-  "https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
+  "https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-${_major}.tar.xz"
+  "https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-${_major}.tar.sign"
+  #"https://cdn.kernel.org/pub/linux/kernel/v7.x/patch-${pkgver}.xz"
   "https://github.com/clearlinux-pkgs/linux/archive/6.15.7-1591.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "config::https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config.x86_64"
@@ -83,7 +83,6 @@ validpgpkeys=(
 
 b2sums=('d1551c058e9a1201a0fa769b427255f13bb0d73fdd384e2c0302956cc9a1eeba255b013fa87a15fdad508bc00fdae2085590572c76cfe20fe2af31ba87b7d289'
         'SKIP'
-        'bfce48d0a448eb67c6d5dea4addde726c01e9496673786aea92f46b1f08a7c0f9b06b11d268704ca2bf8e91be210fdcc4b72807f56e05c03b948b63061f48fe4'
         '9cfb071f5f8228706dfee3c17409af3956c8db9b32a097a6d638eefadb58708e5f7779e9c5030f52ecfd2acfc2789d0fc57c10a10c4c37e8a79878a3990e8aea'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
         'e3ac836fb2ed5474821c80f54deb209dcbe989b4c28489a7583ab8bc4181fe9739f319d093021311b12d152799adc2d15eefadec45cf66df84ba3189dbc13dc3')
