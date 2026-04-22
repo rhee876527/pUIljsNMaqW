@@ -44,13 +44,13 @@ _basic_harden=y
 ##########
 ####
 _major=7.0
-_minor=0
+_minor=1
 _srcname=linux-${_major}
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=2
+pkgrel=1
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/rhee876527/pUIljsNMaqW"
@@ -70,7 +70,7 @@ fi
 source=(
   "https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-${_major}.tar.xz"
   "https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-${_major}.tar.sign"
-  #"https://cdn.kernel.org/pub/linux/kernel/v7.x/patch-${pkgver}.xz"
+  "https://cdn.kernel.org/pub/linux/kernel/v7.x/patch-${pkgver}.xz"
   "https://github.com/clearlinux-pkgs/linux/archive/6.15.7-1591.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "config::https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config.x86_64"
