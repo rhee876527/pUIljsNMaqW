@@ -23,6 +23,15 @@ jobs:
           mkdir -p original
           cp PKGBUILD original/PKGBUILD
 
+      - name: Download pkgrel update artifact
+        uses: actions/download-artifact@v8
+        continue-on-error: true
+        with:
+          name: new-kernel
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: ./
+
       - name: Validate patch availability for new minor versions
         run: |
           # Extract _major and _minor from PKGBUILD
@@ -121,16 +130,6 @@ jobs:
 
           echo "push_changes=true" >> $GITHUB_ENV
           echo "Relevant changes detected. Proceeding with pipeline."
-
-      - name: Download pkgrel update artifact
-        if: env.push_changes == 'true'
-        uses: actions/download-artifact@v8
-        continue-on-error: true
-        with:
-          name: new-kernel
-          run-id: ${{ github.event.workflow_run.id }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path: ./
 
       - name: Decision to bump pkgrel for PKGBUILD
         if: env.push_changes == 'true'
