@@ -23,7 +23,32 @@ jobs:
           mkdir -p original
           cp PKGBUILD original/PKGBUILD
 
+      - name: Validate patch availability for new minor versions
+        run: |
+          # Extract _major and _minor from PKGBUILD
+          _major=$(grep '^_major=' PKGBUILD | cut -d'=' -f2)
+          _minor=$(grep '^_minor=' PKGBUILD | cut -d'=' -f2)
+          pkgver="${_major}.${_minor}"
+          major_version=$(echo "$_major" | cut -d'.' -f1)
+
+          # Only validate patch URL if patch level (_minor) is not 0
+          if [[ "$_minor" != "0" ]]; then
+              patch_url="https://cdn.kernel.org/pub/linux/kernel/v${major_version}.x/patch-${pkgver}.xz"
+              echo "Checking patch availability at: $patch_url"
+
+              status=$(curl -s -o /dev/null -w "%{http_code}" "$patch_url")
+              if [[ "$status" != "200" ]]; then
+                  echo "Patch file not found (HTTP $status). Skipping pipeline."
+                  echo "skip=true" >> $GITHUB_ENV
+              else
+                  echo "Patch verified successfully."
+              fi
+          else
+              echo "Patch level is 0. Skipping patch validation."
+          fi
+
       - name: Validate package
+        if: env.skip != 'true'
         uses: docker://ghcr.io/rhee876527/archlinux-package-action:edge
         with:
           flags: ''
@@ -33,6 +58,12 @@ jobs:
 
       - name: Drop pipeline if only archlinux config has changed
         run: |
+          # Check if patch validation skipped the pipeline
+          if [[ "${{ env.skip }}" == "true" ]]; then
+              echo "Skipping pipeline due to patch url unavailability."
+              exit 0
+          fi
+
           # Check for last-source-only checksum update and fail if detected
           diff_output=$(diff -u original/PKGBUILD PKGBUILD || true)
 
