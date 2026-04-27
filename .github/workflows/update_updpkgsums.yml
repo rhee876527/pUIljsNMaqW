@@ -24,6 +24,7 @@ jobs:
           cp PKGBUILD original/PKGBUILD
 
       - name: Download pkgrel update artifact
+        id: download_artifact
         uses: actions/download-artifact@v8
         continue-on-error: true
         with:
@@ -32,7 +33,12 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path: ./
 
+      - name: Prepare for new kernel tag
+        if: steps.download_artifact.outcome == 'success'
+        run: echo "check_patch_url=true" >> $GITHUB_ENV
+
       - name: Validate patch availability for new minor versions
+        if: env.check_patch_url == 'true'
         run: |
           # Extract _major and _minor from PKGBUILD
           _major=$(grep '^_major=' PKGBUILD | cut -d'=' -f2)
@@ -63,7 +69,6 @@ jobs:
           flags: ''
           namcap: false
           updpkgsums: true
-
 
       - name: Drop pipeline if only archlinux config has changed
         run: |
