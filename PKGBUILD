@@ -264,15 +264,11 @@ prepare() {
     # Disable scheduler debugging
     scripts/config --disable CONFIG_SCHED_DEBUG
 
-    # BBRv3
+    # BBR defaults
     scripts/config --module TCP_CONG_CUBIC \
                    --enable DEFAULT_BBR \
                    --disable DEFAULT_CUBIC \
                    --enable TCP_CONG_BBR \
-                   --module NET_SCH_FQ_CODEL \
-                   --enable NET_SCH_FQ \
-                   --disable CONFIG_DEFAULT_FQ_CODEL \
-                   --enable CONFIG_DEFAULT_FQ \
                    --set-str DEFAULT_TCP_CONG bbr
 
     # LLVM Clang
@@ -302,8 +298,9 @@ prepare() {
                        --disable DEBUG_INFO_BTF_MODULES
     fi
 
-    # Workaround legacy Clearlinux config warnings
+    # Workaround config warnings
     scripts/config --enable CRYPTO_LIB_CURVE25519_GENERIC \
+                   --set-val BOOTPARAM_SOFTLOCKUP_PANIC 0 \
                    --set-val BOOTPARAM_HUNG_TASK_PANIC 0
 
     # Enable basic upstream kernel hardening
