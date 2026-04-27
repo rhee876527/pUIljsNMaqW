@@ -46,20 +46,16 @@ jobs:
           pkgver="${_major}.${_minor}"
           major_version=$(echo "$_major" | cut -d'.' -f1)
 
-          # Only validate patch URL if patch level (_minor) is not 0
-          if [[ "$_minor" != "0" ]]; then
-              patch_url="https://cdn.kernel.org/pub/linux/kernel/v${major_version}.x/patch-${pkgver}.xz"
-              echo "Checking patch availability at: $patch_url"
+          patch_url="https://cdn.kernel.org/pub/linux/kernel/v${major_version}.x/patch-${pkgver}.xz"
+          echo "Checking patch availability at: $patch_url"
 
-              status=$(curl -s -o /dev/null -w "%{http_code}" "$patch_url")
-              if [[ "$status" != "200" ]]; then
-                  echo "Patch file not found (HTTP $status). Skipping pipeline."
-                  echo "skip=true" >> $GITHUB_ENV
-              else
-                  echo "Patch verified successfully."
-              fi
+          status=$(curl -s -o /dev/null -w "%{http_code}" "$patch_url")
+
+          if [[ "$status" != "200" ]]; then
+              echo "Patch file not found (HTTP $status). Skipping pipeline."
+              echo "skip=true" >> $GITHUB_ENV
           else
-              echo "Patch level is 0. Skipping patch validation."
+              echo "Patch verified successfully."
           fi
 
       - name: Validate package
