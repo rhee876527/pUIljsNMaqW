@@ -44,9 +44,11 @@ _basic_harden=y
 ##########
 ####
 _major=7.0
-_minor=6
+_minor=7
 _srcname=linux-${_major}
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
+_archlinuxpatch1=archlinux/linux/commit/c669c258f03c2a6d351696d8271c4f88f87bb3bc
+_archlinuxpatch2=archlinux/linux/commit/1909d6c7d700771074b2dc68e2af9b2e88cbbe58
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
@@ -73,6 +75,8 @@ source=(
   "https://cdn.kernel.org/pub/linux/kernel/v7.x/patch-${pkgver}.xz"
   "https://github.com/clearlinux-pkgs/linux/archive/6.15.7-1591.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
+  "arch-0001-net-skbuff-fix.patch::https://github.com/${_archlinuxpatch1}.patch"
+  "arch-0002-io_uring-zcrx-fix.patch::https://github.com/${_archlinuxpatch2}.patch"
   "config::https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config.x86_64"
   )
 
@@ -83,10 +87,12 @@ validpgpkeys=(
 
 b2sums=('3d9795083c8938f80f480de0d10bfd9c525640e59d5c7f22983de3f12ee42c84c31be902cafb05579ddb1c32bac5ed06b0d4953f9705450be185bd2d9ab08f89'
         'SKIP'
-        'a1033fc1fc56d497815ee34006add9b63faee3756fd63a9c4b834e10f9e3382c68a278cc3ee90718346e6b94e6f3c8ccdf65189260d97311dced30e95b507ac8'
+        '09110938aa0f4d6a57a7b5d80ac41847284e8a299a6cdc5ee257c5f305abc4b9d21ee6aa0b7155320e67ba1fd6ad944bc2a4ae6463422ba27d2aabe82df8928d'
         '9cfb071f5f8228706dfee3c17409af3956c8db9b32a097a6d638eefadb58708e5f7779e9c5030f52ecfd2acfc2789d0fc57c10a10c4c37e8a79878a3990e8aea'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
-        '74d7d779f0762352fc681258feda68f725032c1ab5cf436f7ea6be699d60404d2fb7a985d22d95a45b2acf77eef08b3aa8d23088ffec0db4dd7a7661a29cf3bc')
+        'a28217fe0c3c379b0418ae7e1ffab45bb501ae7fd435cd29d6cc018ab69cb0b598bf87ad2de1b28a3c8f032d54a68474924c8b4c39e508a1900cd61c7ee1af77'
+        'fa778a5803155fe237bd208735e9577071bf77c8a52b884f9956ca8d335da6f8a472bd3cfc6aa101c277dc797c44c65ee69482266102159ce5ea7216dcaf292d'
+        '9644c05ccef1e7d251462cb5b0b8579e39e892f72b1ec390a030fc9b36d5a2888adb3442b6e1700ff4ca0c983921230822b75f243a7e5db082a2140297d6da83')
 
 # Initialize build variables
 BUILD_FLAGS=()
