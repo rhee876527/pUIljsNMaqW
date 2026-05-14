@@ -44,7 +44,7 @@ _basic_harden=y
 ##########
 ####
 _major=7.0
-_minor=6
+_minor=7
 _srcname=linux-${_major}
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
 _archlinuxpatch1=archlinux/linux/commit/c669c258f03c2a6d351696d8271c4f88f87bb3bc
