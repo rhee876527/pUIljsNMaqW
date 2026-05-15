@@ -5,7 +5,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '8 15 * * *' #run daily
+    - cron: '8 13 * * *' #run daily
 
 jobs:
   update-kernel:
