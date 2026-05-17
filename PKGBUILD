@@ -44,15 +44,15 @@ _basic_harden=y
 ##########
 ####
 _major=7.0
-_minor=8
+_minor=9
 _srcname=linux-${_major}
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
-_archlinuxpatch1=archlinux/linux/commit/c669c258f03c2a6d351696d8271c4f88f87bb3bc
-_archlinuxpatch2=archlinux/linux/commit/1909d6c7d700771074b2dc68e2af9b2e88cbbe58
+_archlinuxpatch1=archlinux/linux/commit/ad97caa432359691e8d6e2acee6cdde7f2a1e651
+_archlinuxpatch2=archlinux/linux/commit/297ebcb24fc6956f7732502cc8b3378311274f82
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=1
+pkgrel=0
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/rhee876527/pUIljsNMaqW"
@@ -75,8 +75,8 @@ source=(
   "https://cdn.kernel.org/pub/linux/kernel/v7.x/patch-${pkgver}.xz"
   "https://github.com/clearlinux-pkgs/linux/archive/6.15.7-1591.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
-  "arch-0001-net-skbuff-fix.patch::https://github.com/${_archlinuxpatch1}.patch"
-  "arch-0002-io_uring-zcrx-fix.patch::https://github.com/${_archlinuxpatch2}.patch"
+  "arch-0001-net-skbuff-fix-1.patch::https://github.com/${_archlinuxpatch1}.patch"
+  "arch-0002-net-skbuff-fix-2.patch::https://github.com/${_archlinuxpatch2}.patch"
   "config::https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config.x86_64"
   )
 
