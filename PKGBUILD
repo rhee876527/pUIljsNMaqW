@@ -47,8 +47,6 @@ _major=7.0
 _minor=10
 _srcname=linux-${_major}
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
-_archlinuxpatch1=archlinux/linux/commit/ad97caa432359691e8d6e2acee6cdde7f2a1e651
-_archlinuxpatch2=archlinux/linux/commit/297ebcb24fc6956f7732502cc8b3378311274f82
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
@@ -75,8 +73,6 @@ source=(
   "https://cdn.kernel.org/pub/linux/kernel/v7.x/patch-${pkgver}.xz"
   "https://github.com/clearlinux-pkgs/linux/archive/6.15.7-1591.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
-  "arch-0001-net-skbuff-fix-1.patch::https://github.com/${_archlinuxpatch1}.patch"
-  "arch-0002-net-skbuff-fix-2.patch::https://github.com/${_archlinuxpatch2}.patch"
   "config::https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config.x86_64"
   )
 
@@ -90,8 +86,6 @@ b2sums=('3d9795083c8938f80f480de0d10bfd9c525640e59d5c7f22983de3f12ee42c84c31be90
         '8f3450b8a1c62d5e400bb9c724299ee024a3cb0d2c8006d8d0be36955b64d995d29048a4d7f31e94c6dcf4226ac3a0e007848acb0154c270be906bbb41efd645'
         '9cfb071f5f8228706dfee3c17409af3956c8db9b32a097a6d638eefadb58708e5f7779e9c5030f52ecfd2acfc2789d0fc57c10a10c4c37e8a79878a3990e8aea'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
-        'e1f0e75c945bba32d1255860d4a2b3cd616b59c94b6773a5e45354932ce8d43baad5b4dfd49c5d1acea0a54e684373dd8d49822a9d7c378adaa060d8af3fdd2f'
-        '3660394e12c946115c890ee2efa28f01c5f98e99d1198a757d94c56a1f0eaf7dd66920dfefdab7fdbc3a6e1578279e6e9d17748119b7b0285eaa841cf0399e48'
         '9a8ec4b0411ff9ac6fb33eaa4999eaf4b8ba9af407fa3c9d3c35722427c66c52042b2c1d136edbb27ead16f05f825bfb86d78a22c3177c98acdfdd7936a71575')
 
 # Initialize build variables
