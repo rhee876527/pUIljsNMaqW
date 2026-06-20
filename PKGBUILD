@@ -301,7 +301,8 @@ prepare() {
     # Workaround config warnings
     scripts/config --enable CRYPTO_LIB_CURVE25519_GENERIC \
                    --set-val BOOTPARAM_SOFTLOCKUP_PANIC 0 \
-                   --set-val BOOTPARAM_HUNG_TASK_PANIC 0
+                   --set-val BOOTPARAM_HUNG_TASK_PANIC 0 \
+                   --enable CONFIG_MULTIPLEXER
 
     # Enable basic upstream kernel hardening
     if [ -n "$_basic_harden" ]; then
