@@ -44,7 +44,7 @@ _basic_harden=y
 ##########
 ####
 _major=7.1
-_minor=1
+_minor=2
 _srcname=linux-${_major}
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
 pkgbase=linux-clear-llvm
@@ -83,10 +83,10 @@ validpgpkeys=(
 
 b2sums=('5199b2057fd1b89f0275bdaff9d81035cf5e1e8e64318a4a67467399245628a0f8c5e82f9d80dfc54b094349a8cfcdc892b7a4ad4bdf5dd1daa268ff30c1cf38'
         'SKIP'
-        'eed648389c9362536d5617027637d9c75fa4e19951314368eea567822ef40dec923a635e0a877cacce162d15a30efaecba71c99130a5afdb1f7b58f16d6f5aa9'
+        'f0dfe3dd8bac3cd80ed2c2403c7da1bc24f9526806aecb395a5b39ecfe7f99b37b2445973700f56ecc3f039b2e78d2f29e74d621737d9c060e3d9a23ab702ccf'
         '9cfb071f5f8228706dfee3c17409af3956c8db9b32a097a6d638eefadb58708e5f7779e9c5030f52ecfd2acfc2789d0fc57c10a10c4c37e8a79878a3990e8aea'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
-        '7082013345352c95303ee87cd78bf5d93ab49ec9f270e6cb803a05cb7f9a67c554bbd260de922d6d44145fd3712b410c13d67c8f76dc2b9f4088be86aeaec835')
+        '495c3240f45022ad0f2dba561b9ea1684427cfbb4b24abc092298a471b3cd043bd7915cff0acb62612bf283c4cad73531c1370f69b575d318919ea57da5f45eb')
 
 # Initialize build variables
 BUILD_FLAGS=()
@@ -301,7 +301,8 @@ prepare() {
     # Workaround config warnings
     scripts/config --enable CRYPTO_LIB_CURVE25519_GENERIC \
                    --set-val BOOTPARAM_SOFTLOCKUP_PANIC 0 \
-                   --set-val BOOTPARAM_HUNG_TASK_PANIC 0
+                   --set-val BOOTPARAM_HUNG_TASK_PANIC 0 \
+                   --enable CONFIG_MULTIPLEXER
 
     # Enable basic upstream kernel hardening
     if [ -n "$_basic_harden" ]; then
