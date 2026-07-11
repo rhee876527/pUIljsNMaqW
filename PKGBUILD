@@ -50,7 +50,7 @@ _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b221693855
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=2
+pkgrel=4
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/rhee876527/pUIljsNMaqW"
@@ -307,15 +307,9 @@ prepare() {
     # Enable basic upstream kernel hardening
     if [ -n "$_basic_harden" ]; then
         make "${BUILD_FLAGS[@]}" hardening.config
-        # Disable kcfi
-        scripts/config --disable CONFIG_CFI_CLANG
     else
         echo "Skipping hardening.config..."
     fi
-
-    ## Keep KCFI disabled
-    scripts/config --disable CONFIG_ARCH_SUPPORTS_CFI \
-                   --disable CONFIG_CFI
 
     ### Checking config
     if [ -n "$_switchstock" ]; then
