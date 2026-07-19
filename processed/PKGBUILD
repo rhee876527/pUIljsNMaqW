@@ -44,13 +44,13 @@ _basic_harden=y
 ##########
 ####
 _major=7.1
-_minor=3
+_minor=4
 _srcname=linux-${_major}
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=2
+pkgrel=1
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/rhee876527/pUIljsNMaqW"
@@ -83,10 +83,10 @@ validpgpkeys=(
 
 b2sums=('5199b2057fd1b89f0275bdaff9d81035cf5e1e8e64318a4a67467399245628a0f8c5e82f9d80dfc54b094349a8cfcdc892b7a4ad4bdf5dd1daa268ff30c1cf38'
         'SKIP'
-        'ca9cd061e6663184125fee6da4de2fd724445ed59e55e285e1b742678f46d8fc3f6f2e7f5265a745c26757048b960a9b4cfdaa2bea69199603eeb0d7619a366d'
+        '0de674ce0ba1848415c207d05223df14b1bbdd35c34b533e5bbbff68f01302ab8c2fda37d3468e85afc5707d6053f4bc26e8b44d9b45dccb2aa1cfc3351bf8a5'
         '9cfb071f5f8228706dfee3c17409af3956c8db9b32a097a6d638eefadb58708e5f7779e9c5030f52ecfd2acfc2789d0fc57c10a10c4c37e8a79878a3990e8aea'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
-        'dc8b97708ce42b9c32767b1b0344e1373640c898aa67e6b0123c0f85a3a7fafa798c7f9ffb744147488309b78229c14eaf0ac0456e1d74a6c80e513ceb26d127')
+        'd6cbac912f5302c6990fd7b4174f3eeece3e0fdfbb6018d9a9f2030f0637aff05bdf1f42e22abebcb56e54462078db9db849428a7a127806dce5a883b6fbdc5a')
 
 # Initialize build variables
 BUILD_FLAGS=()
@@ -307,15 +307,9 @@ prepare() {
     # Enable basic upstream kernel hardening
     if [ -n "$_basic_harden" ]; then
         make "${BUILD_FLAGS[@]}" hardening.config
-        # Disable kcfi
-        scripts/config --disable CONFIG_CFI_CLANG
     else
         echo "Skipping hardening.config..."
     fi
-
-    ## Keep KCFI disabled
-    scripts/config --disable CONFIG_ARCH_SUPPORTS_CFI \
-                   --disable CONFIG_CFI
 
     ### Checking config
     if [ -n "$_switchstock" ]; then
