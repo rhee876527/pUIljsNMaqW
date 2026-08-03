@@ -302,7 +302,8 @@ prepare() {
     scripts/config --enable CRYPTO_LIB_CURVE25519_GENERIC \
                    --set-val BOOTPARAM_SOFTLOCKUP_PANIC 0 \
                    --set-val BOOTPARAM_HUNG_TASK_PANIC 0 \
-                   --enable CONFIG_MULTIPLEXER
+                   --enable CONFIG_MULTIPLEXER \
+                   --disable SND_SOC_ACPI_AMD_SDCA_QUIRKS
 
     # Enable basic upstream kernel hardening
     if [ -n "$_basic_harden" ]; then
