@@ -43,8 +43,8 @@ _basic_harden=y
 ######################
 ##########
 ####
-_major=7.1
-_minor=8
+_major=7.2
+_minor=0
 _srcname=linux-${_major}
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
 pkgbase=linux-clear-llvm
@@ -70,7 +70,7 @@ fi
 source=(
   "https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-${_major}.tar.xz"
   "https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-${_major}.tar.sign"
-  "https://cdn.kernel.org/pub/linux/kernel/v7.x/patch-${pkgver}.xz"
+  #"https://cdn.kernel.org/pub/linux/kernel/v7.x/patch-${pkgver}.xz"
   "https://github.com/clearlinux-pkgs/linux/archive/6.15.7-1591.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
   "config::https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config.x86_64"
@@ -83,7 +83,6 @@ validpgpkeys=(
 
 b2sums=('5199b2057fd1b89f0275bdaff9d81035cf5e1e8e64318a4a67467399245628a0f8c5e82f9d80dfc54b094349a8cfcdc892b7a4ad4bdf5dd1daa268ff30c1cf38'
         'SKIP'
-        '8a364fe7cba72c1ae5d9c0784304aed681359d52840b7482cce46874cf478bb2d19d31b21e42ac977c048042b78601482e287513820bcb07fa328fc5b23d233d'
         '9cfb071f5f8228706dfee3c17409af3956c8db9b32a097a6d638eefadb58708e5f7779e9c5030f52ecfd2acfc2789d0fc57c10a10c4c37e8a79878a3990e8aea'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
         'f40d27145e8c0961080cf0d9c219db937352e58cf06f844443a8951cd16d33c5f17f708b188454118fb5dc1a97492c39d6645d4f3a98dc0680fd5c949e17a3d3')
@@ -132,7 +131,7 @@ prepare() {
     ### Add Clearlinux patches
     if [ -z "$_switchstock" ]; then
         P=Patch
-        skip_nums=(0109 0134 0148 0137 0132 0125 0118 0138 0147 0165 0173 0174)
+        skip_nums=(0109 0134 0148 0137 0132 0125 0118 0138 0147 0165 0173 0174 0127)
         skip_re=$(printf "|^${P}%s" "${skip_nums[@]}")
         skip_re="^${skip_re:1}"
 
