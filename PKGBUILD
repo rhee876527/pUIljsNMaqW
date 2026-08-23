@@ -302,7 +302,8 @@ prepare() {
                    --set-val BOOTPARAM_SOFTLOCKUP_PANIC 0 \
                    --set-val BOOTPARAM_HUNG_TASK_PANIC 0 \
                    --enable CONFIG_MULTIPLEXER \
-                   --disable SND_SOC_ACPI_AMD_SDCA_QUIRKS
+                   --disable SND_SOC_ACPI_AMD_SDCA_QUIRKS \
+                   --disable CONFIG_AD4130
 
     # Enable basic upstream kernel hardening
     if [ -n "$_basic_harden" ]; then
