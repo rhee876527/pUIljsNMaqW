@@ -51,7 +51,7 @@ _archlinuxpatch1=archlinux/linux/commit/574c107a6b236c2b1c8299ac3e82f20b4aca8cbe
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=1
+pkgrel=2
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/rhee876527/pUIljsNMaqW"
@@ -88,7 +88,8 @@ b2sums=('cf5f3d87b96f223034c47c6e5fc972fe52c2556310eb2f064632537b8727231135a8540
         '0c796b5f96ef876f6f2bc5754b3396d40d88b6abaf5565d4a8865dea8527aed11480cc1e2bf32060bab4ae2448b854d313523095ac692cdea00db2859762fcf6'
         '9cfb071f5f8228706dfee3c17409af3956c8db9b32a097a6d638eefadb58708e5f7779e9c5030f52ecfd2acfc2789d0fc57c10a10c4c37e8a79878a3990e8aea'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
-        '0efe9e3192c8742538bed78be207a4c75a04bbb9b45e537023518bd9fe2f37828a864b83c32f8c323591ae791e215875f6598f21612e1c3b05009b0508cef269')
+        'c7bbb9e10b552465d211c2c109e2f1f921c93da25200159159d9fa8fe615a1dbe79e0a28bad1f5ab31dc43e40ceb9bad26c4311a82ecb780fa3cdd780e76cf2c'
+        'b70a9b80bec8aa71ec09e65aaf7f8949258de172b69405e5fade253795593f2dffd4189025609dd79d24ae8db06d078ee2b80090f120da1626515e8b1f9e70d5')
 
 # Initialize build variables
 BUILD_FLAGS=()
