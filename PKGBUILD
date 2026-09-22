@@ -47,6 +47,7 @@ _major=7.2
 _minor=7
 _srcname=linux-${_major}
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
+_archlinuxpatch1=archlinux/linux/commit/574c107a6b236c2b1c8299ac3e82f20b4aca8cbe
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
@@ -73,6 +74,7 @@ source=(
   "https://cdn.kernel.org/pub/linux/kernel/v7.x/patch-${pkgver}.xz"
   "https://github.com/clearlinux-pkgs/linux/archive/6.15.7-1591.tar.gz"
   "https://gist.githubusercontent.com/${_lockdown}/0001-Add-a-lockdown_hibernate-parameter.patch"
+  "arch-0001-wireguard-fix.patch::https://github.com/${_archlinuxpatch1}.patch"
   "config::https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config.x86_64"
   )
 
