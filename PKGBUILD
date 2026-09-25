@@ -44,14 +44,14 @@ _basic_harden=y
 ##########
 ####
 _major=7.2
-_minor=7
+_minor=8
 _srcname=linux-${_major}
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
 _archlinuxpatch1=archlinux/linux/commit/574c107a6b236c2b1c8299ac3e82f20b4aca8cbe
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=2
+pkgrel=1
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/rhee876527/pUIljsNMaqW"
