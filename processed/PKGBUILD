@@ -44,14 +44,14 @@ _basic_harden=y
 ##########
 ####
 _major=7.2
-_minor=7
+_minor=8
 _srcname=linux-${_major}
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
 _archlinuxpatch1=archlinux/linux/commit/574c107a6b236c2b1c8299ac3e82f20b4aca8cbe
 pkgbase=linux-clear-llvm
 pkgname=('linux-clear-llvm' 'linux-clear-llvm-headers')
 pkgver=${_major}.${_minor}
-pkgrel=2
+pkgrel=1
 pkgdesc='Clear Linux'
 arch=('x86_64')
 url="https://github.com/rhee876527/pUIljsNMaqW"
@@ -85,7 +85,7 @@ validpgpkeys=(
 
 b2sums=('cf5f3d87b96f223034c47c6e5fc972fe52c2556310eb2f064632537b8727231135a8540179fd5d51343738c8a51f51f09c7e8da374324b68551c84a4124bb71b'
         'SKIP'
-        '0c796b5f96ef876f6f2bc5754b3396d40d88b6abaf5565d4a8865dea8527aed11480cc1e2bf32060bab4ae2448b854d313523095ac692cdea00db2859762fcf6'
+        '709fc3c63ca07331e776e27c710c75569b10cf57b4d6b5b01f291c1a37e1eade32d6953da086cebc93d0cfd6ae33cae7fb95b4eff8cfb9bbe4d0027612a25608'
         '9cfb071f5f8228706dfee3c17409af3956c8db9b32a097a6d638eefadb58708e5f7779e9c5030f52ecfd2acfc2789d0fc57c10a10c4c37e8a79878a3990e8aea'
         '77f7769745dfd4d0db6e6729dca34f75fc08c5e6e2969ebd7ef968d18ed2044a89bff5f03d9dff9d451d71ad98cb5958188b910fe2a68e6ef5cccaa36cd693b2'
         'c7bbb9e10b552465d211c2c109e2f1f921c93da25200159159d9fa8fe615a1dbe79e0a28bad1f5ab31dc43e40ceb9bad26c4311a82ecb780fa3cdd780e76cf2c'
