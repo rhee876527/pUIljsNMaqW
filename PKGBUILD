@@ -43,8 +43,8 @@ _basic_harden=y
 ######################
 ##########
 ####
-_major=7.2
-_minor=13
+_major=7.3
+_minor=1
 _srcname=linux-${_major}
 _lockdown=kelvie/917d456cb572325aae8e3bd94a9c1350/raw/74516829883c7ee7b2216938550d55ebcb7be609
 pkgbase=linux-clear-llvm
