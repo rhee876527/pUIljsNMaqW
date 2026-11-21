@@ -132,7 +132,7 @@ prepare() {
     ### Add Clearlinux patches
     if [ -z "$_switchstock" ]; then
         P=Patch
-        skip_nums=(0109 0134 0148 0137 0132 0125 0118 0138 0147 0165 0173 0174 0127)
+        skip_nums=(0109 0134 0148 0137 0132 0125 0118 0138 0147 0165 0173 0174 0127 0050)
         skip_re=$(printf "|^${P}%s" "${skip_nums[@]}")
         skip_re="^${skip_re:1}"
 
